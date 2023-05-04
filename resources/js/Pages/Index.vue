@@ -12,6 +12,6 @@ import MainLayout from "@/Layouts/MainLayout.vue";
 
 <style>
 body {
-    background-color: rgb(229 231 235);
+    background-color: rgba(243, 244, 246, 1);
 }
 </style>

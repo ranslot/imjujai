@@ -29,7 +29,7 @@ import { Link } from "@inertiajs/vue3";
             </Link>
         </nav>
         <div
-            class="flex lg:justify-between bg-gray-200 h-full w-[100%-280px] xl:pl-[280px] md:pl-[100px] overflow-auto pt-[61px]"
+            class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] xl:pl-[280px] md:pl-[100px] overflow-auto pt-[61px]"
         >
             <div
                 class="mx-auto md:pt-7 pt-20"
