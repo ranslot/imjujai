@@ -10,4 +10,8 @@ import MainLayout from "@/Layouts/MainLayout.vue";
     </MainLayout>
 </template>
 
-<style></style>
+<style>
+body {
+    background-color: rgb(229 231 235);
+}
+</style>

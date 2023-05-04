@@ -8,17 +8,11 @@ import { Link } from "@inertiajs/vue3";
         <nav
             v-if="$page.url === '/'"
             id="TopNav"
-            class="fixed z-50 md:hidden block w-full bg-white h-[61px] border-b border-b-gray-400"
-        >
-            <div class="flex items-center justify-between h-full">
-                <a href="/" class="ml-6 w-[100px]">
-                    <h1>HOME</h1>
-                </a>
-            </div>
-        </nav>
+            class="absolute w-full bg-white h-[61px] border-b border-t border-gray-400 z-0"
+        ></nav>
         <nav
             id="SideBar"
-            class="fixed h-full bg-white xl:w-[240px] w-[80px] md:block hidden border-r border-r-gray-400"
+            class="fixed h-full bg-white xl:w-[280px] w-[80px] md:block hidden border-r border-r-gray-400 z-2 shadow-2xl"
         >
             <Link href="/">
                 <p class="xl:hidden block">home</p>
@@ -35,33 +29,17 @@ import { Link } from "@inertiajs/vue3";
             </Link>
         </nav>
         <div
-            class="flex lg:justify-between bg-white h-full w-[100%-240px] xl:pl-[240px] md:pl-[100px] overflow-auto"
+            class="flex lg:justify-between bg-gray-200 h-full w-[100%-280px] xl:pl-[280px] md:pl-[100px] overflow-auto pt-[61px]"
         >
             <div
-                class="mx-auto md:pt-7 pt-20 md:px-[3%]"
+                class="mx-auto md:pt-7 pt-20"
                 :class="
-                    $page.url === '/' ? 'md:w-9/12 w-full' : 'max-w-[1200px]'
+                    $page.url === '/' ? 'max-w-2xl w-full' : 'max-w-[1200px]'
                 "
             >
                 <main>
                     <slot></slot>
                 </main>
-            </div>
-            <div class="md:block hidden w-3/12 text-black pt-10">
-                <Link href="/" class="max-w[300px]">
-                    <div class="flex items-center">
-                        <img
-                            class="rounded-full h-[58px] w-[58px] z-10"
-                            src="https://picsum.photos/id/50/300/320"
-                        />
-                        <div class="pl-4 flex flex-col">
-                            <h3 class="text-black font-bold">ID HERE</h3>
-                            <h3 class="text-gray-500 font-bold xl:block hidden">
-                                FULL NAME HERE
-                            </h3>
-                        </div>
-                    </div>
-                </Link>
             </div>
         </div>
     </div>
