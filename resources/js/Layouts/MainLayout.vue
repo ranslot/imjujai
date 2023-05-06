@@ -32,8 +32,8 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     >
                         <Menu
                             fillColor="#808080"
-                            :size="30"
-                            class="block mx-auto rounded-2xl"
+                            :size="36"
+                            class="block rounded-2xl px-2"
                         ></Menu>
                     </button>
                     <Link href="/">
@@ -41,13 +41,13 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     </Link>
                 </div>
                 <div
-                    class="flex items-center justify-end flex-row lg:mr-10 mr-2 lg:w-fit"
+                    class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit"
                 >
                     <Magnify fillColor="#808080" :size="27"></Magnify>
                     <input
                         id="Search"
                         type="text"
-                        class="py-0 px-2 rounded-3xl lg:w-[400px] w-[calc(100%-35px)]"
+                        class="py-0 px-2 rounded-3xl lg:w-[400px] w-[calc(100%-35px)] border-gray-400 shadow-sm"
                         placeholder="Search"
                     />
                 </div>
@@ -56,7 +56,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <aside>
             <nav
                 id="SideBar"
-                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-400 z-10 shadow-2xl transform-gpu transition-all"
+                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-400 z-10 transform-gpu transition-all"
                 :class="showSideBar ? 'translate-x' : '-translate-x-full'"
             >
                 <Link href="/">
