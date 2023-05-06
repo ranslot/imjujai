@@ -1,21 +1,14 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { ref, onMounted, toRefs } from "vue";
+import { ref,  toRefs } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import LikeSection from "@/Components/LikeSection.vue"
 
-let windowWidth = ref(window.innerWidth);
 let currentPost = ref(null);
 let openOverlay = ref(false);
 
 const props = defineProps({ post: Object, allUsers: Object });
 const { post, allUsers } = toRefs(props);
-
-onMounted(() => {
-    window.addEventListener("resize", () => {
-        windowWidth.value = window.innerWidth;
-    });
-});
 
 //icon
 import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";

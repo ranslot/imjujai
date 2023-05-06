@@ -4,13 +4,14 @@ import { router, usePage } from "@inertiajs/vue3";
 
 // const user = usePage().props.auth.user;
 
+// Define an emit function for emitting a "close" event to the parent component
 const emit = defineEmits(["close"]);
 
+// Define reactive data for the form inputs, object for displaying error messages, references for the validity of the file input, the file display URL, and the textarea element
 const form = reactive({
     text: null,
     file: null,
 });
-
 let isValidFile = ref(null);
 let fileDisplay = ref("");
 let textarea = ref("");
@@ -25,6 +26,7 @@ function getUploadImage(e) {
         form.file.name.lastIndexOf(".") + 1
     );
 
+    // Check if the selected file has a valid extension (png, jpg, or jpeg)
     if (
         fileExtention === "png" ||
         fileExtention === "jpg" ||
@@ -36,8 +38,10 @@ function getUploadImage(e) {
         return;
     }
 
+    // If the file is valid, create a URL for displaying the selected image
     fileDisplay.value = URL.createObjectURL(e.target.files[0]);
 
+    // Scroll to the textarea section
     setTimeout(() => {
         document
             .getElementById("TextAreaSection")
@@ -46,15 +50,20 @@ function getUploadImage(e) {
 }
 
 function CreatePost() {
+    // Reset error messages
     error.value.text = null;
     error.value.file = null;
+
+    // Send a POST request to the /posts endpoint with the form data
     router.post("/posts", form, {
         forceFormData: true,
         preserveScroll: true,
+        // If there are any errors returned from the server, display them in the error object
         onError: (errors) => {
             errors && errors.text ? (error.value.text = errors.text) : "";
             errors && errors.file ? (error.value.file = errors.file) : "";
         },
+        // If the request is successful, call the closeOverlay function to reset the form and close the overlay
         onSuccess: () => {
             closeOverlay();
         },
@@ -62,9 +71,12 @@ function CreatePost() {
 }
 
 function closeOverlay() {
+    // Reset the form data and clear the file display URL
     form.text = null;
     form.file = null;
     fileDisplay.value = "";
+
+    // Emit a "close" event to notify the parent component that the overlay should be closed
     emit("close");
 }
 
