@@ -18,17 +18,16 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
     <div id="MainLayout" class="w-full h-screen">
         <header>
             <nav
-                v-if="$page.url === '/'"
                 id="TopNav"
                 class="fixed flex items-center justify-between lg:justify-end w-full bg-white h-[61px] border-b border-t border-gray-400 z-5"
             >
                 <div
-                    class="lg:hidden flex items-center justify-between w-[100px] py-auto"
+                    class="lg:hidden flex items-center justify-between w-[30px] sm:w-[100px] py-auto"
                 >
                     <button
                         @click="showSideBar = !showSideBar"
                         type="button"
-                        class="hover:bg-gray-100 mx-5"
+                        class="hover:bg-gray-100 sm:mx-5 mx-2"
                     >
                         <Menu
                             fillColor="#808080"
@@ -36,10 +35,16 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                             class="block rounded-2xl px-2"
                         ></Menu>
                     </button>
-                    <Link href="/">
+                    <Link href="/" class="hidden sm:block">
                         <p class="">HOME</p>
                     </Link>
                 </div>
+                <h1
+                    v-if="$page.url === '/user'"
+                    class="text-black font-extrabold text-lg lg:hidden block"
+                >
+                    NameHere
+                </h1>
                 <div
                     class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit"
                 >
@@ -47,11 +52,13 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     <input
                         id="Search"
                         type="text"
-                        class="py-0 px-2 rounded-3xl lg:w-[400px] w-[calc(100%-35px)] border-gray-400 shadow-sm"
+                        class="py-0 px-2 rounded-3xl lg:w-[400px] w-[calc(100%-35px)] border-gray-400 hidden sm:block"
                         placeholder="Search"
                     />
                 </div>
             </nav>
+
+            <nav id="TopNavUser"></nav>
         </header>
         <aside>
             <nav
@@ -83,7 +90,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         class="mb-3"
                         @click="showCreatePost = true"
                     ></MenuItem>
-                    <Link href="/">
+                    <Link href="/user">
                         <MenuItem iconString="Profile" class="mb-3"></MenuItem>
                     </Link>
                 </div>

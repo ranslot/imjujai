@@ -19,6 +19,9 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Index');
 });
+Route::get('/user', function () {
+    return Inertia::render('User');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
