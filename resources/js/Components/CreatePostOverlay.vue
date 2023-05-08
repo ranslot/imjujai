@@ -91,16 +91,15 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
     <section
         id="OverlaySection"
         class="fixed bg-black bg-opacity-60 p-3 z-50 top-0 left-0 h-screen w-full"
+        @click="closeOverlay"
     >
-        <button
-            class="absolute cursor-pointer top-0 right-3 p-3"
-            @click="closeOverlay"
-        >
+        <button class="absolute cursor-pointer top-0 right-3 p-3">
             <Close fillColor="#FFFFFF" :size="27"></Close>
         </button>
 
         <article
             class="max-w-5xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
+            @click.stop
         >
             <div
                 class="flex items-center justify-between w-full p-3 border-b border-gray-300"

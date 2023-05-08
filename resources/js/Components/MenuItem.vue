@@ -13,7 +13,7 @@ import CogOutline from "vue-material-design-icons/CogOutline.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 let icon = null;
 if (iconString.value === "Home") icon = HomeOutline;
-if (iconString.value === "Logout") icon = CogOutline;
+if (iconString.value === "Setting") icon = CogOutline;
 if (iconString.value === "Notification") icon = BellOutline;
 if (iconString.value === "Create") icon = Plus;
 </script>
@@ -22,6 +22,11 @@ if (iconString.value === "Create") icon = Plus;
     <div class="w-full">
         <div
             class="flex items-center px-5 py-2 rounded-2xl hover:bg-gray-100 cursor-pointer"
+            :class="
+                iconString === 'Setting'
+                    ? 'hover:bg-gray-400 flex-1 rounded-full bg-gray-200 justify-center gap-2 '
+                    : ''
+            "
         >
             <div v-if="iconString === 'Profile'" class="mr-1">
                 <img

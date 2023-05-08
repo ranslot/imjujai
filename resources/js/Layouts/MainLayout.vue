@@ -6,6 +6,7 @@ import MenuItem from "@/Components/MenuItem.vue";
 import CreatePostOverlay from "@/Components/CreatePostOverlay.vue";
 
 let showSideBar = ref(false);
+let showSearchBar = ref(false);
 let showCreatePost = ref(false);
 
 //icon
@@ -52,8 +53,8 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     <input
                         id="Search"
                         type="text"
-                        class="py-0 px-2 rounded-3xl lg:w-[400px] w-[calc(100%-35px)] border-gray-400 hidden sm:block"
-                        placeholder="Search"
+                        class="py-[3px] px-2 w-[50px] rounded-3xl border-gray-400 hidden sm:block border-0 focus:boder-1"
+                        placeholder="Search. . ."
                     />
                 </div>
             </nav>
@@ -95,7 +96,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     </Link>
                 </div>
                 <Link href="/" class="absolute bottom-0 px-5 w-full">
-                    <MenuItem iconString="Logout" class="mb-3"></MenuItem>
+                    <MenuItem iconString="Setting" class="mb-3"></MenuItem>
                 </Link>
             </nav>
         </aside>
@@ -103,9 +104,9 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
             class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
             <div
-                class="mx-auto lg:pt-7 pt-5"
+                class="mx-auto lg:pt-7 pt-3"
                 :class="
-                    $page.url === '/' ? 'max-w-2xl    w-full' : 'max-w-[1200px]'
+                    $page.url === '/' ? 'max-w-3xl w-full' : 'max-w-[1200px]'
                 "
             >
                 <slot></slot>
