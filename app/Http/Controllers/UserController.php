@@ -45,7 +45,7 @@ class UserController extends Controller
             return \redirect(\route('home.index'));
         }
 
-        $posts = Post::where('user_id', $id)->orderBy('create_at', 'desc')->get();
+        $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('User', [
             'user' => $user,
             'postByUser' => new AllPostsData($posts),

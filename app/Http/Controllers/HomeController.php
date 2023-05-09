@@ -12,7 +12,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $post = Post::orderBy('create_at', 'desc')->get();
+        $post = Post::orderBy('created_at', 'desc')->get();
         return Inertia::render('Index', [
             'post' => new AllPostsData($post),
             'allUser' => User::all(),
