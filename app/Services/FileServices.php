@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use Intervention\Image\Image;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\ImageManager;
 
 class FileServices
 {
@@ -20,26 +21,25 @@ class FileServices
         }
 
         $file = null;
+        $image = new ImageManager;
         // Check if the type parameter is equal to 'user'
         if ($type === 'user') {
             // Resize the uploaded file to 400x400 pixels
-            $file = (new Image)->make($request->file('file'))->resize(400, 400);
+            $file = $image->make($request->file('file'))->resize(400, 400);
         } else {
             // Resize the uploaded file to 720x720 pixels
-            $file = (new Image)->make($request->file('file'))->resize(720, 720);
+            $file = $image->make($request->file('file'));
         }
 
         // Get the file extension of the uploaded file
         $ext = $request->file('file');
         $extention = $ext->getClientOriginalExtension();
         // Generate a new filename using the current time and file extension
-        $name = \time() . $extention;
+        $name = \time() . "-$model->user_id.$extention";
         // Save the file to the public path under the postImage directory with the generated filename
-        $file = save(\public_path() . '/files/postImage' . $name);
-        // Update the model's file property with the new filename
-        $model = $file . $name;
+        $file->save(\public_path() . '/files/postImage/' . $name);
 
         // Return the updated model object
-        return $model;
+        return "/files/postImage/$name";
     }
 }

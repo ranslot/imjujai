@@ -113,6 +113,7 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                 <h2 class="text-lg font-extrabold">Create new post</h2>
                 <button
                     class="text-lg text-blue-500 hover:text-gray-800 font-extrabold"
+                    @click="CreatePost"
                 >
                     Share
                 </button>

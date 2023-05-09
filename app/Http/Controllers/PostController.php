@@ -35,7 +35,13 @@ class PostController extends Controller
             'text' => 'required'
         ]);
 
-        $post = (new FileServices)->updateFile($post, $request, 'post');
+        $fileService = new FileServices;
+
+        $post->user_id = \auth()->user()->id;
+        $post->file = $fileService->updateFile($post, $request, 'post');
+        $post->text = $request->input('text');
+
+        $post->save();
     }
 
     /**
@@ -67,6 +73,19 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post = Post::find('id');
+        // Check if the model has a non-empty file property
+        if (!empty($post->file)) {
+            // Get the current file path
+            $currentFile = \public_path() . $post->file;
+
+            // Check if the current file exists and is not the default user placeholder image
+            if (\file_exists($currentFile)) {
+                // Delete the current file
+                \unlink($currentFile);
+            }
+        }
+
+        $post->delete();
     }
 }
