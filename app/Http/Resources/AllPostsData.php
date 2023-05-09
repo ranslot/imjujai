@@ -34,7 +34,7 @@ class AllPostsData extends JsonResource
                 'likes' => $post->likes->map(function ($like) {
                     return [
                         'id' => $like->id,
-                        'user_id' => $like->user_idt,
+                        'user_id' => $like->user_id,
                         'post_id' => $like->post_id,
                     ];
                 }),

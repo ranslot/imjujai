@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id', 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('create_at', 'desc');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

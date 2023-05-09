@@ -7,7 +7,7 @@ use Intervention\Image\ImageManager;
 
 class FileServices
 {
-    public function updateFile($model, $request, $type)
+    public function updateFile($model, $request, $type): string
     {   // Check if the model has a non-empty file property
         if (!empty($model->file)) {
             // Get the current file path
@@ -35,11 +35,10 @@ class FileServices
         $ext = $request->file('file');
         $extention = $ext->getClientOriginalExtension();
         // Generate a new filename using the current time and file extension
-        $name = \time() . "-$model->user_id.$extention";
+        $name = \time() . ".$extention";
         // Save the file to the public path under the postImage directory with the generated filename
-        $file->save(\public_path() . '/files/postImage/' . $name);
+        $file->save(\public_path() . "/files/postImage/$name");
 
-        // Return the updated model object
         return "/files/postImage/$name";
     }
 }
