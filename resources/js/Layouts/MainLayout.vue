@@ -1,9 +1,12 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 
 import MenuItem from "@/Components/MenuItem.vue";
-import CreatePostOverlay from "@/Components/CreatePostOverlay.vue";
+
+const CreatePostOverlay = defineAsyncComponent(() =>
+    import("@/Components/CreatePostOverlay.vue")
+);
 
 let showSideBar = ref(false);
 let showSearchBar = ref(false);

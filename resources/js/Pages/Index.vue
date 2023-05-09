@@ -1,9 +1,13 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { ref, toRefs } from "vue";
+import { ref, toRefs, defineAsyncComponent } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
+
 import LikeSection from "@/Components/LikeSection.vue";
-import ShowPostOverlay from "@/Components/ShowPostOverlay.vue";
+
+const ShowPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/ShowPostOverlay.vue")
+);
 
 let currentPost = ref(null);
 let openOverlay = ref(false);

@@ -1,9 +1,12 @@
 <script setup>
-import { ref, toRefs, onMounted, onUnmounted } from "vue";
+import { ref, toRefs, onMounted, onUnmounted, defineAsyncComponent } from "vue";
 import { usePage } from "@inertiajs/vue3";
 
 import LikeSection from "@/Components/LikeSection.vue";
-import SettingPostOverlay from "@/Components/SettingPostOverlay.vue";
+
+const SettingPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/SettingPostOverlay.vue")
+);
 
 const user = usePage().props.auth.user;
 
