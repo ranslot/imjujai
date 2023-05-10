@@ -1,4 +1,4 @@
-# Imjujai
+# Imjujai (อิ่มจุใจ)
 
 Imjujai is a social media website where people can share their food photos.
 
