@@ -19,8 +19,16 @@ function togglePostOverlay(post) {
     currentPost = post;
 }
 
-function test(deleteTarget) {
+function updateLike(like) {
+    console.log(like);
+}
+
+function deleteSelected(deleteTarget) {
     console.log(deleteTarget);
+}
+
+function addComment(comment) {
+    console.log(comment);
 }
 </script>
 
@@ -30,6 +38,7 @@ function test(deleteTarget) {
         <div v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay"
+                @updateLike="updateLike"
                 :post="post"
             ></PostSection>
         </div>
@@ -38,7 +47,9 @@ function test(deleteTarget) {
         v-if="openOverlay"
         :post="currentPost"
         @closeOverlay="openOverlay = false"
-        @deleteSelected="test"
+        @deleteSelected="deleteSelected"
+        @addComment="addComment"
+        @updateLike="updateLike"
     ></ShowPostOverlay>
 </template>
 

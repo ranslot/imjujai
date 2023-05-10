@@ -1,8 +1,10 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 import { ref, defineAsyncComponent } from "vue";
 
 import MenuItem from "@/Components/MenuItem.vue";
+
+const user = usePage().props.auth.user;
 
 const CreatePostOverlay = defineAsyncComponent(() =>
     import("@/Components/CreatePostOverlay.vue")
@@ -44,7 +46,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     </Link>
                 </div>
                 <h1
-                    v-if="$page.url === '/user'"
+                    v-if="$page.url !== '/'"
                     class="text-black font-extrabold text-lg lg:hidden block"
                 >
                     NameHere
@@ -94,7 +96,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         class="mb-3"
                         @click="showCreatePost = true"
                     ></MenuItem>
-                    <Link href="/user">
+                    <Link :href="route('users.show', { id: user.id })">
                         <MenuItem iconString="Profile" class="mb-3"></MenuItem>
                     </Link>
                 </div>
