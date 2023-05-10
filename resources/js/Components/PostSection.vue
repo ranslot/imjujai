@@ -49,9 +49,12 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             />
         </article>
         <article class="px-4">
-            <LikeSection></LikeSection>
+            <LikeSection
+                :post="post"
+                @like="$emit('updateLike', $event)"
+            ></LikeSection>
             <h4 class="text-black font-extrabold text-sm py-1.5">
-                {{ post.likes.length }} likes
+                {{ post.likes.length == 0 ? "No" : post.likes.length }} likes
             </h4>
             <p class="text-sm">
                 <span class="text-black font-extrabold">{{
@@ -63,7 +66,8 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 class="text-gray-400 font-extrabold py-1.5"
                 @click="$emit('openPost', post)"
             >
-                View all {{ post.comments.length }} comments
+                <div v-if="post.comments.length == 0">Add comment</div>
+                <div v-else>View all {{ post.comments.length }} comments</div>
             </button>
         </article>
     </section>

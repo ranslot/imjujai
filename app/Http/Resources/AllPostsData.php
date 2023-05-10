@@ -25,6 +25,7 @@ class AllPostsData extends JsonResource
                     return [
                         'id' => $comment->id,
                         'text' => $comment->text,
+                        'created_at' => $comment->created_at->format(' H:i d M y'),
                         'user' => [
                             'id' => $comment->user->id,
                             'name' => $comment->user->name,

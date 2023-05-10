@@ -3,6 +3,7 @@ import { ref, toRefs, onMounted, onUnmounted, defineAsyncComponent } from "vue";
 import { usePage } from "@inertiajs/vue3";
 
 import LikeSection from "@/Components/LikeSection.vue";
+import CommentsSection from "@/Components/CommentsSection.vue";
 
 const SettingPostOverlay = defineAsyncComponent(() =>
     import("@/Components/SettingPostOverlay.vue")
@@ -43,6 +44,11 @@ function textareaInput(e) {
     textarea.value.style.height = `${e.target.scrollHeight}px`;
 }
 
+function deleteTargetHandle(type, targetId) {
+    deleteType.value = type;
+    id.value = targetId;
+}
+
 //icon
 import Close from "vue-material-design-icons/Close.vue";
 import EmoticonHappyOutline from "vue-material-design-icons/EmoticonHappyOutline.vue";
@@ -70,11 +76,10 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                     class="w-full h-full md:flex rounded-xl overflow-auto m-auto"
                 >
                     <!-- Image -->
-                    <div class="flex items-center w-full">
-                        <img
-                            class="max-w-[720] max-h-[720]"
-                            src="https://picsum.photos/id/35/720/720"
-                        />
+                    <div
+                        class="flex items-center justify-center w-[720px] h-[720px]"
+                    >
+                        <img class="" :src="post.file" />
                     </div>
 
                     <!-- Description + Comments -->
@@ -84,34 +89,37 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                         >
                             <div class="flex items-center">
                                 <img
-                                    src="https://picsum.photos/id/50/300/320"
+                                    :src="post.user.file"
                                     class="rounded-full w-[38px] h-[38px]"
                                 />
                                 <h3
                                     class="ml-4 font-extrabold sm:text-base text-sm"
                                 >
-                                    NAME HERE
+                                    {{ post.user.name }}
                                 </h3>
                                 <p class="flex items-center text-gray-500">
                                     <span
                                         class="-mt-5 ml-2 mr-[5px] sm:text-4xl text-2xl"
                                         >.</span
                                     >
-                                    DATE HERE
+                                    {{ post.created_at }}
                                 </p>
                             </div>
-                            <button class="cursor-pointer">
-                                <DotsHorizontal
-                                    :size="27"
-                                    @click.prevent="deleteType = true"
-                                ></DotsHorizontal>
+                            <button
+                                v-if="user.id === post.user.id"
+                                class="cursor-pointer"
+                                @click.prevent="
+                                    deleteTargetHandle('Post', post.id)
+                                "
+                            >
+                                <DotsHorizontal :size="27"></DotsHorizontal>
                             </button>
                         </div>
                         <div class="overflow-y-auto h-[calc(100%-170px)]">
                             <div class="flex items-center justify-between p-3">
                                 <div class="flex items-center relative">
                                     <img
-                                        src="https://picsum.photos/id/50/300/320"
+                                        :src="post.user.file"
                                         class="absolute rounded-full w-[38px] h-[38px] -top-1"
                                     />
 
@@ -119,45 +127,36 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                         <span
                                             class="font-extrabold sm:text-base text-sm mr-2"
                                         >
-                                            NAME HERE
+                                            {{ post.user.name }}
                                         </span>
                                         <span
                                             class="text-gray-800 sm:text-base text-sm"
                                         >
-                                            COMMENT HERE
+                                            {{ post.text }}
                                         </span>
                                     </p>
                                 </div>
                             </div>
-                            <div class="p-3">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <img
-                                            src="https://picsum.photos/id/50/300/320"
-                                            class="rounded-full w-[38px] h-[38px]"
-                                        />
-                                        <p
-                                            class="ml-4 font-extrabold sm:text-base text-sm"
-                                        >
-                                            NAME HERE
-                                            <span
-                                                class="font-light text-gray-700 sm:text-sm text-xs"
-                                                >COMMENT TIME</span
-                                            >
-                                        </p>
-                                    </div>
-                                    <button class="cursor-pointer">
-                                        <DotsHorizontal
-                                            :size="27"
-                                        ></DotsHorizontal>
-                                    </button>
-                                </div>
-                                <p class="sm:text-sm text-xs pl-14">COMMENT</p>
+                            <div
+                                class="p-3"
+                                v-for="comment in post.comments"
+                                :key="comment.id"
+                            >
+                                <CommentsSection
+                                    :comment="comment"
+                                    :user="user"
+                                    @deleteComment="deleteTargetHandle"
+                                ></CommentsSection>
                             </div>
                             <div class="md:hidden pb-16"></div>
                         </div>
 
-                        <LikeSection class="px-5 border-t mb-2"></LikeSection>
+                        <LikeSection
+                            class="px-5 border-t mb-2"
+                            v-if="post"
+                            :post="post"
+                            @like="$emit('updateLike', $event)"
+                        ></LikeSection>
 
                         <!-- Add Comment-->
                         <div
@@ -178,6 +177,14 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             <button
                                 v-if="comment"
                                 class="text-blue-400 font-extrabold pr-4"
+                                @click="
+                                    $emit('addComment', {
+                                        post,
+                                        user,
+                                        comment,
+                                    });
+                                    comment = '';
+                                "
                             >
                                 Post
                             </button>
@@ -189,6 +196,20 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
     </section>
     <SettingPostOverlay
         v-if="deleteType"
-        @closeSettingPost="deleteType = false"
+        :deleteType="deleteType"
+        :id="id"
+        @closeSettingPost="
+            deleteType = null;
+            id = null;
+        "
+        @deleteSelected="
+            $emit('deleteSelected', {
+                deleteType: deleteType,
+                id: id,
+                post: post,
+            });
+            deleteType = null;
+            id = null;
+        "
     ></SettingPostOverlay>
 </template>

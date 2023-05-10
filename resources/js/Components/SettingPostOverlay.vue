@@ -19,9 +19,9 @@ const { deleteType, id } = toRefs(props);
         >
             <button
                 class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 cursor-pointer"
-                @click="emit('deleteSelected')"
+                @click="emit('deleteSelected', { deleteType, id })"
             >
-                Delete
+                Delete {{ deleteType }}
             </button>
             <button
                 class="p-3 text-lg cursor-pointer w-full"

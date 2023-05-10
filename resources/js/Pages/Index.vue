@@ -18,12 +18,16 @@ function togglePostOverlay(post) {
     openOverlay.value = true;
     currentPost = post;
 }
+
+function test(deleteTarget) {
+    console.log(deleteTarget);
+}
 </script>
 
 <template>
     <Head title="Home"></Head>
     <MainLayout>
-        <div v-for="post in posts.data">
+        <div v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay"
                 :post="post"
@@ -34,6 +38,7 @@ function togglePostOverlay(post) {
         v-if="openOverlay"
         :post="currentPost"
         @closeOverlay="openOverlay = false"
+        @deleteSelected="test"
     ></ShowPostOverlay>
 </template>
 
