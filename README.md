@@ -11,3 +11,12 @@ Imjujai is a social media website where people can share their food photos.
 ## Getting Started
 
 To get started with Imjujai, simply create an account and start sharing your food photos!
+
+## Technology Stack
+
+Imjujai is built using the following technologies:
+
+- [Vue.js](https://vuejs.org/)
+- [Inertia.js](https://inertiajs.com/)
+- [Laravel](https://laravel.com/)
+- [MySQL](https://www.mysql.com/)
