@@ -103,7 +103,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             <button class="cursor-pointer">
                                 <DotsHorizontal
                                     :size="27"
-                                    @click="deleteType = true"
+                                    @click.prevent="deleteType = true"
                                 ></DotsHorizontal>
                             </button>
                         </div>
@@ -189,7 +189,6 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
     </section>
     <SettingPostOverlay
         v-if="deleteType"
-        @click.stop
         @closeSettingPost="deleteType = false"
     ></SettingPostOverlay>
 </template>

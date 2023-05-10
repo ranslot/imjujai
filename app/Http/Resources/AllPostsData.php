@@ -14,34 +14,35 @@ class AllPostsData extends JsonResource
      */
     public function toArray(Request $request): object
     {
-        return $this->PostData->map(function ($post) {
+
+        return $this->map(function ($post) {
             return [
                 'id' => $post->id,
                 'text' => $post->text,
                 'file' => $post->file,
-                'created_at' => $post->created_at->format(' D M Y'),
+                'created_at' => $post->created_at->format(' H:i d M y'),
                 'comments' => $post->comments->map(function ($comment) {
                     return [
                         'id' => $comment->id,
                         'text' => $comment->text,
                         'user' => [
                             'id' => $comment->user->id,
-                            'text' => $comment->user->text,
-                            'file' => $comment->user->file,
-                        ]
+                            'name' => $comment->user->name,
+                            'file' => $comment->user->file
+                        ],
                     ];
                 }),
                 'likes' => $post->likes->map(function ($like) {
                     return [
                         'id' => $like->id,
                         'user_id' => $like->user_id,
-                        'post_id' => $like->post_id,
+                        'post_id' => $like->post_id
                     ];
                 }),
                 'user' => [
                     'id' => $post->user->id,
-                    'text' => $post->user->text,
-                    'file' => $post->user->file,
+                    'name' => $post->user->name,
+                    'file' => $post->user->file
                 ]
             ];
         });
