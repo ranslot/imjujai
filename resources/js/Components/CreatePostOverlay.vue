@@ -70,6 +70,12 @@ function CreatePost() {
     });
 }
 
+function CancleImage() {
+    form.text = null;
+    form.file = null;
+    fileDisplay.value = "";
+}
+
 function closeOverlay() {
     // Reset the form data and clear the file display URL
     form.text = null;
@@ -91,15 +97,13 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
     <section
         id="OverlaySection"
         class="fixed bg-black bg-opacity-60 p-3 z-50 top-0 left-0 h-screen w-full"
-        @click="closeOverlay"
     >
         <button class="absolute cursor-pointer top-0 right-3 p-3">
-            <Close fillColor="#FFFFFF" :size="27"></Close>
+            <Close fillColor="#FFFFFF" :size="27" @click="closeOverlay"></Close>
         </button>
 
         <article
             class="max-w-5xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
-            @click.stop
         >
             <div
                 class="flex items-center justify-between w-full p-3 border-b border-gray-300"
@@ -108,18 +112,18 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                     fillColor="#000000"
                     :size="30"
                     @click="closeOverlay"
-                    class="cursor-pointer"
+                    class="cursor-pointer px-2"
                 ></ArrowLeft>
                 <h2 class="text-lg font-extrabold">Create new post</h2>
                 <button
-                    class="text-lg text-blue-500 hover:text-gray-800 font-extrabold"
+                    class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-2 mr-1"
                     @click="CreatePost"
                 >
-                    Share
+                    Post
                 </button>
             </div>
             <div
-                class="w-full md:flex h-[calc(100%-55px)] rounded-xl overflow-auto"
+                class="w-full md:flex h-[calc(100%-70px)] rounded-xl overflow-auto"
             >
                 <div
                     class="flex items-center justify-center bg-gray-100 w-full h-full overflow-hidden"
@@ -154,13 +158,23 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                             Upload failed
                         </h3>
                     </div>
-                    <img
-                        v-if="fileDisplay && isValidFile === true"
-                        class="min-w-[400px] p-4 mx-auto"
-                        :src="fileDisplay"
-                    />
+                    <div v-if="fileDisplay && isValidFile === true">
+                        <img
+                            class="min-w-[400px] p-4 mx-auto"
+                            :src="fileDisplay"
+                        />
+                        <button
+                            class="text-red-500 text-center p-2 font-extrabold text-lg"
+                            @click="CancleImage"
+                        >
+                            Upload failed
+                        </button>
+                    </div>
                 </div>
-                <div id="TextAreaSection" class="max-w-[720px] w-full relative">
+                <div
+                    id="TextAreaSection"
+                    class="max-w-[720px] w-full h-full relative"
+                >
                     <div class="flex items-center justify-between p-3">
                         <div class="flex items-center">
                             <img

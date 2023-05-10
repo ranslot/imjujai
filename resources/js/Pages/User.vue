@@ -4,6 +4,10 @@ import { reactive, toRefs } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 
+const SettingPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/SettingPostOverlay.vue")
+);
+
 let data = reactive({ post: null });
 const form = reactive({ file: null });
 
@@ -169,7 +173,9 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                     </div>
                 </div>
             </article>
-            <div class="grid md:gap-4 gap-1 grid-cols-3 relative px-3">
+            <div
+                class="grid md:gap-4 gap-1 md:grid-cols-3 grid-cols-2 relative px-3"
+            >
                 <ContentOverlay
                     :postByUser="postByUser"
                     @selectPost="($event) => (data.post = $event)"
