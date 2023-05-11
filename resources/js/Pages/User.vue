@@ -124,6 +124,7 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                         </p>
                         <button
                             class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            v-if="user.id === $page.props.auth.user.id"
                         >
                             Edit Profile
                         </button>
@@ -131,6 +132,7 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                     </div>
                     <button
                         class="md:hidden mr-6 p-1 max-w-[260px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                        v-if="user.id === $page.props.auth.user.id"
                     >
                         Edit Profile
                     </button>
