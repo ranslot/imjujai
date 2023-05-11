@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AllPostsData;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\FileServices;
@@ -46,9 +47,11 @@ class UserController extends Controller
         }
 
         $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $userLikes = Like::where('user_id', \auth()->user()->id)->get();
         return Inertia::render('User', [
             'user' => $user,
             'postByUser' => new AllPostsData($posts),
+            'userLikes' => $userLikes,
         ]);
     }
 

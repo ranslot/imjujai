@@ -5,8 +5,8 @@ import LikeSection from "@/Components/LikeSection.vue";
 
 defineEmits(["openPost", "updateLike"]);
 
-const props = defineProps({ post: Object });
-const { post } = toRefs(props);
+const props = defineProps({ post: Object, userLikes: Object });
+const { post, userLikes } = toRefs(props);
 
 //icon
 import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
@@ -51,6 +51,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
         <article class="px-4">
             <LikeSection
                 :post="post"
+                :userLikes="userLikes"
                 @like="$emit('updateLike', $event)"
             ></LikeSection>
             <h4 class="text-black font-extrabold text-sm py-1.5">

@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 
-// const user = usePage().props.auth.user;
+const user = usePage().props.auth.user;
 
 // Define an emit function for emitting a "close" event to the parent component
 const emit = defineEmits(["close"]);
@@ -179,11 +179,11 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                         <div class="flex items-center">
                             <img
                                 class="rounded-full w-[38px] h-[38px]"
-                                src="https://picsum.photos/id/50/300/320"
+                                :src="user.file"
                                 alt=""
                             />
                             <h3 class="ml-4 font-extrabold text-[16px]">
-                                NAME HERE
+                                {{ user.name }}
                             </h3>
                         </div>
                     </div>
