@@ -49,7 +49,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     v-if="$page.url !== '/'"
                     class="text-black font-extrabold text-lg lg:hidden block"
                 >
-                    NameHere
+                    {{ user.name }}
                 </h1>
                 <div
                     class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit"
@@ -100,7 +100,12 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         <MenuItem iconString="Profile" class="mb-3"></MenuItem>
                     </Link>
                 </div>
-                <Link href="/" class="absolute bottom-0 px-5 w-full">
+                <Link
+                    :href="route('logout')"
+                    as="button"
+                    method="post"
+                    class="absolute bottom-0 px-5 w-full"
+                >
                     <MenuItem iconString="Setting" class="mb-3"></MenuItem>
                 </Link>
             </nav>

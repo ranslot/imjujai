@@ -12,13 +12,12 @@ const SettingPostOverlay = defineAsyncComponent(() =>
 const user = usePage().props.auth.user;
 
 let textarea = ref(null);
-let comments = ref("");
 let comment = ref("");
 let deleteType = ref(null);
 let id = ref(null);
 
-const props = defineProps({ post: Object });
-const { post } = toRefs(props);
+const props = defineProps({ post: Object, userLikes: Object });
+const { post, userLikes } = toRefs(props);
 
 const emit = defineEmits([
     "closeOverlay",
@@ -35,9 +34,7 @@ const closeOnEscape = (e) => {
 
 onMounted(() => document.addEventListener("keydown", closeOnEscape));
 
-onUnmounted(() => {
-    document.removeEventListener("keydown", closeOnEscape);
-});
+onUnmounted(() => document.removeEventListener("keydown", closeOnEscape));
 
 function textareaInput(e) {
     textarea.value.style.height = "auto";
@@ -58,7 +55,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
 <template>
     <section
         id="OverlaySection"
-        class="fixed z-40 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
+        class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
         @click="emit('closeOverlay')"
     >
         <button class="absolute right-3 top-3 z-50 basis-full">
@@ -66,24 +63,26 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
         </button>
 
         <div
-            class="flex items-center justify-center flex-wrap my-50 z-50"
+            class="flex items-center justify-center flex-wrap z-40"
             @click.stop
         >
             <article
-                class="md:max-w-6xl sm:max-w-[92%] max-w-full md:max-h-[calc(100%-100px)] max-h-full bg-white rounded-xl m-auto"
+                class="md:max-w-6xl max-w-[92%] md:max-h-[calc(100%-100px)] max-h-full rounded-xl m-auto"
             >
                 <div
                     class="w-full h-full md:flex rounded-xl overflow-auto m-auto"
                 >
                     <!-- Image -->
                     <div
-                        class="flex items-center justify-center w-[720px] h-[720px]"
+                        class="flex items-center justify-center max-w-[720px] max-h-[720px] bg-gray-300 bg-opacity-50"
                     >
                         <img class="" :src="post.file" />
                     </div>
 
                     <!-- Description + Comments -->
-                    <div class="w-full relative md:max-w-[400px]">
+                    <div
+                        class="w-full relative md:max-w-[400px] md:h-[600px] h-[300px] bg-white"
+                    >
                         <div
                             class="flex items-center justify-between p-3 border-b"
                         >
@@ -97,11 +96,9 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 >
                                     {{ post.user.name }}
                                 </h3>
-                                <p class="flex items-center text-gray-500">
-                                    <span
-                                        class="-mt-5 ml-2 mr-[5px] sm:text-4xl text-2xl"
-                                        >.</span
-                                    >
+                                <p
+                                    class="ml-2 flex items-center text-gray-500 sm:text-sm text-xs"
+                                >
                                     {{ post.created_at }}
                                 </p>
                             </div>
@@ -138,7 +135,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 </div>
                             </div>
                             <div
-                                class="p-3"
+                                class="py-1 px-3"
                                 v-for="comment in post.comments"
                                 :key="comment.id"
                             >
@@ -148,19 +145,19 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                     @deleteComment="deleteTargetHandle"
                                 ></CommentsSection>
                             </div>
-                            <div class="md:hidden pb-16"></div>
                         </div>
 
                         <LikeSection
-                            class="px-5 border-t mb-2"
+                            class="px-5 border-t mb-[60px]"
                             v-if="post"
                             :post="post"
+                            :userLikes="userLikes"
                             @like="$emit('updateLike', $event)"
                         ></LikeSection>
 
                         <!-- Add Comment-->
                         <div
-                            class="absolute flex border bottom-0 w-full max-h-[230px] bg-white overflow-auto"
+                            class="absolute flex border-t bottom-0 w-full max-h-[230px] min-h-[36px] bg-white overflow-auto"
                         >
                             <EmoticonHappyOutline
                                 class="pt-[10px] pl-3"

@@ -4,22 +4,18 @@ import { usePage } from "@inertiajs/vue3";
 
 const user = usePage().props.auth.user;
 
-const props = defineProps({ post: Object });
-const { post } = toRefs(props);
+const props = defineProps({ post: Object, userLikes: Object });
+const { post, userLikes } = toRefs(props);
 
 const emit = defineEmits(["like"]);
 
 const isLiked = computed(() => {
-    let liked = false;
-
-    for (let i = 0; i < post.value.likes.length; i++) {
-        const like = post.value.likes[i];
-        if (like.user_id === user.id && like.post_id === post.value.id) {
-            liked = true;
+    for (let i = 0; i < userLikes.value.length; i++) {
+        if (post.value.id === userLikes.value[i].post_id) {
+            return true;
         }
     }
-
-    return liked;
+    return false;
 });
 
 //icon

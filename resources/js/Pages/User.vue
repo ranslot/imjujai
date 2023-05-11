@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link, router } from "@inertiajs/vue3";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, defineAsyncComponent } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 
@@ -13,6 +13,69 @@ const form = reactive({ file: null });
 
 const props = defineProps({ postByUser: Object, user: Object });
 const { postByUser, user } = toRefs(props);
+
+function updatePost(Object) {
+    currentPost.value = posts.value.data.find(
+        (post) => post.id === Object.post.id
+    );
+}
+
+function updateLike(like) {
+    let deleteLike = false;
+    let id = null;
+
+    for (let i = 0; i < userLikes.value.length; i++) {
+        if (like.post.id === userLikes.value[i].post_id) {
+            deleteLike = true;
+            id = userLikes.value[i].id;
+        }
+    }
+
+    if (deleteLike) {
+        router.delete(`/likes/${id}`, {
+            onFinish: () => updatePost(like),
+        });
+    } else {
+        router.post(
+            "/likes",
+            {
+                post_id: like.post.id,
+            },
+            {
+                onFinish: () => updatePost(like),
+            }
+        );
+    }
+}
+
+function deleteSelected(deleteTarget) {
+    if (deleteTarget.deleteType === "Post") {
+        router.delete(`/posts/${deleteTarget.id}`, {
+            onFinish: () => updatePost(deleteTarget),
+        });
+        setTimeout(() => (data.post = null), 100);
+    }
+
+    if (deleteTarget.deleteType === "Comment") {
+        router.delete(`/comments/${deleteTarget.id}`, {
+            onFinish: () => updatePost(deleteTarget),
+        });
+    }
+}
+
+function addComment(newComment) {
+    router.post(
+        "/comments",
+        {
+            post_id: newComment.post.id,
+            user_id: newComment.user.id,
+            comment: newComment.comment,
+        },
+        {
+            onFinish: () => updatePost(newComment),
+        }
+    );
+}
 
 function getUploadUserImage(e) {
     form.file = e.target.files[0];
