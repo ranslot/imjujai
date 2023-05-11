@@ -1,21 +1,25 @@
 <script setup>
-import { Head, Link, router } from "@inertiajs/vue3";
-import { reactive, toRefs, defineAsyncComponent } from "vue";
+import { Head, router } from "@inertiajs/vue3";
+import { reactive, toRefs, defineAsyncComponent, Suspense } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 
-const SettingPostOverlay = defineAsyncComponent(() =>
-    import("@/Components/SettingPostOverlay.vue")
+const ShowPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/ShowPostOverlay.vue")
 );
 
 let data = reactive({ post: null });
 const form = reactive({ file: null });
 
-const props = defineProps({ postByUser: Object, user: Object });
-const { postByUser, user } = toRefs(props);
+const props = defineProps({
+    postByUser: Object,
+    user: Object,
+    userLikes: Object,
+});
+const { postByUser, user, userLikes } = toRefs(props);
 
 function updatePost(Object) {
-    currentPost.value = posts.value.data.find(
+    data.post = postByUser.value.data.find(
         (post) => post.id === Object.post.id
     );
 }
@@ -102,11 +106,12 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
             <article class="flex items-center lg:justify-between md:pb-5 pl-7">
                 <label for="fileUser">
                     <img
-                        src="https://picsum.photos/id/50/300/320"
-                        class="rounded-full object-contain md:w-[200px] w-[100px] cursor-pointer"
+                        :src="user.file"
+                        class="rounded-full hover:opacity-30 object-contain md:w-[200px] w-[100px] cursor-pointer"
                     />
                 </label>
                 <input
+                    v-if="user.id === $page.props.auth.user.id"
                     id="fileUser"
                     type="file"
                     class="hidden"
@@ -115,7 +120,7 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                 <div class="ml-6 w-full">
                     <div class="flex items-center md:mb-8 mb-5">
                         <p class="md:mr-6 mr-3 rounded-lg text-[22px]">
-                            Name here
+                            {{ user.name }}
                         </p>
                         <button
                             class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
@@ -132,7 +137,9 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <p class="mr-6">
-                                <span class="font-extrabold"> 4 </span>
+                                <span class="font-extrabold">
+                                    {{ postByUser.data.length }}
+                                </span>
                                 posts
                             </p>
                             <p class="mr-6">
@@ -153,7 +160,9 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                     class="flex items-center justify-evenly border-t border-gray-300 mt-8"
                 >
                     <div class="text-center w-1/3 p-3">
-                        <p class="font-extrabold">4</p>
+                        <p class="font-extrabold">
+                            {{ postByUser.data.length }}
+                        </p>
                         <p class="text-gray-400 font-semibold -mt-1.5">posts</p>
                     </div>
                     <div class="text-center w-1/3 p-3">
@@ -239,13 +248,36 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
             <div
                 class="grid md:gap-4 gap-1 md:grid-cols-3 grid-cols-2 relative px-3"
             >
-                <ContentOverlay
-                    :postByUser="postByUser"
-                    @selectPost="($event) => (data.post = $event)"
-                ></ContentOverlay>
+                <div v-for="post in postByUser.data">
+                    <ContentOverlay
+                        :post="post"
+                        @selectPost="($event) => (data.post = $event)"
+                    ></ContentOverlay>
+                </div>
             </div>
         </section>
     </MainLayout>
+    <Suspense v-if="data.post">
+        <template #default>
+            <ShowPostOverlay
+                :post="data.post"
+                :userLikes="userLikes"
+                @closeOverlay="data.post = null"
+                @deleteSelected="deleteSelected($event)"
+                @addComment="addComment($event)"
+                @updateLike="updateLike($event)"
+            ></ShowPostOverlay>
+        </template>
+        <template #fallback>
+            <div
+                class="fixed flex justify-center items-center z-50 w-full h-screen bg-black bg-opacity-60 top-0 left-0"
+            >
+                <div
+                    class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-l-4 border-yellow-300 z-50"
+                ></div>
+            </div>
+        </template>
+    </Suspense>
 </template>
 
 <style>

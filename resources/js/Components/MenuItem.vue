@@ -1,6 +1,6 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
-// const user = usePage().props.auth.user;
+const user = usePage().props.auth.user;
 
 import { toRefs } from "vue";
 const props = defineProps({ iconString: String });
@@ -31,7 +31,7 @@ if (iconString.value === "Create") icon = Plus;
             <div v-if="iconString === 'Profile'" class="mr-1">
                 <img
                     class="rounded-full ml-[2px] w-[34px] border-[2px] border-black"
-                    src="https://picsum.photos/id/50/300/320"
+                    :src="user.file"
                 />
             </div>
             <component
