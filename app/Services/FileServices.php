@@ -9,6 +9,7 @@ class FileServices
 {
     public function updateFile($model, $request, $type): string
     {   // Check if the model has a non-empty file property
+
         if (!empty($model->file)) {
             // Get the current file path
             $currentFile = \public_path() . $model->file;
@@ -30,6 +31,13 @@ class FileServices
             // Resize the uploaded file to 720x720 pixels
             $file = $image->make($request->file('file'));
         }
+
+        $file->crop(
+            $request->width,
+            $request->height,
+            $request->left,
+            $request->top
+        )->resize(720, 720);
 
         // Get the file extension of the uploaded file
         $ext = $request->file('file');

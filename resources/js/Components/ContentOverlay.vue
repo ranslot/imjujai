@@ -14,6 +14,7 @@ import Comment from "vue-material-design-icons/Comment.vue";
 <template>
     <article
         @mouseenter="isHover = true"
+        @click="isHover = false"
         @mouseleave="isHover = false"
         class="flex items-center justify-center relative cursor-pointer"
     >
@@ -36,7 +37,11 @@ import Comment from "vue-material-design-icons/Comment.vue";
         </div>
         <img
             class="aspect-square mx-auto z-0 object-cover cursor-pointer"
+            width="312"
+            height="312"
             :src="post.file"
+            :alt="post.file"
+            loading="lazy"
         />
     </article>
 </template>

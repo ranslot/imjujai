@@ -14,6 +14,9 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             <img
                 :src="comment.user.file"
                 class="rounded-full w-[38px] h-[38px]"
+                width="38"
+                height="38"
+                :alt="comment.user.name"
             />
             <p class="ml-4 font-extrabold sm:text-base text-sm">
                 {{ comment.user.name }}

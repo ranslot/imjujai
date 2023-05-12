@@ -7,9 +7,6 @@ defineEmits(["openPost", "updateLike"]);
 
 const props = defineProps({ post: Object, userLikes: Object });
 const { post, userLikes } = toRefs(props);
-
-//icon
-import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
 </script>
 
 <template>
@@ -25,7 +22,11 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 >
                     <img
                         :src="post.user.file"
+                        width="38"
+                        height="38"
                         class="rounded-full w-[38px] h-[38px]"
+                        :alt="post.user.name"
+                        loading="lazy"
                     />
                     <h3 class="ml-4 font-extrabold text-sm sm:text-base">
                         {{ post.user.name }}
@@ -37,7 +38,6 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                     {{ post.created_at }}
                 </p>
             </div>
-            <DotsHorizontal class="cursor-pointer" :size="27"></DotsHorizontal>
         </article>
         <article
             class="rounded w-full h-fit flex items-center overflow-hidden cursor-pointer"

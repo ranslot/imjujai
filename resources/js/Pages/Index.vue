@@ -59,7 +59,8 @@ function deleteSelected(deleteTarget) {
         router.delete(`/posts/${deleteTarget.id}`, {
             onFinish: () => updatePost(deleteTarget),
         });
-        openOverlay = false;
+        openOverlay.value = false;
+        currentPost.value = null;
     }
 
     if (deleteTarget.deleteType === "Comment") {

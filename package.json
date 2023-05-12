@@ -18,6 +18,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "vue-advanced-cropper": "^2.8.8",
         "vue-material-design-icons": "^5.2.0"
     }
 }
