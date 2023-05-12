@@ -31,7 +31,11 @@ if (iconString.value === "Create") icon = Plus;
             <div v-if="iconString === 'Profile'" class="mr-1">
                 <img
                     class="rounded-full ml-[2px] w-[34px] border-[2px] border-black"
+                    width="34"
+                    height="34"
+                    :alt="user.name"
                     :src="user.file"
+                    loading="lazy"
                 />
             </div>
             <component

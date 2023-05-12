@@ -100,14 +100,16 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
 <template>
     <Head title="User" />
     <MainLayout>
-        <section
-            class="max-w-[1000px] lg:ml-0 md:mx-auto px-4 w-[100vw] pt-3 lg:pt-7"
-        >
+        <section class="w-full lg:ml-0 md:mx-auto px-4 pt-3 lg:pt-7">
             <article class="flex items-center lg:justify-between md:pb-5 pl-7">
                 <label for="fileUser">
                     <img
                         :src="user.file"
+                        :alt="user.name"
+                        width="200"
+                        height="200"
                         class="rounded-full hover:opacity-30 object-contain md:w-[200px] w-[100px] cursor-pointer"
+                        loading="lazy"
                     />
                 </label>
                 <input
@@ -123,18 +125,19 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                             {{ user.name }}
                         </p>
                         <button
-                            class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
                         >
                             Edit Profile
+                            <Cog :size="28"></Cog>
                         </button>
-                        <Cog :size="28" class="cursor-pointer"></Cog>
                     </div>
                     <button
-                        class="md:hidden mr-6 p-1 max-w-[260px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                        class="md:hidden flex items-center justify-between mr-6 p-1 max-w-[150px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                         v-if="user.id === $page.props.auth.user.id"
                     >
                         Edit Profile
+                        <Cog :size="28"></Cog>
                     </button>
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
@@ -210,7 +213,7 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                 </div>
             </article>
         </section>
-        <section id="ContentSection" class="md:pr-1.5 lg:pl-0 px-auto">
+        <section id="ContentSection" class="md:pr-1.5 lg:pl-0 px-auto w-full">
             <article class="md:block mt-10 hidden border-t border-gray-300">
                 <div
                     class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-600"

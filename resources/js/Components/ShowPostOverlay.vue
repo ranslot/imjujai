@@ -58,8 +58,10 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
         class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
         @click="emit('closeOverlay')"
     >
-        <button class="absolute right-3 top-3 z-50 basis-full">
-            <Close :size="36" fillColor="#FFFFFF"></Close>
+        <button
+            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+        >
+            <Close :size="36" fillColor="#000000"></Close>
         </button>
 
         <div
@@ -67,16 +69,21 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             @click.stop
         >
             <article
-                class="md:max-w-6xl max-w-[92%] md:max-h-[calc(100%-100px)] max-h-full rounded-xl m-auto"
+                class="md:max-w-5xl max-w-[95%] md:max-h-[calc(100%-91px)] max-h-full rounded-xl m-auto"
             >
                 <div
                     class="w-full h-full md:flex rounded-xl overflow-auto m-auto"
                 >
                     <!-- Image -->
                     <div
-                        class="flex items-center justify-center max-w-[720px] max-h-[720px] bg-gray-300 bg-opacity-50"
+                        class="flex items-center justify-center bg-gray-300 bg-opacity-40"
                     >
-                        <img class="" :src="post.file" />
+                        <img
+                            class="pt-[1px]"
+                            :src="post.file"
+                            width="749"
+                            height="749"
+                        />
                     </div>
 
                     <!-- Description + Comments -->
@@ -89,7 +96,11 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             <div class="flex items-center">
                                 <img
                                     :src="post.user.file"
+                                    width="38"
+                                    height="38"
                                     class="rounded-full w-[38px] h-[38px]"
+                                    alt="post.user.name"
+                                    loading="lazy"
                                 />
                                 <h3
                                     class="ml-4 font-extrabold sm:text-base text-sm"

@@ -129,17 +129,17 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
 <template>
     <section
         id="OverlaySection"
-        class="fixed bg-black bg-opacity-60 p-3 z-50 top-0 left-0 h-screen w-full"
+        class="fixed flex flex-col items-center md:justify-center top-0 flex-wrap bg-black bg-opacity-60 p-3 z-50 top-0 left-0 h-screen w-full overflow-auto"
     >
-        <button class="absolute cursor-pointer top-0 right-3 p-3">
-            <Close fillColor="#FFFFFF" :size="27" @click="closeOverlay"></Close>
+        <button
+            class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+        >
+            <Close :size="30" fillColor="#000000" @click="closeOverlay"></Close>
         </button>
 
-        <article
-            class="max-w-6xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
-        >
+        <article class="w-full max-w-6xl h-fit bg-white rounded-xl top-5 mt-5">
             <div
-                class="sticky flex items-center justify-between w-full p-3 border-b border-gray-300"
+                class="sticky flex items-center justify-between w-full p-1 border-b border-gray-300"
             >
                 <ArrowLeft
                     fillColor="#000000"
@@ -149,33 +149,36 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                 ></ArrowLeft>
                 <h2 class="text-lg font-extrabold">Create new post</h2>
                 <button
-                    class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-2 mr-1"
+                    class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-2"
                     @click="CreatePost"
                 >
                     Post
                 </button>
             </div>
-            <div class="w-full md:flex h-[calc(100%-80px)] overflow-auto">
+            <div class="w-full flex flex-col md:flex-row h-fit">
                 <div
-                    class="flex flex-col items-center justify-center w-full h-full overflow-hidden relative"
+                    class="flex flex-col items-center justify-center w-full overflow-hidden relative"
                 >
                     <div
                         v-if="fileDisplay && isValidFile === true"
-                        class="flex items-center gap-10 pt-2 absolute top-0 z-10"
+                        class="flex items-center gap-10 mt-8 absolute top-0 z-10 bg-white bg-opacity-40 rounded-xl"
                     >
                         <MagnifyPlusOutline
                             title="Zoom In"
                             fillColor="#000000"
                             :size="36"
+                            class="cursor-pointer"
                             @click="zoomIn"
                         ></MagnifyPlusOutline>
                         <MagnifyMinusOutline
                             title="Zoom Out"
                             fillColor="#000000"
                             :size="36"
+                            class="cursor-pointer"
                             @click="zoomOut"
                         ></MagnifyMinusOutline>
                     </div>
+
                     <div
                         class="flex flex-col items-center justify-center mx-auto"
                         v-if="!fileDisplay"
@@ -211,8 +214,10 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                         class="text-center max-h-full max-w-full flex flex-col items-center justify-between"
                     >
                         <div class="flex flex-col items-center">
-                            <div class="max-h-[500px] max-w-full">
+                            <h2 class="font-extrabold text-lg">Crop image</h2>
+                            <div class="h-[500px] w-full">
                                 <Cropper
+                                    class="w-full h-full"
                                     ref="cropper"
                                     :src="fileDisplay"
                                     @change="change"
@@ -226,7 +231,6 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                                         height: 1080,
                                     }"
                                     :resize-image="{
-                                        adjustStencil: false,
                                         wheel: false,
                                     }"
                                     image-restriction="stencil"
@@ -235,7 +239,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             </div>
                         </div>
                         <button
-                            class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-red-500 hover:bg-red-300"
+                            class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-red-500 hover:bg-red-300 bottom-0 z-10"
                             @click="CancleImage"
                         >
                             Cancle
@@ -250,8 +254,10 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                         <div class="flex items-center">
                             <img
                                 class="rounded-full w-[38px] h-[38px]"
+                                width="38"
+                                height="38"
                                 :src="user.file"
-                                alt=""
+                                :alt="user.name"
                             />
                             <h3 class="ml-4 font-extrabold text-[16px]">
                                 {{ user.name }}

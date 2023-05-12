@@ -117,7 +117,9 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
             <div
                 class="mx-auto lg:pt-7 pt-3"
                 :class="
-                    $page.url === '/' ? 'max-w-3xl w-full' : 'max-w-[1200px]'
+                    $page.url === '/'
+                        ? 'max-w-3xl w-full'
+                        : 'w-[100%-280px]  2xl:w-[1000px]'
                 "
             >
                 <slot></slot>
