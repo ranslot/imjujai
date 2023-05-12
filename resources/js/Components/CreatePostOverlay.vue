@@ -2,6 +2,9 @@
 import { ref, reactive } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 
+import "vue-advanced-cropper/dist/style.css";
+import { Cropper } from "vue-advanced-cropper";
+
 const user = usePage().props.auth.user;
 
 // Define an emit function for emitting a "close" event to the parent component
@@ -11,6 +14,10 @@ const emit = defineEmits(["close"]);
 const form = reactive({
     text: null,
     file: null,
+    height: 0,
+    width: 0,
+    left: 0,
+    top: 0,
 });
 let isValidFile = ref(null);
 let fileDisplay = ref("");
@@ -19,6 +26,8 @@ let error = ref({
     text: null,
     file: null,
 });
+
+const cropper = ref(null);
 
 function getUploadImage(e) {
     form.file = e.target.files[0];
@@ -49,7 +58,7 @@ function getUploadImage(e) {
     }, 300);
 }
 
-function CreatePost() {
+async function CreatePost() {
     // Reset error messages
     error.value.text = null;
     error.value.file = null;
@@ -62,6 +71,14 @@ function CreatePost() {
         onError: (errors) => {
             errors && errors.text ? (error.value.text = errors.text) : "";
             errors && errors.file ? (error.value.file = errors.file) : "";
+
+            if (errors.text && !errors.file) {
+                setTimeout(() => {
+                    document
+                        .getElementById("TextAreaSection")
+                        .scrollIntoView({ behavior: "smooth" });
+                }, 300);
+            }
         },
         // If the request is successful, call the closeOverlay function to reset the form and close the overlay
         onSuccess: () => {
@@ -86,11 +103,27 @@ function closeOverlay() {
     emit("close");
 }
 
+function change({ coordinates }) {
+    form.height = coordinates.height;
+    form.width = coordinates.width;
+    form.left = coordinates.left;
+    form.top = coordinates.top;
+}
+
+function zoomIn() {
+    cropper.value.zoom(1.25);
+}
+function zoomOut() {
+    cropper.value.zoom(0.75);
+}
+
 //icon
 import Close from "vue-material-design-icons/Close.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import MapMarkerOutline from "vue-material-design-icons/MapMarkerOutline.vue";
 import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
+import MagnifyPlusOutline from "vue-material-design-icons/MagnifyPlusOutline.vue";
+import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.vue";
 </script>
 
 <template>
@@ -103,10 +136,10 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
         </button>
 
         <article
-            class="max-w-5xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
+            class="max-w-6xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
         >
             <div
-                class="flex items-center justify-between w-full p-3 border-b border-gray-300"
+                class="sticky flex items-center justify-between w-full p-3 border-b border-gray-300"
             >
                 <ArrowLeft
                     fillColor="#000000"
@@ -122,14 +155,29 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                     Post
                 </button>
             </div>
-            <div
-                class="w-full md:flex h-[calc(100%-70px)] rounded-xl overflow-auto"
-            >
+            <div class="w-full md:flex h-[calc(100%-80px)] overflow-auto">
                 <div
-                    class="flex items-center justify-center bg-gray-100 w-full h-full overflow-hidden"
+                    class="flex flex-col items-center justify-center w-full h-full overflow-hidden relative"
                 >
                     <div
-                        class="flex flex-col items-center mx-auto"
+                        v-if="fileDisplay && isValidFile === true"
+                        class="flex items-center gap-10 pt-2 absolute top-0 z-10"
+                    >
+                        <MagnifyPlusOutline
+                            title="Zoom In"
+                            fillColor="#000000"
+                            :size="36"
+                            @click="zoomIn"
+                        ></MagnifyPlusOutline>
+                        <MagnifyMinusOutline
+                            title="Zoom Out"
+                            fillColor="#000000"
+                            :size="36"
+                            @click="zoomOut"
+                        ></MagnifyMinusOutline>
+                    </div>
+                    <div
+                        class="flex flex-col items-center justify-center mx-auto"
                         v-if="!fileDisplay"
                     >
                         <label
@@ -158,16 +206,39 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
                             Upload failed
                         </h3>
                     </div>
-                    <div v-if="fileDisplay && isValidFile === true">
-                        <img
-                            class="min-w-[400px] p-4 mx-auto"
-                            :src="fileDisplay"
-                        />
+                    <div
+                        v-if="fileDisplay && isValidFile === true"
+                        class="text-center max-h-full max-w-full flex flex-col items-center justify-between"
+                    >
+                        <div class="flex flex-col items-center">
+                            <div class="max-h-[500px] max-w-full">
+                                <Cropper
+                                    ref="cropper"
+                                    :src="fileDisplay"
+                                    @change="change"
+                                    :stencil-props="{
+                                        handlers: {},
+                                        movable: false,
+                                        resizable: false,
+                                    }"
+                                    :stencil-size="{
+                                        width: 1080,
+                                        height: 1080,
+                                    }"
+                                    :resize-image="{
+                                        adjustStencil: false,
+                                        wheel: false,
+                                    }"
+                                    image-restriction="stencil"
+                                    backgroundClass="my-background"
+                                />
+                            </div>
+                        </div>
                         <button
-                            class="text-red-500 text-center p-2 font-extrabold text-lg"
+                            class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-red-500 hover:bg-red-300"
                             @click="CancleImage"
                         >
-                            Upload failed
+                            Cancle
                         </button>
                     </div>
                 </div>
@@ -226,3 +297,9 @@ import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
         </article>
     </section>
 </template>
+
+<style>
+.my-background {
+    background-color: rgba(0, 0, 0, 0);
+}
+</style>

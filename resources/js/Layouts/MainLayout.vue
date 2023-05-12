@@ -3,6 +3,7 @@ import { Link, usePage } from "@inertiajs/vue3";
 import { ref, defineAsyncComponent } from "vue";
 
 import MenuItem from "@/Components/MenuItem.vue";
+// import CreatePostOverlay from "@/Components/CreatePostOverlay.vue";
 
 const user = usePage().props.auth.user;
 
