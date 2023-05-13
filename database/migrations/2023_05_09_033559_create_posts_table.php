@@ -21,6 +21,8 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->text('text');
+            $table->text('tags')->nullable();
+            $table->integer('eat_or_cook');
             $table->string('file');
 
             $table->timestamps();

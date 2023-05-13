@@ -14,6 +14,8 @@ const emit = defineEmits(["close"]);
 const form = reactive({
     text: null,
     file: null,
+    tags: null,
+    eatOrCook: 0,
     height: 0,
     width: 0,
     left: 0,
@@ -82,21 +84,31 @@ async function CreatePost() {
         },
         // If the request is successful, call the closeOverlay function to reset the form and close the overlay
         onSuccess: () => {
+            console.log("success");
             closeOverlay();
         },
     });
 }
 
 function CancleImage() {
-    form.text = null;
     form.file = null;
+    form.height = 0;
+    form.width = 0;
+    form.left = 0;
+    form.top = 0;
     fileDisplay.value = "";
 }
 
 function closeOverlay() {
     // Reset the form data and clear the file display URL
     form.text = null;
+    form.tags = null;
     form.file = null;
+    form.eatOrCook = 0;
+    form.height = 0;
+    form.width = 0;
+    form.left = 0;
+    form.top = 0;
     fileDisplay.value = "";
 
     // Emit a "close" event to notify the parent component that the overlay should be closed
@@ -104,10 +116,11 @@ function closeOverlay() {
 }
 
 function change({ coordinates }) {
-    form.height = coordinates.height;
-    form.width = coordinates.width;
-    form.left = coordinates.left;
-    form.top = coordinates.top;
+    form.height = coordinates.height | 0;
+    form.width = coordinates.width | 0;
+    form.left = coordinates.left | 0;
+    form.top = coordinates.top | 0;
+    console.log(form);
 }
 
 function zoomIn() {
@@ -120,8 +133,7 @@ function zoomOut() {
 //icon
 import Close from "vue-material-design-icons/Close.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
-import MapMarkerOutline from "vue-material-design-icons/MapMarkerOutline.vue";
-import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
+import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
 import MagnifyPlusOutline from "vue-material-design-icons/MagnifyPlusOutline.vue";
 import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.vue";
 </script>
@@ -129,7 +141,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
 <template>
     <section
         id="OverlaySection"
-        class="fixed flex flex-col items-center md:justify-center top-0 flex-wrap bg-black bg-opacity-60 p-3 z-50 top-0 left-0 h-screen w-full overflow-auto"
+        class="fixed flex flex-col items-center md:justify-center top-0 flex-wrap bg-black bg-opacity-60 p-3 z-50 left-0 h-screen w-full overflow-auto"
     >
         <button
             class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
@@ -161,7 +173,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                 >
                     <div
                         v-if="fileDisplay && isValidFile === true"
-                        class="flex items-center gap-10 mt-8 absolute top-0 z-10 bg-white bg-opacity-40 rounded-xl"
+                        class="flex items-center gap-10 mt-8 absolute top-2 z-10 bg-white bg-opacity-40 rounded-xl"
                     >
                         <MagnifyPlusOutline
                             title="Zoom In"
@@ -180,7 +192,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                     </div>
 
                     <div
-                        class="flex flex-col items-center justify-center mx-auto"
+                        class="flex flex-col items-center justify-center mx-auto md:h-fit h-[300px]"
                         v-if="!fileDisplay"
                     >
                         <label
@@ -214,7 +226,9 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                         class="text-center max-h-full max-w-full flex flex-col items-center justify-between"
                     >
                         <div class="flex flex-col items-center">
-                            <h2 class="font-extrabold text-lg">Crop image</h2>
+                            <h2 class="font-extrabold text-lg py-1">
+                                Crop Photo
+                            </h2>
                             <div class="h-[500px] w-full">
                                 <Cropper
                                     class="w-full h-full"
@@ -227,8 +241,8 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                                         resizable: false,
                                     }"
                                     :stencil-size="{
-                                        width: 1080,
-                                        height: 1080,
+                                        width: 900,
+                                        height: 900,
                                     }"
                                     :resize-image="{
                                         wheel: false,
@@ -239,16 +253,16 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             </div>
                         </div>
                         <button
-                            class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-red-500 hover:bg-red-300 bottom-0 z-10"
+                            class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-gray-400 hover:bg-gray-500 bottom-0 z-20"
                             @click="CancleImage"
                         >
-                            Cancle
+                            Change Photo
                         </button>
                     </div>
                 </div>
                 <div
                     id="TextAreaSection"
-                    class="max-w-[720px] w-full h-full relative"
+                    class="max-w-[720px] w-full h-full relative flex flex-col gap-3 justify-between"
                 >
                     <div class="flex items-center justify-between p-3">
                         <div class="flex items-center">
@@ -264,13 +278,49 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             </h3>
                         </div>
                     </div>
+                    <ul
+                        class="flex flex-row items-center gap-5 px-3 pt-4 border-t"
+                    >
+                        <li class="font-extrabold text-md text-gray-500">
+                            What did you do on this photo :
+                        </li>
+                        <li class="">
+                            <input
+                                id="ate"
+                                type="radio"
+                                v-model="form.eatOrCook"
+                                value="0"
+                                checked="checked"
+                                class="hidden peer"
+                            />
+                            <label
+                                for="ate"
+                                class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
+                                >I ate</label
+                            >
+                        </li>
+                        <li class="">
+                            <input
+                                id="cooked"
+                                type="radio"
+                                v-model="form.eatOrCook"
+                                value="1"
+                                class="hidden peer"
+                            />
+                            <label
+                                for="cooked"
+                                class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
+                                >I cooked</label
+                            >
+                        </li>
+                    </ul>
                     <h3
                         v-if="error && error.text"
                         class="text-red-500 text-center p-2 font-extrabold text-lg"
                     >
                         {{ error.text }}
                     </h3>
-                    <div class="flex w-full max-h-[200px] bg-white border-b">
+                    <div class="flex w-full max-h-[200px]">
                         <textarea
                             v-model="form.text"
                             ref="textarea"
@@ -280,23 +330,31 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                         ></textarea>
                     </div>
 
-                    <div class="flex items-center justify-between border-b p-3">
-                        <h3 class="text-lg font-extrabold text-gray-500">
-                            Add Location
-                        </h3>
-                        <MapMarkerOutline :size="27"></MapMarkerOutline>
-                    </div>
-                    <div class="flex items-center justify-between border-b p-3">
-                        <h3 class="text-lg font-extrabold text-gray-500">
-                            Accessability
-                        </h3>
-                        <ChevronDown :size="27"></ChevronDown>
-                    </div>
-                    <div class="flex items-center justify-between border-b p-3">
-                        <h3 class="text-lg font-extrabold text-gray-500">
-                            Advance Setting
-                        </h3>
-                        <ChevronDown :size="27"></ChevronDown>
+                    <div class="flex flex-col justify-between border-t p-3">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="flex items-center justify-between gap-7"
+                            >
+                                <h3
+                                    class="text-lg font-extrabold text-gray-500"
+                                >
+                                    Add tags
+                                </h3>
+                                <p class="text-gray-400 text-sm mt-[3px]">
+                                    Use "," to separate tags
+                                </p>
+                            </div>
+
+                            <TagMultiple :size="27"></TagMultiple>
+                        </div>
+
+                        <input
+                            type="text"
+                            v-model="form.tags"
+                            id="tags"
+                            placeholder="Tags..."
+                            class="placeholder-gray-400 border-0 focus:ring-0 w-full text-gray-600 resize-none"
+                        />
                     </div>
                 </div>
             </div>

@@ -46,6 +46,7 @@ const { post, userLikes } = toRefs(props);
             <img
                 class="mx-auto w-full h-fit object-scale-down"
                 :src="post.file"
+                :alt="post.file"
             />
         </article>
         <article class="px-4">
@@ -57,12 +58,26 @@ const { post, userLikes } = toRefs(props);
             <h4 class="text-black font-extrabold text-sm py-1.5">
                 {{ post.likes.length == 0 ? "No" : post.likes.length }} likes
             </h4>
-            <p class="text-sm">
+            <div class="text-sm flex gap-3">
                 <span class="text-black font-extrabold">{{
                     post.user.name
                 }}</span>
-                {{ post.text }}
-            </p>
+                <div
+                    class="bg-gray-200 border-blue-500 font-extrabold border-2"
+                    v-if="post.eat_or_cook === 0"
+                >
+                    I ate
+                </div>
+                <div
+                    class="bg-gray-200 border-blue-500 font-extrabold border-2"
+                    v-if="post.eat_or_cook === 1"
+                >
+                    I cooked
+                </div>
+                <p>
+                    {{ post.text }}
+                </p>
+            </div>
             <button
                 class="text-gray-400 font-extrabold py-1.5"
                 @click="$emit('openPost', post)"

@@ -76,13 +76,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 >
                     <!-- Image -->
                     <div
-                        class="flex items-center justify-center bg-gray-300 bg-opacity-40"
+                        class="flex items-center justify-center bg-gray-300 bg-opacity-40 overflow-hidden"
                     >
                         <img
-                            class="pt-[1px]"
                             :src="post.file"
-                            width="749"
-                            height="749"
+                            :alt="post.file"
+                            width="714"
+                            height="714"
                         />
                     </div>
 
@@ -96,10 +96,10 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             <div class="flex items-center">
                                 <img
                                     :src="post.user.file"
+                                    :alt="post.user.name"
                                     width="38"
                                     height="38"
                                     class="rounded-full w-[38px] h-[38px]"
-                                    alt="post.user.name"
                                     loading="lazy"
                                 />
                                 <h3
@@ -128,6 +128,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 <div class="flex items-center relative">
                                     <img
                                         :src="post.user.file"
+                                        :alt="post.user.name"
                                         class="absolute rounded-full w-[38px] h-[38px] -top-1"
                                     />
 

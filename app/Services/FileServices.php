@@ -28,7 +28,6 @@ class FileServices
             // Resize the uploaded file to 400x400 pixels
             $file = $image->make($request->file('file'))->resize(400, 400);
         } else {
-            // Resize the uploaded file to 720x720 pixels
             $file = $image->make($request->file('file'));
         }
 
