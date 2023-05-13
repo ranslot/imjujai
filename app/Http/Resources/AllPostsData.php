@@ -19,6 +19,8 @@ class AllPostsData extends JsonResource
             return [
                 'id' => $post->id,
                 'text' => $post->text,
+                'tags' => $post->tags,
+                'eat_or_cook' => $post->eat_or_cook,
                 'file' => $post->file,
                 'created_at' => $post->created_at->format(' H:i d M y'),
                 'comments' => $post->comments->map(function ($comment) {

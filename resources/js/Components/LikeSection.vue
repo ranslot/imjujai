@@ -19,9 +19,8 @@ const isLiked = computed(() => {
 });
 
 //icon
-import HeartOutline from "vue-material-design-icons/HeartOutline.vue";
-import Heart from "vue-material-design-icons/Heart.vue";
-import SendOutline from "vue-material-design-icons/SendOutline.vue";
+import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
+import FoodApple from "vue-material-design-icons/FoodApple.vue";
 import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
 import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
 </script>
@@ -29,20 +28,19 @@ import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
 <template>
     <section class="flex z-20 items-center justify-between">
         <div class="flex first-line:items-center">
-            <button class="-mt-[14px]" @click="$emit('like', { post, user })">
-                <Heart
+            <button class="-mt-[20px]" @click="$emit('like', { post, user })">
+                <FoodApple
                     v-if="isLiked"
                     class="pl-3 cursor-pointer"
                     :size="30"
-                ></Heart>
-                <HeartOutline
+                ></FoodApple>
+                <FoodAppleOutline
                     v-else
                     class="pl-3 cursor-pointer"
                     :size="30"
-                ></HeartOutline>
+                ></FoodAppleOutline>
             </button>
-            <CommentOutline class="pl-3 pt-[10px]" :size="30"></CommentOutline>
-            <SendOutline class="pl-3 pt-[10px]" :size="30"></SendOutline>
+            <CommentOutline class="pl-3 pt-[10px]" :size="27"></CommentOutline>
         </div>
         <BookmarkOutline class="pl-3 pt-[10px]" :size="30"></BookmarkOutline>
     </section>

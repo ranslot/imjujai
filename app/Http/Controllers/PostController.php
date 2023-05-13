@@ -32,7 +32,7 @@ class PostController extends Controller
         $post = new Post;
         $request->validate([
             'file' => 'required|mimes:png,jpg,jpeg',
-            'text' => 'required'
+            'text' => 'required',
         ]);
 
         $fileService = new FileServices;
@@ -40,6 +40,8 @@ class PostController extends Controller
         $post->user_id = \auth()->user()->id;
         $post->file = $fileService->updateFile($post, $request, 'post');
         $post->text = $request->input('text');
+        $post->eat_or_cook = $request->input('eatOrCook');
+        $post->tags = $request->input('tags');
 
         $post->save();
     }

@@ -26,26 +26,31 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <header>
             <nav
                 id="TopNav"
-                class="fixed flex items-center justify-between lg:justify-end w-full bg-white h-[61px] border-b border-t border-gray-400 z-5"
+                class="fixed flex items-center justify-between w-full bg-white h-[61px] border-b border-t border-gray-400 z-20"
             >
                 <div
-                    class="lg:hidden flex items-center justify-between w-[30px] sm:w-[100px] py-auto"
+                    class="flex flex-row items-center justify-between min-w-[120px]"
                 >
-                    <button
-                        @click="showSideBar = !showSideBar"
-                        type="button"
-                        class="hover:bg-gray-100 sm:mx-5 mx-2"
+                    <div
+                        class="lg:hidden flex items-center justify-between w-[30px] sm:w-[100px] py-auto"
                     >
-                        <Menu
-                            fillColor="#808080"
-                            :size="36"
-                            class="block rounded-2xl px-2"
-                        ></Menu>
-                    </button>
-                    <Link href="/" class="hidden sm:block">
+                        <button
+                            @click="showSideBar = !showSideBar"
+                            type="button"
+                            class="hover:bg-gray-100 sm:mx-5 mx-2"
+                        >
+                            <Menu
+                                fillColor="#808080"
+                                :size="36"
+                                class="block rounded-2xl px-2"
+                            ></Menu>
+                        </button>
+                    </div>
+                    <Link href="/" class="z-20">
                         <p class="">HOME</p>
                     </Link>
                 </div>
+
                 <h1
                     v-if="$page.url !== '/'"
                     class="text-black font-extrabold text-lg lg:hidden block"
@@ -65,29 +70,12 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                 </div>
             </nav>
 
-            <nav id="TopNavUser"></nav>
-        </header>
-        <aside>
             <nav
                 id="SideBar"
                 class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-400 z-10 transform-gpu transition-all"
                 :class="showSideBar ? 'translate-x' : '-translate-x-full'"
             >
-                <Link href="/">
-                    <p>HOME</p>
-                </Link>
-                <button
-                    @click="showSideBar = !showSideBar"
-                    type="button"
-                    class="absolute top-0 right-0 m-3 lg:hidden hover:bg-gray-100"
-                >
-                    <Close
-                        fillColor="#808080"
-                        :size="36"
-                        class="block px-2 rounded-2xl"
-                    ></Close>
-                </button>
-                <div class="px-5 pt-10">
+                <div class="px-5 pt-[65px]">
                     <Link href="/">
                         <MenuItem iconString="Home" class="mb-3"></MenuItem>
                     </Link>
@@ -110,7 +98,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     <MenuItem iconString="Setting" class="mb-3"></MenuItem>
                 </Link>
             </nav>
-        </aside>
+        </header>
         <main
             class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
