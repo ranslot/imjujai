@@ -1,9 +1,10 @@
 <script setup>
 import { ref, reactive } from "vue";
-import { router, usePage } from "@inertiajs/vue3";
+import { router, usePage, useForm } from "@inertiajs/vue3";
 
 import "vue-advanced-cropper/dist/style.css";
 import { Cropper } from "vue-advanced-cropper";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const user = usePage().props.auth.user;
 
@@ -11,7 +12,7 @@ const user = usePage().props.auth.user;
 const emit = defineEmits(["close"]);
 
 // Define reactive data for the form inputs, object for displaying error messages, references for the validity of the file input, the file display URL, and the textarea element
-const form = reactive({
+const form = useForm({
     text: null,
     file: null,
     tags: null,
@@ -28,6 +29,8 @@ let error = ref({
     text: null,
     file: null,
 });
+
+let createPostProgress = ref(false);
 
 const cropper = ref(null);
 
@@ -51,13 +54,6 @@ function getUploadImage(e) {
 
     // If the file is valid, create a URL for displaying the selected image
     fileDisplay.value = URL.createObjectURL(e.target.files[0]);
-
-    // Scroll to the textarea section
-    setTimeout(() => {
-        document
-            .getElementById("TextAreaSection")
-            .scrollIntoView({ behavior: "smooth" });
-    }, 300);
 }
 
 async function CreatePost() {
@@ -84,8 +80,11 @@ async function CreatePost() {
         },
         // If the request is successful, call the closeOverlay function to reset the form and close the overlay
         onSuccess: () => {
-            console.log("success");
+            createPostProgress.value = false;
             closeOverlay();
+        },
+        onProgress: () => {
+            createPostProgress.value = true;
         },
     });
 }
@@ -120,7 +119,6 @@ function change({ coordinates }) {
     form.width = coordinates.width | 0;
     form.left = coordinates.left | 0;
     form.top = coordinates.top | 0;
-    console.log(form);
 }
 
 function zoomIn() {
@@ -360,6 +358,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
             </div>
         </article>
     </section>
+    <LoadingOverlay v-if="createPostProgress"> </LoadingOverlay>
 </template>
 
 <style>

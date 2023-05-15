@@ -1,9 +1,9 @@
 <script setup>
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link, usePage, router, useForm } from "@inertiajs/vue3";
 import { ref, defineAsyncComponent } from "vue";
 
 import MenuItem from "@/Components/MenuItem.vue";
-// import CreatePostOverlay from "@/Components/CreatePostOverlay.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const user = usePage().props.auth.user;
 
@@ -12,8 +12,27 @@ const CreatePostOverlay = defineAsyncComponent(() =>
 );
 
 let showSideBar = ref(false);
-let showSearchBar = ref(false);
 let showCreatePost = ref(false);
+let searchPostProgress = ref(false);
+
+let form = useForm({
+    search: "",
+});
+function searchPost() {
+    router.get(
+        "/",
+        { search: form.search },
+        {
+            preserveState: true,
+            onSuccess: () => {
+                searchPostProgress.value = false;
+            },
+            onProgress: () => {
+                searchPostProgress.value = true;
+            },
+        }
+    );
+}
 
 //icon
 import Menu from "vue-material-design-icons/Menu.vue";
@@ -57,17 +76,21 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                 >
                     {{ user.name }}
                 </h1>
-                <div
-                    class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit"
+                <form
+                    @submit.prevent="searchPost"
+                    class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit gap-2"
                 >
-                    <Magnify fillColor="#808080" :size="27"></Magnify>
                     <input
                         id="Search"
+                        v-model="form.search"
                         type="text"
-                        class="py-[3px] px-2 w-[50px] rounded-3xl border-gray-400 hidden sm:block border-0 focus:boder-1"
+                        class="py-[3px] px-2 max-w-full rounded-3xl border-gray-400 hidden sm:block border focus:boder-1"
                         placeholder="Search. . ."
                     />
-                </div>
+                    <button type="submit">
+                        <Magnify fillColor="#808080" :size="30"></Magnify>
+                    </button>
+                </form>
             </nav>
 
             <nav
@@ -119,4 +142,5 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
             @close="showCreatePost = false"
         ></CreatePostOverlay>
     </div>
+    <LoadingOverlay v-if="searchPostProgress"> </LoadingOverlay>
 </template>

@@ -20,6 +20,11 @@ function togglePostOverlay(post) {
     currentPost.value = post;
 }
 
+let tag = ref("");
+function searchTag() {
+    router.get(`/?search=${tag.value}`);
+}
+
 function updatePost(Object) {
     currentPost.value = posts.value.data.find(
         (post) => post.id === Object.post.id

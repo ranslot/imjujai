@@ -7,6 +7,10 @@ defineEmits(["openPost", "updateLike"]);
 
 const props = defineProps({ post: Object, userLikes: Object });
 const { post, userLikes } = toRefs(props);
+
+if (post.value.tags) {
+    let tagArray = post.value.tags.split(",");
+}
 </script>
 
 <template>
@@ -15,7 +19,7 @@ const { post, userLikes } = toRefs(props);
         class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl"
     >
         <article class="flex items-center justify-between py-2 px-4">
-            <div class="flex items-center">
+            <div class="flex items-center justify-between">
                 <Link
                     :href="route('users.show', { id: post.user.id })"
                     class="flex items-center"
@@ -77,6 +81,9 @@ const { post, userLikes } = toRefs(props);
                 <p>
                     {{ post.text }}
                 </p>
+                <div v-if="post.tags" v-for="tag in tagArray">
+                    <Link></Link>
+                </div>
             </div>
             <button
                 class="text-gray-400 font-extrabold py-1.5"
