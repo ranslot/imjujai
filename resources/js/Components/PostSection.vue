@@ -1,15 +1,25 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import { ref, toRefs, defineAsyncComponent } from "vue";
+import { ref, toRefs } from "vue";
 import LikeSection from "@/Components/LikeSection.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 defineEmits(["openPost", "updateLike"]);
 
 const props = defineProps({ post: Object, userLikes: Object });
 const { post, userLikes } = toRefs(props);
 
+let tagArray = ref(null);
+let searchPost = ref(false);
+
 if (post.value.tags) {
-    let tagArray = post.value.tags.split(",");
+    tagArray.value = post.value.tags.split(",");
+}
+
+if (searchPost.value) {
+    setTimeout(() => {
+        searchPost.value = false;
+    }, 5000);
 }
 </script>
 
@@ -58,33 +68,43 @@ if (post.value.tags) {
                 :post="post"
                 :userLikes="userLikes"
                 @like="$emit('updateLike', $event)"
+                @clickComment="$emit('openPost', post)"
             ></LikeSection>
             <h4 class="text-black font-extrabold text-sm py-1.5">
                 {{ post.likes.length == 0 ? "No" : post.likes.length }} likes
             </h4>
-            <div class="text-sm flex gap-3">
+            <div class="text-sm flex gap-1">
                 <span class="text-black font-extrabold">{{
                     post.user.name
                 }}</span>
                 <div
-                    class="bg-gray-200 border-blue-500 font-extrabold border-2"
+                    class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 0"
                 >
-                    I ate
+                    I Ate
                 </div>
                 <div
-                    class="bg-gray-200 border-blue-500 font-extrabold border-2"
+                    class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 1"
                 >
-                    I cooked
+                    I ooked
                 </div>
                 <p>
                     {{ post.text }}
                 </p>
-                <div v-if="post.tags" v-for="tag in tagArray">
-                    <Link></Link>
+            </div>
+            <div class="flex flex-row text-sm">
+                <div v-if="post.tags" v-for="tag in tagArray" class="pr-2">
+                    <Link
+                        class="text-blue-500 hover:text-blue-400"
+                        href="/"
+                        :data="{ search: tag }"
+                        @click="searchPost = true"
+                        >#{{ tag }}</Link
+                    >
                 </div>
             </div>
+
             <button
                 class="text-gray-400 font-extrabold py-1.5"
                 @click="$emit('openPost', post)"
@@ -94,4 +114,5 @@ if (post.value.tags) {
             </button>
         </article>
     </section>
+    <LoadingOverlay v-if="searchPost"></LoadingOverlay>
 </template>

@@ -23,7 +23,6 @@ function searchPost() {
         "/",
         { search: form.search },
         {
-            preserveState: true,
             onSuccess: () => {
                 searchPostProgress.value = false;
             },
@@ -36,7 +35,6 @@ function searchPost() {
 
 //icon
 import Menu from "vue-material-design-icons/Menu.vue";
-import Close from "vue-material-design-icons/Close.vue";
 import Magnify from "vue-material-design-icons/Magnify.vue";
 </script>
 
@@ -69,13 +67,13 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         <p class="">HOME</p>
                     </Link>
                 </div>
+                <div v-if="$slots.userName">
+                    <slot name="userName"></slot>
+                </div>
+                <div v-if="$slots.search">
+                    <slot name="search"></slot>
+                </div>
 
-                <h1
-                    v-if="$page.url !== '/'"
-                    class="text-black font-extrabold text-lg lg:hidden block"
-                >
-                    {{ user.name }}
-                </h1>
                 <form
                     @submit.prevent="searchPost"
                     class="flex items-center justify-end lg:mr-10 mr-2 lg:w-fit gap-2"
@@ -125,14 +123,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <main
             class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
-            <div
-                class="mx-auto lg:pt-7 pt-3"
-                :class="
-                    $page.url === '/'
-                        ? 'max-w-3xl w-full'
-                        : 'w-[100%-280px]  2xl:w-[1000px]'
-                "
-            >
+            <div class="mx-auto lg:pt-7 pt-3">
                 <slot></slot>
             </div>
         </main>

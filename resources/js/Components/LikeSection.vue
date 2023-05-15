@@ -40,7 +40,11 @@ import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
                     :size="30"
                 ></FoodAppleOutline>
             </button>
-            <CommentOutline class="pl-3 pt-[10px]" :size="27"></CommentOutline>
+            <CommentOutline
+                class="pl-3 pt-[10px] cursor-pointer"
+                :size="27"
+                @click="$emit('clickComment')"
+            ></CommentOutline>
         </div>
         <BookmarkOutline class="pl-3 pt-[10px]" :size="30"></BookmarkOutline>
     </section>
