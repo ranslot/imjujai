@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRefs, onMounted, onUnmounted, defineAsyncComponent } from "vue";
-import { usePage } from "@inertiajs/vue3";
+import { usePage, Link } from "@inertiajs/vue3";
 
 import LikeSection from "@/Components/LikeSection.vue";
 import CommentsSection from "@/Components/CommentsSection.vue";
@@ -46,6 +46,19 @@ function deleteTargetHandle(type, targetId) {
     id.value = targetId;
 }
 
+let tagArray = ref(null);
+let searchPost = ref(false);
+
+if (post.value.tags) {
+    tagArray.value = post.value.tags.split(",");
+}
+
+if (searchPost.value) {
+    setTimeout(() => {
+        searchPost.value = false;
+    }, 5000);
+}
+
 //icon
 import Close from "vue-material-design-icons/Close.vue";
 import EmoticonHappyOutline from "vue-material-design-icons/EmoticonHappyOutline.vue";
@@ -69,26 +82,27 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             @click.stop
         >
             <article
-                class="md:max-w-5xl max-w-[95%] md:max-h-[calc(100%-91px)] max-h-full rounded-xl m-auto"
+                class="lg:w-[1200px] max-w-[95%] md:max-h-[calc(100%-91px)] max-h-full rounded-xl m-auto"
             >
                 <div
                     class="w-full h-full md:flex rounded-xl overflow-auto m-auto"
                 >
                     <!-- Image -->
                     <div
-                        class="flex items-center justify-center bg-gray-300 bg-opacity-40 overflow-hidden"
+                        class="flex items-center justify-center bg-gray-300 bg-opacity-40 aspect-square lg:w-[600px] lg:h-[600px] max-w-[600px] max-h-[600px]"
                     >
                         <img
                             :src="post.file"
                             :alt="post.file"
-                            width="714"
-                            height="714"
+                            width="600"
+                            height="600"
+                            class="aspect-square"
                         />
                     </div>
 
                     <!-- Description + Comments -->
                     <div
-                        class="w-full relative md:max-w-[400px] md:h-[600px] h-[300px] bg-white"
+                        class="relative lg:w-[600px] max-w-[600px] md:h-[600px] h-[300px] bg-white"
                     >
                         <div
                             class="flex items-center justify-between p-3 border-b"
@@ -108,7 +122,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                     {{ post.user.name }}
                                 </h3>
                                 <p
-                                    class="ml-2 flex items-center text-gray-500 sm:text-sm text-xs"
+                                    class="ml-2 flex items-center text-gray-400 sm:text-sm text-xs"
                                 >
                                     {{ post.created_at }}
                                 </p>
@@ -125,25 +139,51 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                         </div>
                         <div class="overflow-y-auto h-[calc(100%-170px)]">
                             <div class="flex items-center justify-between p-3">
-                                <div class="flex items-center relative">
+                                <div
+                                    class="flex items-center w-full relative flex-wrap"
+                                >
                                     <img
                                         :src="post.user.file"
                                         :alt="post.user.name"
                                         class="absolute rounded-full w-[38px] h-[38px] -top-1"
                                     />
 
-                                    <p class="ml-14 mt-1">
+                                    <div class="flex gap-2 ml-[50px] mt-1">
                                         <span
-                                            class="font-extrabold sm:text-base text-sm mr-2"
+                                            class="text-black font-extrabold"
+                                            >{{ post.user.name }}</span
                                         >
-                                            {{ post.user.name }}
-                                        </span>
-                                        <span
-                                            class="text-gray-800 sm:text-base text-sm"
+                                        <div
+                                            class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
+                                            v-if="post.eat_or_cook === 0"
                                         >
+                                            I Ate
+                                        </div>
+                                        <div
+                                            class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
+                                            v-if="post.eat_or_cook === 1"
+                                        >
+                                            I Cooked
+                                        </div>
+                                        <p>
                                             {{ post.text }}
-                                        </span>
-                                    </p>
+                                        </p>
+                                    </div>
+                                    <div class="flex flex-row text-sm">
+                                        <div
+                                            v-if="post.tags"
+                                            v-for="tag in tagArray"
+                                            class="px-2"
+                                        >
+                                            <Link
+                                                class="text-blue-500 hover:text-blue-400"
+                                                href="/"
+                                                :data="{ search: tag }"
+                                                @click="searchPost = true"
+                                                >#{{ tag }}</Link
+                                            >
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div
@@ -164,6 +204,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             v-if="post"
                             :post="post"
                             :userLikes="userLikes"
+                            @clickComment="textarea.select()"
                             @like="$emit('updateLike', $event)"
                         ></LikeSection>
 
@@ -203,6 +244,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             </article>
         </div>
     </section>
+    <LoadingOverlay v-if="searchPost"></LoadingOverlay>
     <SettingPostOverlay
         v-if="deleteType"
         :deleteType="deleteType"

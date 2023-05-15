@@ -1,9 +1,10 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
+import { Head, router, usePage } from "@inertiajs/vue3";
 import { ref, toRefs, defineAsyncComponent, Suspense } from "vue";
 
 import MainLayout from "@/Layouts/MainLayout.vue";
 import PostSection from "@/Components/PostSection.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
@@ -83,11 +84,24 @@ function addComment(newComment) {
         }
     );
 }
+
+const page = usePage().url;
+let searchValue = ref("");
+if (page.includes("search")) {
+    searchValue.value = page.split("=")[1];
+}
 </script>
 
 <template>
     <Head title="Home"></Head>
     <MainLayout>
+        <template #search>
+            <div v-if="page.includes('search')">
+                <h1 class="font-extrabold text-lg">
+                    Search : {{ searchValue }}
+                </h1>
+            </div>
+        </template>
         <div v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay($event)"
@@ -108,15 +122,7 @@ function addComment(newComment) {
                 @updateLike="updateLike($event)"
             ></ShowPostOverlay>
         </template>
-        <template #fallback>
-            <div
-                class="fixed flex justify-center items-center z-50 w-full h-screen bg-black bg-opacity-60 top-0 left-0"
-            >
-                <div
-                    class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-l-4 border-yellow-300 z-50"
-                ></div>
-            </div>
-        </template>
+        <template #fallback> <LoadingOverlay></LoadingOverlay> </template>
     </Suspense>
 </template>
 

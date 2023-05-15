@@ -100,6 +100,11 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
 <template>
     <Head title="User" />
     <MainLayout>
+        <template #userName>
+            <h1 class="text-black font-extrabold text-lg">
+                {{ user.name }}
+            </h1>
+        </template>
         <section class="w-full lg:ml-0 md:mx-auto px-4 pt-3 lg:pt-7">
             <article class="flex items-center lg:justify-between md:pb-5 pl-7">
                 <label for="fileUser">

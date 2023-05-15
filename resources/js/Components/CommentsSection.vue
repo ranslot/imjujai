@@ -20,7 +20,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             />
             <p class="ml-4 font-extrabold sm:text-base text-sm">
                 {{ comment.user.name }}
-                <span class="font-light text-gray-700 sm:text-sm text-xs">
+                <span class="font-light text-gray-400 sm:text-sm text-xs">
                     {{ comment.created_at }}
                 </span>
             </p>

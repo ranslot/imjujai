@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::latest()->filter(request(['tag', 'search']))->get();
         $userLikes = Like::where('user_id', \auth()->user()->id)->get();
         return Inertia::render('Index', [
             'posts' => new AllPostsData($posts),
