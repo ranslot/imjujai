@@ -1,6 +1,8 @@
 <script setup>
-import { Head, router, usePage } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { ref, toRefs, defineAsyncComponent, Suspense } from "vue";
+
+import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
 
 import MainLayout from "@/Layouts/MainLayout.vue";
 import PostSection from "@/Components/PostSection.vue";
@@ -27,64 +29,6 @@ function updatePost(Object) {
     );
 }
 
-function updateLike(like) {
-    let deleteLike = false;
-    let id = null;
-
-    for (let i = 0; i < userLikes.value.length; i++) {
-        if (like.post.id === userLikes.value[i].post_id) {
-            deleteLike = true;
-            id = userLikes.value[i].id;
-        }
-    }
-
-    if (deleteLike) {
-        router.delete(`/likes/${id}`, {
-            onFinish: () => updatePost(like),
-        });
-    } else {
-        router.post(
-            "/likes",
-            {
-                post_id: like.post.id,
-            },
-            {
-                onFinish: () => updatePost(like),
-            }
-        );
-    }
-}
-
-function deleteSelected(deleteTarget) {
-    if (deleteTarget.deleteType === "Post") {
-        router.delete(`/posts/${deleteTarget.id}`, {
-            onFinish: () => updatePost(deleteTarget),
-        });
-        openOverlay.value = false;
-        currentPost.value = null;
-    }
-
-    if (deleteTarget.deleteType === "Comment") {
-        router.delete(`/comments/${deleteTarget.id}`, {
-            onFinish: () => updatePost(deleteTarget),
-        });
-    }
-}
-
-function addComment(newComment) {
-    router.post(
-        "/comments",
-        {
-            post_id: newComment.post.id,
-            user_id: newComment.user.id,
-            comment: newComment.comment,
-        },
-        {
-            onFinish: () => updatePost(newComment),
-        }
-    );
-}
-
 const page = usePage().url;
 let searchValue = ref("");
 if (page.includes("search")) {
@@ -105,7 +49,7 @@ if (page.includes("search")) {
         <div v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay($event)"
-                @updateLike="updateLike($event)"
+                @updateLike="updateLike($event, userLikes, updatePost)"
                 :userLikes="userLikes"
                 :post="post"
             ></PostSection>
@@ -117,9 +61,16 @@ if (page.includes("search")) {
                 :post="currentPost"
                 :userLikes="userLikes"
                 @closeOverlay="openOverlay = false"
-                @deleteSelected="deleteSelected($event)"
-                @addComment="addComment($event)"
-                @updateLike="updateLike($event)"
+                @deleteSelected="
+                    deleteSelected($event, updatePost);
+                    if ($event.deleteType === 'Post') {
+                        openOverlay = false;
+                        currentPost = null;
+                    }
+                "
+                @addComment="addComment($event, updatePost)"
+                @updateLike="updateLike($event, userLikes, updatePost)"
+                @editSelected="updatePost($event)"
             ></ShowPostOverlay>
         </template>
         <template #fallback> <LoadingOverlay></LoadingOverlay> </template>

@@ -70,17 +70,17 @@ class UserController extends Controller
     {
         $request->validate([
             'file' => 'required|mimes:png,jpg,jpeg',
+            'description'
         ]);
-
         $user = User::find($id);
-        if ($user === null || $id !== \auth()->user()->id) {
+
+        if ($user === null || $id !== (string)\auth()->user()->id) {
             return \redirect(\route('home.index'));
         }
 
         $user->file = (new FileServices)->updateFile(\auth()->user(), $request, 'user');
-        $user->save();
-
-        return \redirect(\route('users.show', ['id' => \auth()->user()->id]));
+        $user->description = $request->input('description');
+        $user->update();
     }
 
     /**

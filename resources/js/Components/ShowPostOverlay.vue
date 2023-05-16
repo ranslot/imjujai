@@ -8,12 +8,16 @@ import CommentsSection from "@/Components/CommentsSection.vue";
 const SettingPostOverlay = defineAsyncComponent(() =>
     import("@/Components/SettingPostOverlay.vue")
 );
+const EditPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/EditPostOverlay.vue")
+);
 
 const user = usePage().props.auth.user;
 
 let textarea = ref(null);
 let comment = ref("");
 let deleteType = ref(null);
+let showEditOverlay = ref(false);
 let id = ref(null);
 
 const props = defineProps({ post: Object, userLikes: Object });
@@ -24,6 +28,7 @@ const emit = defineEmits([
     "addComment",
     "updateLike",
     "deleteSelected",
+    "editSelected",
 ]);
 
 const closeOnEscape = (e) => {
@@ -46,12 +51,7 @@ function deleteTargetHandle(type, targetId) {
     id.value = targetId;
 }
 
-let tagArray = ref(null);
 let searchPost = ref(false);
-
-if (post.value.tags) {
-    tagArray.value = post.value.tags.split(",");
-}
 
 if (searchPost.value) {
     setTimeout(() => {
@@ -121,21 +121,23 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 >
                                     {{ post.user.name }}
                                 </h3>
+                            </div>
+                            <div class="flex items-center gap-2">
                                 <p
                                     class="ml-2 flex items-center text-gray-400 sm:text-sm text-xs"
                                 >
                                     {{ post.created_at }}
                                 </p>
+                                <button
+                                    v-if="user.id === post.user.id"
+                                    class="cursor-pointer"
+                                    @click.prevent="
+                                        deleteTargetHandle('Post', post.id)
+                                    "
+                                >
+                                    <DotsHorizontal :size="27"></DotsHorizontal>
+                                </button>
                             </div>
-                            <button
-                                v-if="user.id === post.user.id"
-                                class="cursor-pointer"
-                                @click.prevent="
-                                    deleteTargetHandle('Post', post.id)
-                                "
-                            >
-                                <DotsHorizontal :size="27"></DotsHorizontal>
-                            </button>
                         </div>
                         <div class="overflow-y-auto h-[calc(100%-170px)]">
                             <div class="flex items-center justify-between p-3">
@@ -157,13 +159,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 0"
                                         >
-                                            I Ate
+                                            Ate
                                         </div>
                                         <div
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 1"
                                         >
-                                            I Cooked
+                                            Cooked
                                         </div>
                                         <p>
                                             {{ post.text }}
@@ -172,7 +174,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                     <div class="flex flex-row text-sm">
                                         <div
                                             v-if="post.tags"
-                                            v-for="tag in tagArray"
+                                            v-for="tag in post.tags.split(',')"
                                             class="px-2"
                                         >
                                             <Link
@@ -205,34 +207,31 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             :post="post"
                             :userLikes="userLikes"
                             @clickComment="textarea.select()"
-                            @like="$emit('updateLike', $event)"
+                            @like="emit('updateLike', $event)"
                         ></LikeSection>
 
                         <!-- Add Comment-->
                         <div
                             class="absolute flex border-t bottom-0 w-full max-h-[230px] min-h-[36px] bg-white overflow-auto"
                         >
-                            <EmoticonHappyOutline
-                                class="pt-[10px] pl-3"
-                                :size="30"
-                            ></EmoticonHappyOutline>
                             <textarea
                                 ref="textarea"
                                 :onInput="textareaInput"
                                 v-model="comment"
-                                placeholder="Add comment. . ."
+                                placeholder="Add new comment. . ."
                                 rows="1"
-                                class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none"
+                                class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none mx-3"
                             ></textarea>
                             <button
                                 v-if="comment"
                                 class="text-blue-400 font-extrabold pr-4"
                                 @click="
-                                    $emit('addComment', {
+                                    emit('addComment', {
                                         post,
                                         user,
                                         comment,
                                     });
+                                    textarea.style.height = 'auto';
                                     comment = '';
                                 "
                             >
@@ -253,8 +252,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             deleteType = null;
             id = null;
         "
+        @editShow="
+            showEditOverlay = true;
+            deleteType = null;
+            id = null;
+        "
         @deleteSelected="
-            $emit('deleteSelected', {
+            emit('deleteSelected', {
                 deleteType: deleteType,
                 id: id,
                 post: post,
@@ -263,4 +267,14 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             id = null;
         "
     ></SettingPostOverlay>
+    <EditPostOverlay
+        v-if="showEditOverlay"
+        @editSelected="
+            emit('editSelected', {
+                post: post,
+            })
+        "
+        @closeEditPost="showEditOverlay = null"
+        :post="post"
+    ></EditPostOverlay>
 </template>

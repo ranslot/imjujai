@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/update/{id}', [UserController::class, 'update'])->name('users.update');
 
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');

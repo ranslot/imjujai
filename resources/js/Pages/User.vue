@@ -1,15 +1,23 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
-import { reactive, toRefs, defineAsyncComponent, Suspense } from "vue";
+import { Head, router, useForm } from "@inertiajs/vue3";
+import { reactive, ref, toRefs, defineAsyncComponent, Suspense } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
+
+import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
 
 const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
 );
 
+const EditUserOverlay = defineAsyncComponent(() =>
+    import("@/Components/EditUserOverlay.vue")
+);
+
 let data = reactive({ post: null });
-const form = reactive({ file: null });
+
+let showEditUser = ref(false);
 
 const props = defineProps({
     postByUser: Object,
@@ -24,77 +32,11 @@ function updatePost(Object) {
     );
 }
 
-function updateLike(like) {
-    let deleteLike = false;
-    let id = null;
-
-    for (let i = 0; i < userLikes.value.length; i++) {
-        if (like.post.id === userLikes.value[i].post_id) {
-            deleteLike = true;
-            id = userLikes.value[i].id;
-        }
-    }
-
-    if (deleteLike) {
-        router.delete(`/likes/${id}`, {
-            onFinish: () => updatePost(like),
-        });
-    } else {
-        router.post(
-            "/likes",
-            {
-                post_id: like.post.id,
-            },
-            {
-                onFinish: () => updatePost(like),
-            }
-        );
-    }
-}
-
-function deleteSelected(deleteTarget) {
-    if (deleteTarget.deleteType === "Post") {
-        router.delete(`/posts/${deleteTarget.id}`, {
-            onFinish: () => updatePost(deleteTarget),
-        });
-        setTimeout(() => (data.post = null), 100);
-    }
-
-    if (deleteTarget.deleteType === "Comment") {
-        router.delete(`/comments/${deleteTarget.id}`, {
-            onFinish: () => updatePost(deleteTarget),
-        });
-    }
-}
-
-function addComment(newComment) {
-    router.post(
-        "/comments",
-        {
-            post_id: newComment.post.id,
-            user_id: newComment.user.id,
-            comment: newComment.comment,
-        },
-        {
-            onFinish: () => updatePost(newComment),
-        }
-    );
-}
-
-function getUploadUserImage(e) {
-    form.file = e.target.files[0];
-
-    router.post("/user", form, {
-        preserveState: false,
-    });
-}
-
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
 import Cog from "vue-material-design-icons/Cog.vue";
 import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
 import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
-import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
 </script>
 
 <template>
@@ -107,31 +49,28 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
         </template>
         <section class="w-full lg:ml-0 md:mx-auto px-4 pt-3 lg:pt-7">
             <article class="flex items-center lg:justify-between md:pb-5 pl-7">
-                <label for="fileUser">
-                    <img
-                        :src="user.file"
-                        :alt="user.name"
-                        width="200"
-                        height="200"
-                        class="rounded-full hover:opacity-30 object-contain md:w-[200px] w-[100px] cursor-pointer"
-                        loading="lazy"
-                    />
-                </label>
-                <input
-                    v-if="user.id === $page.props.auth.user.id"
-                    id="fileUser"
-                    type="file"
-                    class="hidden"
-                    @input="getUploadUserImage"
+                <img
+                    :src="user.file"
+                    :alt="user.name"
+                    width="200"
+                    height="200"
+                    class="rounded-full object-contain md:w-[200px] w-[100px]"
+                    loading="lazy"
                 />
                 <div class="ml-6 w-full">
-                    <div class="flex items-center md:mb-8 mb-5">
+                    <div class="flex items-center md:mb-8 mb-5 gap-3">
                         <p class="md:mr-6 mr-3 rounded-lg text-[22px]">
                             {{ user.name }}
                         </p>
                         <button
+                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                        >
+                            Follow
+                        </button>
+                        <button
                             class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
+                            @click="showEditUser = true"
                         >
                             Edit Profile
                             <Cog :size="28"></Cog>
@@ -144,6 +83,7 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                         Edit Profile
                         <Cog :size="28"></Cog>
                     </button>
+                    <div>{{ user.description }}</div>
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <p class="mr-6">
@@ -273,21 +213,26 @@ import PlayBoxOutline from "vue-material-design-icons/PlayBoxOutline.vue";
                 :post="data.post"
                 :userLikes="userLikes"
                 @closeOverlay="data.post = null"
-                @deleteSelected="deleteSelected($event)"
-                @addComment="addComment($event)"
-                @updateLike="updateLike($event)"
+                @deleteSelected="
+                    deleteSelected($event, updatePost);
+                    if ($event.deleteType === 'Post') {
+                        setTimeout(() => (data.post = null), 100);
+                    }
+                "
+                @addComment="addComment($event, updatePost)"
+                @updateLike="updateLike($event, userLikes, updatePost)"
+                @editSelected="updatePost($event)"
             ></ShowPostOverlay>
         </template>
         <template #fallback>
-            <div
-                class="fixed flex justify-center items-center z-50 w-full h-screen bg-black bg-opacity-60 top-0 left-0"
-            >
-                <div
-                    class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-l-4 border-yellow-300 z-50"
-                ></div>
-            </div>
+            <LoadingOverlay></LoadingOverlay>
         </template>
     </Suspense>
+    <EditUserOverlay
+        v-if="showEditUser"
+        :user="user"
+        @closeEditPost="showEditUser = false"
+    ></EditUserOverlay>
 </template>
 
 <style>
