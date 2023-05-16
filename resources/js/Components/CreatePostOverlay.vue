@@ -90,11 +90,7 @@ async function CreatePost() {
 }
 
 function CancleImage() {
-    form.file = null;
-    form.height = 0;
-    form.width = 0;
-    form.left = 0;
-    form.top = 0;
+    form.reset();
     fileDisplay.value = "";
 }
 

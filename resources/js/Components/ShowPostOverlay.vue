@@ -121,21 +121,23 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 >
                                     {{ post.user.name }}
                                 </h3>
+                            </div>
+                            <div class="flex items-center gap-2">
                                 <p
                                     class="ml-2 flex items-center text-gray-400 sm:text-sm text-xs"
                                 >
                                     {{ post.created_at }}
                                 </p>
+                                <button
+                                    v-if="user.id === post.user.id"
+                                    class="cursor-pointer"
+                                    @click.prevent="
+                                        deleteTargetHandle('Post', post.id)
+                                    "
+                                >
+                                    <DotsHorizontal :size="27"></DotsHorizontal>
+                                </button>
                             </div>
-                            <button
-                                v-if="user.id === post.user.id"
-                                class="cursor-pointer"
-                                @click.prevent="
-                                    deleteTargetHandle('Post', post.id)
-                                "
-                            >
-                                <DotsHorizontal :size="27"></DotsHorizontal>
-                            </button>
                         </div>
                         <div class="overflow-y-auto h-[calc(100%-170px)]">
                             <div class="flex items-center justify-between p-3">
@@ -157,13 +159,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 0"
                                         >
-                                            I Ate
+                                            Ate
                                         </div>
                                         <div
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 1"
                                         >
-                                            I Cooked
+                                            Cooked
                                         </div>
                                         <p>
                                             {{ post.text }}
@@ -212,17 +214,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                         <div
                             class="absolute flex border-t bottom-0 w-full max-h-[230px] min-h-[36px] bg-white overflow-auto"
                         >
-                            <EmoticonHappyOutline
-                                class="pt-[10px] pl-3"
-                                :size="30"
-                            ></EmoticonHappyOutline>
                             <textarea
                                 ref="textarea"
                                 :onInput="textareaInput"
                                 v-model="comment"
-                                placeholder="Add comment. . ."
+                                placeholder="Add new comment. . ."
                                 rows="1"
-                                class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none"
+                                class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none mx-3"
                             ></textarea>
                             <button
                                 v-if="comment"
@@ -233,6 +231,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                         user,
                                         comment,
                                     });
+                                    textarea.style.height = 'auto';
                                     comment = '';
                                 "
                             >

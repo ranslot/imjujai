@@ -23,8 +23,8 @@ if (searchPost.value) {
         id="Posts"
         class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl"
     >
-        <article class="flex items-center justify-between py-2 px-4">
-            <div class="flex items-center justify-between">
+        <article class="flex items-center py-2 px-4">
+            <div class="flex items-center w-full justify-between">
                 <Link
                     :href="route('users.show', { id: post.user.id })"
                     class="flex items-center"
@@ -44,7 +44,7 @@ if (searchPost.value) {
                 <p
                     class="flex items-center pl-2 text-gray-400 text-xs sm:text-sm"
                 >
-                    {{ post.created_at }}
+                    Post on : {{ post.created_at }}
                 </p>
             </div>
         </article>
@@ -76,13 +76,13 @@ if (searchPost.value) {
                     class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 0"
                 >
-                    I Ate
+                    Ate
                 </div>
                 <div
                     class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 1"
                 >
-                    I Cooked
+                    Cooked
                 </div>
                 <p>
                     {{ post.text }}
@@ -108,7 +108,7 @@ if (searchPost.value) {
                 class="text-gray-400 font-extrabold py-1.5"
                 @click="$emit('openPost', post)"
             >
-                <div v-if="post.comments.length == 0">Add comment</div>
+                <div v-if="post.comments.length == 0">Add new comment</div>
                 <div v-else>View all {{ post.comments.length }} comments</div>
             </button>
         </article>

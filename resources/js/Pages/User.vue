@@ -3,6 +3,7 @@ import { Head, router } from "@inertiajs/vue3";
 import { reactive, toRefs, defineAsyncComponent, Suspense } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
 
@@ -225,16 +226,11 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                 "
                 @addComment="addComment($event, updatePost)"
                 @updateLike="updateLike($event, userLikes, updatePost)"
+                @editSelected="updatePost($event)"
             ></ShowPostOverlay>
         </template>
         <template #fallback>
-            <div
-                class="fixed flex justify-center items-center z-50 w-full h-screen bg-black bg-opacity-60 top-0 left-0"
-            >
-                <div
-                    class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-l-4 border-yellow-300 z-50"
-                ></div>
-            </div>
+            <LoadingOverlay></LoadingOverlay>
         </template>
     </Suspense>
 </template>
