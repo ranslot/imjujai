@@ -3,7 +3,7 @@ import { ref, toRefs } from "vue";
 import { usePage, useForm, router } from "@inertiajs/vue3";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
-const props = defineProps({ post: Object, userLikes: Object });
+const props = defineProps({ post: Object });
 const { post } = toRefs(props);
 const user = usePage().props.auth.user;
 
@@ -26,6 +26,7 @@ async function EditPost() {
 
     router.put(`/posts/${post.value.id}`, editForm, {
         onError: (errors) => {
+            editUserProgress.value = false;
             errors && errors.text ? (error.value.text = errors.text) : "";
         },
         onSuccess: () => {

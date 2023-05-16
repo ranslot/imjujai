@@ -1,6 +1,6 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
-import { reactive, toRefs, defineAsyncComponent, Suspense } from "vue";
+import { Head, router, useForm } from "@inertiajs/vue3";
+import { reactive, ref, toRefs, defineAsyncComponent, Suspense } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
@@ -11,8 +11,13 @@ const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
 );
 
+const EditUserOverlay = defineAsyncComponent(() =>
+    import("@/Components/EditUserOverlay.vue")
+);
+
 let data = reactive({ post: null });
-const form = reactive({ file: null });
+
+let showEditUser = ref(false);
 
 const props = defineProps({
     postByUser: Object,
@@ -25,14 +30,6 @@ function updatePost(Object) {
     data.post = postByUser.value.data.find(
         (post) => post.id === Object.post.id
     );
-}
-
-function getUploadUserImage(e) {
-    form.file = e.target.files[0];
-
-    router.post("/user", form, {
-        preserveState: false,
-    });
 }
 
 //icon
@@ -52,31 +49,28 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
         </template>
         <section class="w-full lg:ml-0 md:mx-auto px-4 pt-3 lg:pt-7">
             <article class="flex items-center lg:justify-between md:pb-5 pl-7">
-                <label for="fileUser">
-                    <img
-                        :src="user.file"
-                        :alt="user.name"
-                        width="200"
-                        height="200"
-                        class="rounded-full hover:opacity-30 object-contain md:w-[200px] w-[100px] cursor-pointer"
-                        loading="lazy"
-                    />
-                </label>
-                <input
-                    v-if="user.id === $page.props.auth.user.id"
-                    id="fileUser"
-                    type="file"
-                    class="hidden"
-                    @input="getUploadUserImage"
+                <img
+                    :src="user.file"
+                    :alt="user.name"
+                    width="200"
+                    height="200"
+                    class="rounded-full object-contain md:w-[200px] w-[100px]"
+                    loading="lazy"
                 />
                 <div class="ml-6 w-full">
-                    <div class="flex items-center md:mb-8 mb-5">
+                    <div class="flex items-center md:mb-8 mb-5 gap-3">
                         <p class="md:mr-6 mr-3 rounded-lg text-[22px]">
                             {{ user.name }}
                         </p>
                         <button
+                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                        >
+                            Follow
+                        </button>
+                        <button
                             class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
+                            @click="showEditUser = true"
                         >
                             Edit Profile
                             <Cog :size="28"></Cog>
@@ -89,6 +83,7 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         Edit Profile
                         <Cog :size="28"></Cog>
                     </button>
+                    <div>{{ user.description }}</div>
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <p class="mr-6">
@@ -233,6 +228,11 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
             <LoadingOverlay></LoadingOverlay>
         </template>
     </Suspense>
+    <EditUserOverlay
+        v-if="showEditUser"
+        :user="user"
+        @closeEditPost="showEditUser = false"
+    ></EditUserOverlay>
 </template>
 
 <style>

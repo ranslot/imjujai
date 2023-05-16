@@ -29,14 +29,14 @@ class FileServices
             $file = $image->make($request->file('file'))->resize(400, 400);
         } else {
             $file = $image->make($request->file('file'));
+            $file->crop(
+                $request->width,
+                $request->height,
+                $request->left,
+                $request->top
+            )->resize(720, 720);
         }
 
-        $file->crop(
-            $request->width,
-            $request->height,
-            $request->left,
-            $request->top
-        )->resize(720, 720);
 
         // Get the file extension of the uploaded file
         $ext = $request->file('file');

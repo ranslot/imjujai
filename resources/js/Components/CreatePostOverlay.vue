@@ -67,6 +67,7 @@ async function CreatePost() {
         preserveScroll: true,
         // If there are any errors returned from the server, display them in the error object
         onError: (errors) => {
+            editUserProgress.value = false;
             errors && errors.text ? (error.value.text = errors.text) : "";
             errors && errors.file ? (error.value.file = errors.file) : "";
 
@@ -90,20 +91,17 @@ async function CreatePost() {
 }
 
 function CancleImage() {
-    form.reset();
+    form.file = null;
+    form.height = 0;
+    form.width = 0;
+    form.left = 0;
+    form.top = 0;
     fileDisplay.value = "";
 }
 
 function closeOverlay() {
     // Reset the form data and clear the file display URL
-    form.text = null;
-    form.tags = null;
-    form.file = null;
-    form.eatOrCook = 0;
-    form.height = 0;
-    form.width = 0;
-    form.left = 0;
-    form.top = 0;
+    form.reset();
     fileDisplay.value = "";
 
     // Emit a "close" event to notify the parent component that the overlay should be closed
