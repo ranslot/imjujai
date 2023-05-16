@@ -9,6 +9,12 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'tags',
+        'eat_or_cook',
+    ];
+
     public function scopeFilter($query, array $filters)
     {
         if ($filters['tag'] ?? false) {

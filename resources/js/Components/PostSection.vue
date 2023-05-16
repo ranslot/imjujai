@@ -9,12 +9,7 @@ defineEmits(["openPost", "updateLike"]);
 const props = defineProps({ post: Object, userLikes: Object });
 const { post, userLikes } = toRefs(props);
 
-let tagArray = ref(null);
 let searchPost = ref(false);
-
-if (post.value.tags) {
-    tagArray.value = post.value.tags.split(",");
-}
 
 if (searchPost.value) {
     setTimeout(() => {
@@ -87,14 +82,18 @@ if (searchPost.value) {
                     class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 1"
                 >
-                    I ooked
+                    I Cooked
                 </div>
                 <p>
                     {{ post.text }}
                 </p>
             </div>
             <div class="flex flex-row text-sm">
-                <div v-if="post.tags" v-for="tag in tagArray" class="pr-2">
+                <div
+                    v-if="post.tags"
+                    v-for="tag in post.tags.split(',')"
+                    class="pr-2"
+                >
                     <Link
                         class="text-blue-500 hover:text-blue-400"
                         href="/"

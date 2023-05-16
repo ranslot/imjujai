@@ -294,7 +294,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             <label
                                 for="ate"
                                 class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I ate</label
+                                >I Ate</label
                             >
                         </li>
                         <li class="">
@@ -308,7 +308,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             <label
                                 for="cooked"
                                 class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I cooked</label
+                                >I Cooked</label
                             >
                         </li>
                     </ul>

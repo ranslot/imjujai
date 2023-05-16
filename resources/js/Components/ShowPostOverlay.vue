@@ -51,12 +51,7 @@ function deleteTargetHandle(type, targetId) {
     id.value = targetId;
 }
 
-let tagArray = ref(null);
 let searchPost = ref(false);
-
-if (post.value.tags) {
-    tagArray.value = post.value.tags.split(",");
-}
 
 if (searchPost.value) {
     setTimeout(() => {
@@ -177,7 +172,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                     <div class="flex flex-row text-sm">
                                         <div
                                             v-if="post.tags"
-                                            v-for="tag in tagArray"
+                                            v-for="tag in post.tags.split(',')"
                                             class="px-2"
                                         >
                                             <Link
@@ -210,7 +205,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             :post="post"
                             :userLikes="userLikes"
                             @clickComment="textarea.select()"
-                            @like="$emit('updateLike', $event)"
+                            @like="emit('updateLike', $event)"
                         ></LikeSection>
 
                         <!-- Add Comment-->
@@ -233,7 +228,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 v-if="comment"
                                 class="text-blue-400 font-extrabold pr-4"
                                 @click="
-                                    $emit('addComment', {
+                                    emit('addComment', {
                                         post,
                                         user,
                                         comment,
@@ -258,9 +253,13 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             deleteType = null;
             id = null;
         "
-        @editShow="showEditOverlay = true"
+        @editShow="
+            showEditOverlay = true;
+            deleteType = null;
+            id = null;
+        "
         @deleteSelected="
-            $emit('deleteSelected', {
+            emit('deleteSelected', {
                 deleteType: deleteType,
                 id: id,
                 post: post,
@@ -271,7 +270,12 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
     ></SettingPostOverlay>
     <EditPostOverlay
         v-if="showEditOverlay"
-        @editSelected="$emit('editSelected')"
+        @editSelected="
+            emit('editSelected', {
+                post: post,
+            })
+        "
+        @closeEditPost="showEditOverlay = null"
         :post="post"
     ></EditPostOverlay>
 </template>

@@ -67,7 +67,16 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // $post = Post::find($id);
+        $request->validate([
+            'text' => 'required',
+        ]);
+
+        $post->text = $request->input('text');
+        $post->eat_or_cook = $request->input('eatOrCook');
+        $post->tags = $request->input('tags');
+
+        $post->update();
     }
 
     /**

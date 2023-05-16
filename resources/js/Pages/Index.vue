@@ -1,5 +1,5 @@
 <script setup>
-import { Head, router, usePage } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { ref, toRefs, defineAsyncComponent, Suspense } from "vue";
 
 import {
@@ -75,7 +75,7 @@ if (page.includes("search")) {
                 "
                 @addComment="addComment($event, updatePost)"
                 @updateLike="updateLike($event, userLikes, updatePost)"
-                @editSelected="editPost($event, updatePost)"
+                @editSelected="($event) => updatePost($event)"
             ></ShowPostOverlay>
         </template>
         <template #fallback> <LoadingOverlay></LoadingOverlay> </template>
