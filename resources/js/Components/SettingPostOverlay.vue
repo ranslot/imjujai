@@ -1,5 +1,5 @@
 <script setup>
-import { toRefs, onMounted, onUnmounted } from "vue";
+import { toRefs } from "vue";
 
 const emit = defineEmits(["closeSettingPost", "deleteSelected"]);
 
@@ -22,6 +22,13 @@ const { deleteType, id } = toRefs(props);
                 @click="emit('deleteSelected', { deleteType, id })"
             >
                 Delete {{ deleteType }}
+            </button>
+            <button
+                v-if="deleteType === 'Post'"
+                class="font-extrabold w-full p-3 text-lg border-b border-gray-300 cursor-pointer"
+                @click="emit('editSelected', { id })"
+            >
+                Edit Post
             </button>
             <button
                 class="p-3 text-lg cursor-pointer w-full"

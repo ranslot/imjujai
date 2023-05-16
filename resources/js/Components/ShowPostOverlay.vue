@@ -8,6 +8,9 @@ import CommentsSection from "@/Components/CommentsSection.vue";
 const SettingPostOverlay = defineAsyncComponent(() =>
     import("@/Components/SettingPostOverlay.vue")
 );
+const EditPostOverlay = defineAsyncComponent(() =>
+    import("@/Components/EditPostOverlay.vue")
+);
 
 const user = usePage().props.auth.user;
 
@@ -263,4 +266,5 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             id = null;
         "
     ></SettingPostOverlay>
+    <EditPostOverlay v-if="editPost" :post="post" :id="id"></EditPostOverlay>
 </template>
