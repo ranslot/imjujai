@@ -17,6 +17,7 @@ const user = usePage().props.auth.user;
 let textarea = ref(null);
 let comment = ref("");
 let deleteType = ref(null);
+let showEditOverlay = ref(false);
 let id = ref(null);
 
 const props = defineProps({ post: Object, userLikes: Object });
@@ -27,6 +28,7 @@ const emit = defineEmits([
     "addComment",
     "updateLike",
     "deleteSelected",
+    "editSelected",
 ]);
 
 const closeOnEscape = (e) => {
@@ -256,6 +258,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             deleteType = null;
             id = null;
         "
+        @editShow="showEditOverlay = true"
         @deleteSelected="
             $emit('deleteSelected', {
                 deleteType: deleteType,
@@ -266,5 +269,9 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
             id = null;
         "
     ></SettingPostOverlay>
-    <EditPostOverlay v-if="editPost" :post="post" :id="id"></EditPostOverlay>
+    <EditPostOverlay
+        v-if="showEditOverlay"
+        @editSelected="$emit('editSelected')"
+        :post="post"
+    ></EditPostOverlay>
 </template>

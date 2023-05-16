@@ -55,3 +55,7 @@ export function deleteSelected(deleteTarget, updatePost) {
         });
     }
 }
+
+export function editPost(post, updatePost) {
+
+}

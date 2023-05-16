@@ -2,7 +2,12 @@
 import { Head, router, usePage } from "@inertiajs/vue3";
 import { ref, toRefs, defineAsyncComponent, Suspense } from "vue";
 
-import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
+import {
+    updateLike,
+    addComment,
+    deleteSelected,
+    editPost,
+} from "@/Helper/PostHelper.js";
 
 import MainLayout from "@/Layouts/MainLayout.vue";
 import PostSection from "@/Components/PostSection.vue";
@@ -70,6 +75,7 @@ if (page.includes("search")) {
                 "
                 @addComment="addComment($event, updatePost)"
                 @updateLike="updateLike($event, userLikes, updatePost)"
+                @editSelected="editPost($event, updatePost)"
             ></ShowPostOverlay>
         </template>
         <template #fallback> <LoadingOverlay></LoadingOverlay> </template>
