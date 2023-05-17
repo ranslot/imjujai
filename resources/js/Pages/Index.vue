@@ -88,7 +88,7 @@ function postByFollowUsers() {
                 "
                 @click="allPost = true"
             >
-                All Post
+                All Photo
             </h2>
             <h2
                 class="px-10 py-3 text-lg text-center font-extrabold truncate rounded-r-lg"
@@ -127,7 +127,7 @@ function postByFollowUsers() {
             v-else="postByFollows.length === 0"
             class="text-lg font-extrabold py-5 max-w-[570px] w-full"
         >
-            Users you followed didn't have any post 😭😭
+            Users you followed didn't have any photo 😭😭
         </div>
     </MainLayout>
     <Suspense v-if="openOverlay">

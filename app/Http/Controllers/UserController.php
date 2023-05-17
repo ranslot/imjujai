@@ -54,13 +54,20 @@ class UserController extends Controller
         $userAuthFollow = Follow::where('user_id', \auth()->user()->id)->get();
         $userFollowing = Follow::where('user_id', $user->id)->get();
         $userFollowers = Follow::where('followed_user_id', $user->id)->get();
+        $userFollowingList = User::whereIn('id', $userFollowing->pluck('followed_user_id'))
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $userFollowersList = User::whereIn('id', $userFollowers->pluck('user_id'))
+            ->orderBy('created_at', 'desc')
+            ->get();
         return Inertia::render('User', [
             'user' => $user,
             'postByUser' => new AllPostsData($posts),
             'userLikes' => $userLikes,
             'postsLikes' => new AllPostsData($postsLikes),
             'userAuthFollow' => $userAuthFollow,
-            'userFollow' => ['userFollowing' => $userFollowing, 'userFollowers' => $userFollowers]
+            'userFollow' => ['userFollowing' => $userFollowing, 'userFollowers' => $userFollowers],
+            'userFollowList' => ['userFollowingList' => $userFollowingList, 'userFollowersList' => $userFollowersList]
         ]);
     }
 

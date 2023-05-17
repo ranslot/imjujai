@@ -23,9 +23,9 @@ const EditUserOverlay = defineAsyncComponent(() =>
     import("@/Components/EditUserOverlay.vue")
 );
 
-let data = reactive({ post: null });
-
-let showEditUser = ref(false);
+const UserFollowList = defineAsyncComponent(() =>
+    import("@/Components/UserFollowList.vue")
+);
 
 const props = defineProps({
     postByUser: Object,
@@ -34,9 +34,19 @@ const props = defineProps({
     postsLikes: Object,
     userAuthFollow: Object,
     userFollow: Object,
+    userFollowList: Object,
 });
-const { postByUser, user, userLikes, userFollow, userAuthFollow, postsLikes } =
-    toRefs(props);
+const {
+    postByUser,
+    user,
+    userLikes,
+    userFollow,
+    userAuthFollow,
+    postsLikes,
+    userFollowList,
+} = toRefs(props);
+
+let data = reactive({ post: null });
 
 function updatePost(Object) {
     data.post = postByUser.value.data.find(
@@ -53,7 +63,22 @@ const isFollowed = computed(() => {
     return false;
 });
 
+let showEditUser = ref(false);
 let showPostByUser = ref(true);
+
+let showFollowList = ref(false);
+let ListType = ref("");
+let userList = ref(null);
+
+function makeFollowList(type) {
+    if (type == "Following") {
+        ListType.value = "Following";
+        userList.value = userFollowList.value.userFollowingList;
+    } else {
+        ListType.value = "Followers";
+        userList.value = userFollowList.value.userFollowersList;
+    }
+}
 
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
@@ -119,13 +144,25 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                                 </span>
                                 posts
                             </p>
-                            <p class="mr-6">
+                            <p
+                                class="mr-6 hover:underline cursor-pointer"
+                                @click="
+                                    makeFollowList('Following');
+                                    showFollowList = true;
+                                "
+                            >
                                 <span class="font-extrabold">
                                     {{ userFollow.userFollowing.length }}
                                 </span>
                                 following
                             </p>
-                            <p class="mr-6">
+                            <p
+                                class="mr-6 hover:underline cursor-pointer"
+                                @click="
+                                    makeFollowList('Followers');
+                                    showFollowList = true;
+                                "
+                            >
                                 <span class="font-extrabold">
                                     {{ userFollow.userFollowers.length }}
                                 </span>
@@ -146,16 +183,36 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         </p>
                         <p class="text-gray-400 font-semibold -mt-1.5">posts</p>
                     </div>
-                    <div class="text-center w-1/3 p-3">
-                        <p class="font-extrabold">123</p>
-                        <p class="text-gray-400 font-semibold -mt-1.5">
-                            followers
+                    <div
+                        class="text-center w-1/3 p-3 hover:text-black"
+                        @click="
+                            makeFollowList('Following');
+                            showFollowList = true;
+                        "
+                    >
+                        <p class="font-extrabold">
+                            {{ userFollow.userFollowing.length }}
+                        </p>
+                        <p
+                            class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
+                        >
+                            following
                         </p>
                     </div>
-                    <div class="text-center w-1/3 p-3">
-                        <p class="font-extrabold">456</p>
-                        <p class="text-gray-400 font-semibold -mt-1.5">
-                            following
+                    <div
+                        class="text-center w-1/3 p-3 hover:text-black"
+                        @click="
+                            makeFollowList('Followers');
+                            showFollowList = true;
+                        "
+                    >
+                        <p class="font-extrabold">
+                            {{ userFollow.userFollowers.length }}
+                        </p>
+                        <p
+                            class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
+                        >
+                            followers
                         </p>
                     </div>
                 </div>
@@ -173,7 +230,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         @click="showPostByUser = true"
                     >
                         <Grid
-                            :size="28"
+                            :size="30"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
@@ -188,10 +245,18 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         @click="showPostByUser = false"
                     >
                         <FoodAppleOutline
+                            v-if="showPostByUser"
                             :size="30"
-                            fillColor="#8E8E8E"
+                            fillColor="#000000"
                             class="cursor-pointer"
                         ></FoodAppleOutline>
+
+                        <FoodApple
+                            v-if="!showPostByUser"
+                            :size="30"
+                            fillColor="#000000"
+                            class="cursor-pointer"
+                        ></FoodApple>
                     </div>
                 </div>
             </article>
@@ -214,7 +279,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         @click="showPostByUser = true"
                     >
                         <Grid
-                            :size="18"
+                            :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
@@ -230,10 +295,17 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         @click="showPostByUser = false"
                     >
                         <FoodAppleOutline
+                            v-if="showPostByUser"
                             :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></FoodAppleOutline>
+                        <FoodApple
+                            v-if="!showPostByUser"
+                            :size="20"
+                            fillColor="#000000"
+                            class="cursor-pointer"
+                        ></FoodApple>
                         <p class="ml-2 -mb-[1px]">LIKES</p>
                     </div>
                 </div>
@@ -282,6 +354,13 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
         :user="user"
         @closeEditPost="showEditUser = false"
     ></EditUserOverlay>
+    <UserFollowList
+        v-if="showFollowList"
+        :ListType="ListType"
+        :userList="userList"
+        @closeFollowList="showFollowList = false"
+    >
+    </UserFollowList>
 </template>
 
 <style>
