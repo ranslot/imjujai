@@ -31,10 +31,11 @@ const props = defineProps({
     postByUser: Object,
     user: Object,
     userLikes: Object,
+    postsLikes: Object,
     userAuthFollow: Object,
     userFollow: Object,
 });
-const { postByUser, user, userLikes, userFollow, userAuthFollow } =
+const { postByUser, user, userLikes, userFollow, userAuthFollow, postsLikes } =
     toRefs(props);
 
 function updatePost(Object) {
@@ -52,11 +53,13 @@ const isFollowed = computed(() => {
     return false;
 });
 
+let showPostByUser = ref(true);
+
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
 import Cog from "vue-material-design-icons/Cog.vue";
-import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
-import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
+import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
+import FoodApple from "vue-material-design-icons/FoodApple.vue";
 </script>
 
 <template>
@@ -161,7 +164,13 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                     class="flex items-center justify-between w-full border-t border-gray-300"
                 >
                     <div
-                        class="flex justify-center w-1/3 p-3 border-t border-gray-900"
+                        class="flex justify-center w-1/2 p-3"
+                        :class="
+                            showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = true"
                     >
                         <Grid
                             :size="28"
@@ -169,30 +178,40 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                             class="cursor-pointer"
                         ></Grid>
                     </div>
-                    <div class="flex justify-center w-1/3 p-3">
-                        <BookmarkOutline
-                            :size="28"
+                    <div
+                        class="flex justify-center w-1/2 p-3"
+                        :class="
+                            !showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = false"
+                    >
+                        <FoodAppleOutline
+                            :size="30"
                             fillColor="#8E8E8E"
                             class="cursor-pointer"
-                        ></BookmarkOutline>
-                    </div>
-                    <div class="flex justify-center w-1/3 p-3">
-                        <AccountBoxOutline
-                            :size="28"
-                            fillColor="#8E8E8E"
-                            class="cursor-pointer"
-                        ></AccountBoxOutline>
+                        ></FoodAppleOutline>
                     </div>
                 </div>
             </article>
         </section>
-        <section id="ContentSection" class="md:pr-1.5 lg:pl-0 px-auto w-full">
+        <section
+            id="ContentSection"
+            class="md:pr-1.5 lg:pl-0 px-auto w-[max(600px,vw)]"
+        >
             <article class="md:block mt-10 hidden border-t border-gray-300">
                 <div
                     class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-600"
                 >
                     <div
-                        class="flex items-center justify-center w-1/3 p-[17px] border-t border-gray-900"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        :class="
+                            showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = true"
                     >
                         <Grid
                             :size="18"
@@ -202,31 +221,33 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         <p class="ml-2 -mb-[1px] text-gray-800">POSTS</p>
                     </div>
                     <div
-                        class="flex items-center justify-center w-1/3 p-[17px]"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        :class="
+                            !showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = false"
                     >
-                        <BookmarkOutline
-                            :size="18"
+                        <FoodAppleOutline
+                            :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
-                        ></BookmarkOutline>
-                        <p class="ml-2 -mb-[1px] text-gray-800">SAVED</p>
-                    </div>
-                    <div
-                        class="flex items-center justify-center w-1/3 p-[17px]"
-                    >
-                        <AccountBoxOutline
-                            :size="18"
-                            fillColor="#000000"
-                            class="cursor-pointer"
-                        ></AccountBoxOutline>
-                        <p class="ml-2 -mb-[1px] text-gray-800">TAGGED</p>
+                        ></FoodAppleOutline>
+                        <p class="ml-2 -mb-[1px]">LIKES</p>
                     </div>
                 </div>
             </article>
             <div
                 class="grid md:gap-4 gap-1 md:grid-cols-3 grid-cols-2 relative px-3"
             >
-                <div v-for="post in postByUser.data">
+                <div v-if="showPostByUser" v-for="post in postByUser.data">
+                    <ContentOverlay
+                        :post="post"
+                        @selectPost="($event) => (data.post = $event)"
+                    ></ContentOverlay>
+                </div>
+                <div v-if="!showPostByUser" v-for="post in postsLikes.data">
                     <ContentOverlay
                         :post="post"
                         @selectPost="($event) => (data.post = $event)"

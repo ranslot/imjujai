@@ -22,7 +22,6 @@ const isLiked = computed(() => {
 import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
 import FoodApple from "vue-material-design-icons/FoodApple.vue";
 import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
-import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
 </script>
 
 <template>

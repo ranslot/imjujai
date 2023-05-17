@@ -14,14 +14,13 @@ const emit = defineEmits(["closeSettingMenu"]);
             class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl"
             @click.stop
         >
-            <button
+            <Link
+                :href="route('logout')"
+                as="button"
+                method="post"
                 class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 cursor-pointer"
-                @click=""
-            >
-                <Link :href="route('logout')" as="button" method="post"
-                    >Log out
-                </Link>
-            </button>
+                >Log out
+            </Link>
             <button
                 class="p-3 text-lg cursor-pointer w-full"
                 @click="emit('closeSettingMenu')"

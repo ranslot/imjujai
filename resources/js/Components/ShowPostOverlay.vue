@@ -121,7 +121,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
 
                     <!-- Description + Comments -->
                     <div
-                        class="relative lg:w-[500px] max-w-[600px] md:h-[600px] h-full bg-white"
+                        class="relative lg:w-[500px] max-w-[600px] h-[600px] bg-white flex flex-col justify-between"
                     >
                         <div
                             class="flex items-center justify-between p-3 border-b"
@@ -163,7 +163,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             @like="emit('updateLike', $event)"
                         ></LikeSection>
                         <div
-                            class="overflow-y-auto md:max-h-[calc(100%-170px)] max-h-[400px] min-h-[200px]"
+                            class="overflow-y-auto md:max-h-[calc(100%-170px)] max-h-[400px] min-h-[200px] flex-grow"
                         >
                             <div class="flex items-center justify-between p-3">
                                 <div
@@ -225,7 +225,6 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                 ></CommentsSection>
                             </div>
                         </div>
-                        <div></div>
 
                         <LikeSection
                             class="px-5 border-t pb-3 hidden md:flex"

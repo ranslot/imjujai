@@ -110,8 +110,9 @@ function postByFollowUsers() {
                 :post="post"
             ></PostSection>
         </div>
+
         <div
-            v-else
+            v-else-if="postByFollows.length > 0"
             v-for="postByFollow in postByFollows"
             :key="postByFollow.id"
         >
@@ -121,6 +122,12 @@ function postByFollowUsers() {
                 :userLikes="userLikes"
                 :post="postByFollow"
             ></PostSection>
+        </div>
+        <div
+            v-else="postByFollows.length === 0"
+            class="text-lg font-extrabold py-5 max-w-[570px] w-full"
+        >
+            Users you followed didn't have any post 😭😭
         </div>
     </MainLayout>
     <Suspense v-if="openOverlay">

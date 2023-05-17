@@ -40,22 +40,25 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        $user = User::find($id);
         if ($user === null) {
             return \redirect(\route('home.index'));
         }
 
-        $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         $userLikes = Like::where('user_id', \auth()->user()->id)->get();
+        $postsLikes = Post::whereIn('id', $userLikes->pluck('post_id'))
+            ->orderBy('created_at', 'desc')
+            ->get();
         $userAuthFollow = Follow::where('user_id', \auth()->user()->id)->get();
-        $userFollowing = Follow::where('user_id', $id)->get();
-        $userFollowers = Follow::where('followed_user_id', $id)->get();
+        $userFollowing = Follow::where('user_id', $user->id)->get();
+        $userFollowers = Follow::where('followed_user_id', $user->id)->get();
         return Inertia::render('User', [
             'user' => $user,
             'postByUser' => new AllPostsData($posts),
             'userLikes' => $userLikes,
+            'postsLikes' => new AllPostsData($postsLikes),
             'userAuthFollow' => $userAuthFollow,
             'userFollow' => ['userFollowing' => $userFollowing, 'userFollowers' => $userFollowers]
         ]);
