@@ -10,10 +10,14 @@ const user = usePage().props.auth.user;
 const CreatePostOverlay = defineAsyncComponent(() =>
     import("@/Components/CreatePostOverlay.vue")
 );
+const SettingMenuOverlay = defineAsyncComponent(() =>
+    import("@/Components/SettingMenuOverlay.vue")
+);
 
 let showSideBar = ref(false);
 let showCreatePost = ref(false);
 let searchPostProgress = ref(false);
+let showSettingMenu = ref(false);
 
 let form = useForm({
     search: "",
@@ -96,7 +100,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                 class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-400 z-10 transform-gpu transition-all"
                 :class="showSideBar ? 'translate-x' : '-translate-x-full'"
             >
-                <div class="px-5 pt-[65px]">
+                <div class="px-5 pt-[80px]">
                     <Link href="/">
                         <MenuItem iconString="Home" class="mb-3"></MenuItem>
                     </Link>
@@ -110,20 +114,22 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         <MenuItem iconString="Profile" class="mb-3"></MenuItem>
                     </Link>
                 </div>
-                <Link
-                    :href="route('logout')"
-                    as="button"
-                    method="post"
+
+                <div
                     class="absolute bottom-0 px-5 w-full"
+                    @click="showSettingMenu = true"
                 >
-                    <MenuItem iconString="Setting" class="mb-3"></MenuItem>
-                </Link>
+                    <MenuItem
+                        iconString="Setting"
+                        class="mb-3 cursor-pointer"
+                    ></MenuItem>
+                </div>
             </nav>
         </header>
         <main
             class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
-            <div class="mx-auto lg:pt-7 pt-3">
+            <div class="mx-auto">
                 <slot></slot>
             </div>
         </main>
@@ -133,5 +139,9 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
             @close="showCreatePost = false"
         ></CreatePostOverlay>
     </div>
+    <SettingMenuOverlay
+        v-if="showSettingMenu"
+        @closeSettingMenu="showSettingMenu = false"
+    ></SettingMenuOverlay>
     <LoadingOverlay v-if="searchPostProgress"> </LoadingOverlay>
 </template>

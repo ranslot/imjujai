@@ -1,11 +1,19 @@
 <script setup>
-import { Head, router, useForm } from "@inertiajs/vue3";
-import { reactive, ref, toRefs, defineAsyncComponent, Suspense } from "vue";
+import { Head } from "@inertiajs/vue3";
+import {
+    reactive,
+    ref,
+    toRefs,
+    defineAsyncComponent,
+    Suspense,
+    computed,
+} from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
+import { updateFollow } from "@/Helper/UserHelper.js";
 
 const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
@@ -15,16 +23,30 @@ const EditUserOverlay = defineAsyncComponent(() =>
     import("@/Components/EditUserOverlay.vue")
 );
 
-let data = reactive({ post: null });
-
-let showEditUser = ref(false);
+const UserFollowList = defineAsyncComponent(() =>
+    import("@/Components/UserFollowList.vue")
+);
 
 const props = defineProps({
     postByUser: Object,
     user: Object,
     userLikes: Object,
+    postsLikes: Object,
+    userAuthFollow: Object,
+    userFollow: Object,
+    userFollowList: Object,
 });
-const { postByUser, user, userLikes } = toRefs(props);
+const {
+    postByUser,
+    user,
+    userLikes,
+    userFollow,
+    userAuthFollow,
+    postsLikes,
+    userFollowList,
+} = toRefs(props);
+
+let data = reactive({ post: null });
 
 function updatePost(Object) {
     data.post = postByUser.value.data.find(
@@ -32,11 +54,37 @@ function updatePost(Object) {
     );
 }
 
+const isFollowed = computed(() => {
+    for (let i = 0; i < userAuthFollow.value.length; i++) {
+        if (user.value.id === userAuthFollow.value[i].followed_user_id) {
+            return true;
+        }
+    }
+    return false;
+});
+
+let showEditUser = ref(false);
+let showPostByUser = ref(true);
+
+let showFollowList = ref(false);
+let ListType = ref("");
+let userList = ref(null);
+
+function makeFollowList(type) {
+    if (type == "Following") {
+        ListType.value = "Following";
+        userList.value = userFollowList.value.userFollowingList;
+    } else {
+        ListType.value = "Followers";
+        userList.value = userFollowList.value.userFollowersList;
+    }
+}
+
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
 import Cog from "vue-material-design-icons/Cog.vue";
-import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
-import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
+import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
+import FoodApple from "vue-material-design-icons/FoodApple.vue";
 </script>
 
 <template>
@@ -62,11 +110,7 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         <p class="md:mr-6 mr-3 rounded-lg text-[22px]">
                             {{ user.name }}
                         </p>
-                        <button
-                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
-                        >
-                            Follow
-                        </button>
+
                         <button
                             class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
@@ -74,6 +118,14 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         >
                             Edit Profile
                             <Cog :size="28"></Cog>
+                        </button>
+                        <button
+                            v-else
+                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            @click="updateFollow(user.id, isFollowed)"
+                        >
+                            <div v-if="isFollowed">Unfollow</div>
+                            <div v-else>Follow</div>
                         </button>
                     </div>
                     <button
@@ -92,13 +144,29 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                                 </span>
                                 posts
                             </p>
-                            <p class="mr-6">
-                                <span class="font-extrabold"> 123 </span>
-                                followers
-                            </p>
-                            <p class="mr-6">
-                                <span class="font-extrabold"> 456 </span>
+                            <p
+                                class="mr-6 hover:underline cursor-pointer"
+                                @click="
+                                    makeFollowList('Following');
+                                    showFollowList = true;
+                                "
+                            >
+                                <span class="font-extrabold">
+                                    {{ userFollow.userFollowing.length }}
+                                </span>
                                 following
+                            </p>
+                            <p
+                                class="mr-6 hover:underline cursor-pointer"
+                                @click="
+                                    makeFollowList('Followers');
+                                    showFollowList = true;
+                                "
+                            >
+                                <span class="font-extrabold">
+                                    {{ userFollow.userFollowers.length }}
+                                </span>
+                                followers
                             </p>
                         </div>
                     </div>
@@ -115,16 +183,36 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         </p>
                         <p class="text-gray-400 font-semibold -mt-1.5">posts</p>
                     </div>
-                    <div class="text-center w-1/3 p-3">
-                        <p class="font-extrabold">123</p>
-                        <p class="text-gray-400 font-semibold -mt-1.5">
-                            followers
+                    <div
+                        class="text-center w-1/3 p-3 hover:text-black"
+                        @click="
+                            makeFollowList('Following');
+                            showFollowList = true;
+                        "
+                    >
+                        <p class="font-extrabold">
+                            {{ userFollow.userFollowing.length }}
+                        </p>
+                        <p
+                            class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
+                        >
+                            following
                         </p>
                     </div>
-                    <div class="text-center w-1/3 p-3">
-                        <p class="font-extrabold">456</p>
-                        <p class="text-gray-400 font-semibold -mt-1.5">
-                            following
+                    <div
+                        class="text-center w-1/3 p-3 hover:text-black"
+                        @click="
+                            makeFollowList('Followers');
+                            showFollowList = true;
+                        "
+                    >
+                        <p class="font-extrabold">
+                            {{ userFollow.userFollowers.length }}
+                        </p>
+                        <p
+                            class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
+                        >
+                            followers
                         </p>
                     </div>
                 </div>
@@ -133,72 +221,105 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                     class="flex items-center justify-between w-full border-t border-gray-300"
                 >
                     <div
-                        class="flex justify-center w-1/3 p-3 border-t border-gray-900"
+                        class="flex justify-center w-1/2 p-3"
+                        :class="
+                            showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = true"
                     >
                         <Grid
-                            :size="28"
+                            :size="30"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
                     </div>
-                    <div class="flex justify-center w-1/3 p-3">
-                        <BookmarkOutline
-                            :size="28"
-                            fillColor="#8E8E8E"
+                    <div
+                        class="flex justify-center w-1/2 p-3"
+                        :class="
+                            !showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = false"
+                    >
+                        <FoodAppleOutline
+                            v-if="showPostByUser"
+                            :size="30"
+                            fillColor="#000000"
                             class="cursor-pointer"
-                        ></BookmarkOutline>
-                    </div>
-                    <div class="flex justify-center w-1/3 p-3">
-                        <AccountBoxOutline
-                            :size="28"
-                            fillColor="#8E8E8E"
+                        ></FoodAppleOutline>
+
+                        <FoodApple
+                            v-if="!showPostByUser"
+                            :size="30"
+                            fillColor="#000000"
                             class="cursor-pointer"
-                        ></AccountBoxOutline>
+                        ></FoodApple>
                     </div>
                 </div>
             </article>
         </section>
-        <section id="ContentSection" class="md:pr-1.5 lg:pl-0 px-auto w-full">
+        <section
+            id="ContentSection"
+            class="md:pr-1.5 lg:pl-0 px-auto w-[max(600px,vw)]"
+        >
             <article class="md:block mt-10 hidden border-t border-gray-300">
                 <div
                     class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-600"
                 >
                     <div
-                        class="flex items-center justify-center w-1/3 p-[17px] border-t border-gray-900"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        :class="
+                            showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = true"
                     >
                         <Grid
-                            :size="18"
+                            :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
                         <p class="ml-2 -mb-[1px] text-gray-800">POSTS</p>
                     </div>
                     <div
-                        class="flex items-center justify-center w-1/3 p-[17px]"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        :class="
+                            !showPostByUser
+                                ? 'border-t border-gray-900'
+                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                        "
+                        @click="showPostByUser = false"
                     >
-                        <BookmarkOutline
-                            :size="18"
+                        <FoodAppleOutline
+                            v-if="showPostByUser"
+                            :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
-                        ></BookmarkOutline>
-                        <p class="ml-2 -mb-[1px] text-gray-800">SAVED</p>
-                    </div>
-                    <div
-                        class="flex items-center justify-center w-1/3 p-[17px]"
-                    >
-                        <AccountBoxOutline
-                            :size="18"
+                        ></FoodAppleOutline>
+                        <FoodApple
+                            v-if="!showPostByUser"
+                            :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
-                        ></AccountBoxOutline>
-                        <p class="ml-2 -mb-[1px] text-gray-800">TAGGED</p>
+                        ></FoodApple>
+                        <p class="ml-2 -mb-[1px]">LIKES</p>
                     </div>
                 </div>
             </article>
             <div
                 class="grid md:gap-4 gap-1 md:grid-cols-3 grid-cols-2 relative px-3"
             >
-                <div v-for="post in postByUser.data">
+                <div v-if="showPostByUser" v-for="post in postByUser.data">
+                    <ContentOverlay
+                        :post="post"
+                        @selectPost="($event) => (data.post = $event)"
+                    ></ContentOverlay>
+                </div>
+                <div v-if="!showPostByUser" v-for="post in postsLikes.data">
                     <ContentOverlay
                         :post="post"
                         @selectPost="($event) => (data.post = $event)"
@@ -233,6 +354,13 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
         :user="user"
         @closeEditPost="showEditUser = false"
     ></EditUserOverlay>
+    <UserFollowList
+        v-if="showFollowList"
+        :ListType="ListType"
+        :userList="userList"
+        @closeFollowList="showFollowList = false"
+    >
+    </UserFollowList>
 </template>
 
 <style>

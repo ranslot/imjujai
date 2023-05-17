@@ -41,11 +41,6 @@ if (searchPost.value) {
                         {{ post.user.name }}
                     </h3>
                 </Link>
-                <p
-                    class="flex items-center pl-2 text-gray-400 text-xs sm:text-sm"
-                >
-                    Post on : {{ post.created_at }}
-                </p>
             </div>
         </article>
         <article
@@ -56,6 +51,8 @@ if (searchPost.value) {
                 class="mx-auto w-full h-fit object-scale-down"
                 :src="post.file"
                 :alt="post.file"
+                loading="lazy"
+                draggable="false"
             />
         </article>
         <article class="px-4">
@@ -84,7 +81,7 @@ if (searchPost.value) {
                 >
                     Cooked
                 </div>
-                <p>
+                <p class="truncate">
                     {{ post.text }}
                 </p>
             </div>
