@@ -24,7 +24,7 @@ if (iconString.value === "Create") icon = Plus;
             class="flex items-center px-5 py-2 rounded-2xl hover:bg-gray-100 cursor-pointer"
             :class="
                 iconString === 'Setting'
-                    ? 'hover:bg-gray-400 flex-1 rounded-full bg-gray-200 justify-center gap-2 '
+                    ? 'hover:bg-gray-400 flex-1 rounded-full bg-gray-200 justify-center gap-4 '
                     : ''
             "
         >
