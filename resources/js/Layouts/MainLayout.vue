@@ -110,6 +110,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         <MenuItem iconString="Profile" class="mb-3"></MenuItem>
                     </Link>
                 </div>
+
                 <Link
                     :href="route('logout')"
                     as="button"
