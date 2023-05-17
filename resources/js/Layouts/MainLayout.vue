@@ -123,7 +123,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <main
             class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
-            <div class="mx-auto lg:pt-7 pt-3">
+            <div class="mx-auto">
                 <slot></slot>
             </div>
         </main>

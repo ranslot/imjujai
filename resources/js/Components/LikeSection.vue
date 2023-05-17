@@ -46,6 +46,10 @@ import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
                 @click="$emit('clickComment')"
             ></CommentOutline>
         </div>
-        <BookmarkOutline class="pl-3 pt-[10px]" :size="30"></BookmarkOutline>
+        <p
+            class="flex items-center pl-2 text-gray-400 text-xs sm:text-sm pt-3 truncate"
+        >
+            Post on : {{ post.created_at }}
+        </p>
     </section>
 </template>

@@ -46,6 +46,16 @@ if (page.includes("search")) {
                 </h1>
             </div>
         </template>
+        <div
+            class="grid grid-flow-col grid-cols-2 items-center justify-stretch w-full"
+        >
+            <h2 class="px-10 my-3 text-lg text-center font-extrabold truncate">
+                All Post
+            </h2>
+            <h2 class="px-10 my-3 text-lg text-center font-extrabold truncate">
+                Following
+            </h2>
+        </div>
         <div v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay($event)"
