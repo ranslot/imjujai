@@ -56,6 +56,8 @@ if (searchPost.value) {
                 class="mx-auto w-full h-fit object-scale-down"
                 :src="post.file"
                 :alt="post.file"
+                loading="lazy"
+                draggable="false"
             />
         </article>
         <article class="px-4">

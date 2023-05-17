@@ -1,11 +1,19 @@
 <script setup>
-import { Head, router, useForm } from "@inertiajs/vue3";
-import { reactive, ref, toRefs, defineAsyncComponent, Suspense } from "vue";
+import { Head } from "@inertiajs/vue3";
+import {
+    reactive,
+    ref,
+    toRefs,
+    defineAsyncComponent,
+    Suspense,
+    computed,
+} from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
+import { updateFollow } from "@/Helper/UserHelper.js";
 
 const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
@@ -23,14 +31,26 @@ const props = defineProps({
     postByUser: Object,
     user: Object,
     userLikes: Object,
+    userAuthFollow: Object,
+    userFollow: Object,
 });
-const { postByUser, user, userLikes } = toRefs(props);
+const { postByUser, user, userLikes, userFollow, userAuthFollow } =
+    toRefs(props);
 
 function updatePost(Object) {
     data.post = postByUser.value.data.find(
         (post) => post.id === Object.post.id
     );
 }
+
+const isFollowed = computed(() => {
+    for (let i = 0; i < userAuthFollow.value.length; i++) {
+        if (user.value.id === userAuthFollow.value[i].followed_user_id) {
+            return true;
+        }
+    }
+    return false;
+});
 
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
@@ -62,11 +82,7 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         <p class="md:mr-6 mr-3 rounded-lg text-[22px]">
                             {{ user.name }}
                         </p>
-                        <button
-                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
-                        >
-                            Follow
-                        </button>
+
                         <button
                             class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
@@ -74,6 +90,14 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                         >
                             Edit Profile
                             <Cog :size="28"></Cog>
+                        </button>
+                        <button
+                            v-else
+                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            @click="updateFollow(user.id, isFollowed)"
+                        >
+                            <div v-if="isFollowed">Unfollow</div>
+                            <div v-else>Follow</div>
                         </button>
                     </div>
                     <button
@@ -93,12 +117,16 @@ import AccountBoxOutline from "vue-material-design-icons/AccountBoxOutline.vue";
                                 posts
                             </p>
                             <p class="mr-6">
-                                <span class="font-extrabold"> 123 </span>
-                                followers
+                                <span class="font-extrabold">
+                                    {{ userFollow.userFollowing.length }}
+                                </span>
+                                following
                             </p>
                             <p class="mr-6">
-                                <span class="font-extrabold"> 456 </span>
-                                following
+                                <span class="font-extrabold">
+                                    {{ userFollow.userFollowers.length }}
+                                </span>
+                                followers
                             </p>
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AllPostsData;
+use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
@@ -48,10 +49,15 @@ class UserController extends Controller
 
         $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->get();
         $userLikes = Like::where('user_id', \auth()->user()->id)->get();
+        $userAuthFollow = Follow::where('user_id', \auth()->user()->id)->get();
+        $userFollowing = Follow::where('user_id', $id)->get();
+        $userFollowers = Follow::where('followed_user_id', $id)->get();
         return Inertia::render('User', [
             'user' => $user,
             'postByUser' => new AllPostsData($posts),
             'userLikes' => $userLikes,
+            'userAuthFollow' => $userAuthFollow,
+            'userFollow' => ['userFollowing' => $userFollowing, 'userFollowers' => $userFollowers]
         ]);
     }
 

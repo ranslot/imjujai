@@ -97,6 +97,8 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             width="600"
                             height="600"
                             class="aspect-square"
+                            loading="lazy"
+                            draggable="false"
                         />
                     </div>
 
