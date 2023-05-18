@@ -67,7 +67,7 @@ class UserController extends Controller
             'postsLikes' => new AllPostsData($postsLikes),
             'userAuthFollow' => $userAuthFollow,
             'userFollow' => ['userFollowing' => $userFollowing, 'userFollowers' => $userFollowers],
-            'userFollowList' => ['userFollowingList' => $userFollowingList, 'userFollowersList' => $userFollowersList]
+            'userFollowList' => ['userFollowingList' => $userFollowingList, 'userFollowersList' => $userFollowersList],
         ]);
     }
 

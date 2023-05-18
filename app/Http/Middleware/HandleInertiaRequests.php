@@ -39,6 +39,9 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'notifications' => function () use ($request) {
+                return $request->user()->notifications;
+            },
         ]);
     }
 }

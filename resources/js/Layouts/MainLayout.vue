@@ -6,6 +6,7 @@ import MenuItem from "@/Components/MenuItem.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const user = usePage().props.auth.user;
+const notification = usePage().props.notifications;
 
 const CreatePostOverlay = defineAsyncComponent(() =>
     import("@/Components/CreatePostOverlay.vue")
