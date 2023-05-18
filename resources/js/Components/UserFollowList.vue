@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import { toRefs } from "vue";
+import "@/style/scaleIn.css";
 
 const props = defineProps({ userList: Object, ListType: String });
 const { userList, ListType } = toRefs(props);
@@ -18,7 +19,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
         @click="emit('closeFollowList')"
     >
         <article
-            class="bg-white rounded-xl top-5 mt-5 w-full max-w-[300px] h-full max-h-[400px]"
+            class="bg-white rounded-xl top-5 mt-5 w-full max-w-[300px] h-full max-h-[400px] transform-gpu transition scale-in"
             @click.stop
         >
             <div

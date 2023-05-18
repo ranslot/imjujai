@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import "@/style/scaleIn.css";
 
 const emit = defineEmits(["closeSettingMenu"]);
 </script>
@@ -11,7 +12,7 @@ const emit = defineEmits(["closeSettingMenu"]);
         @click="emit('closeSettingMenu')"
     >
         <div
-            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl"
+            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl transform-gpu transition scale-in"
             @click.stop
         >
             <Link

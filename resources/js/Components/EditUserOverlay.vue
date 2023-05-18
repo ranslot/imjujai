@@ -2,6 +2,7 @@
 import { ref, toRefs } from "vue";
 import { usePage, useForm, router } from "@inertiajs/vue3";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
+import "@/style/scaleIn.css";
 
 const props = defineProps({ user: Object });
 const { user } = toRefs(props);
@@ -79,7 +80,9 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                 @click="emit('closeEditPost')"
             ></Close>
         </button>
-        <article class="bg-white rounded-xl top-5 mt-5 max-w-[620px] w-[95%]">
+        <article
+            class="bg-white rounded-xl top-5 mt-5 max-w-[620px] w-[95%] transform-gpu transition scale-in"
+        >
             <div
                 class="sticky flex items-center justify-between w-full p-1 border-b border-gray-300"
             >

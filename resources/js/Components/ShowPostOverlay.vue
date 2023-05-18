@@ -9,6 +9,8 @@ import {
 } from "vue";
 import { usePage, Link } from "@inertiajs/vue3";
 
+import "@/style/scaleIn.css";
+
 import LikeSection from "@/Components/LikeSection.vue";
 import CommentsSection from "@/Components/CommentsSection.vue";
 
@@ -95,7 +97,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
         </button>
 
         <div
-            class="flex items-center justify-center flex-wrap z-40"
+            class="flex items-center justify-center flex-wrap z-40 transform-gpu transition scale-in"
             @click.stop
         >
             <article

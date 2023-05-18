@@ -1,5 +1,6 @@
 <script setup>
 import { toRefs } from "vue";
+import "@/style/scaleIn.css";
 
 const emit = defineEmits(["closeSettingPost", "deleteSelected", "editShow"]);
 
@@ -14,7 +15,7 @@ const { deleteType, id } = toRefs(props);
         @click="emit('closeSettingPost')"
     >
         <div
-            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl"
+            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl transform-gpu transition scale-in"
             @click.stop
         >
             <button

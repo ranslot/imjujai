@@ -1,6 +1,8 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { router, usePage, useForm } from "@inertiajs/vue3";
+
+import "@/style/scaleIn.css";
 
 import "vue-advanced-cropper/dist/style.css";
 import { Cropper } from "vue-advanced-cropper";
@@ -141,7 +143,9 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
             <Close :size="30" fillColor="#000000" @click="closeOverlay"></Close>
         </button>
 
-        <article class="w-full max-w-6xl h-fit bg-white rounded-xl top-5 mt-5">
+        <article
+            class="w-full max-w-6xl h-fit bg-white rounded-xl top-5 mt-5 transform-gpu transition scale-in"
+        >
             <div
                 class="sticky flex items-center justify-between w-full p-1 border-b border-gray-300"
             >
