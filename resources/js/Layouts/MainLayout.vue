@@ -1,12 +1,12 @@
 <script setup>
 import { Link, usePage, router, useForm } from "@inertiajs/vue3";
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, computed } from "vue";
 
 import MenuItem from "@/Components/MenuItem.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const user = usePage().props.auth.user;
-const notification = usePage().props.notifications;
+const notifications = computed(() => usePage().props.notifications);
 
 const CreatePostOverlay = defineAsyncComponent(() =>
     import("@/Components/CreatePostOverlay.vue")
@@ -22,6 +22,7 @@ let showSideBar = ref(false);
 let showCreatePost = ref(false);
 let searchPostProgress = ref(false);
 let showSettingMenu = ref(false);
+let showNotification = ref(false);
 
 let form = useForm({
     search: "",
@@ -40,6 +41,17 @@ function searchPost() {
         }
     );
 }
+
+const unreadNotification = computed(() => {
+    if (notifications.value.length === 0) return false;
+
+    for (let i = 0; i < notifications.value.length; i++) {
+        if (!notifications.value[i].read_at) {
+            return true;
+        }
+    }
+    return false;
+});
 
 //icon
 import Menu from "vue-material-design-icons/Menu.vue";
@@ -108,7 +120,22 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                     <Link href="/">
                         <MenuItem iconString="Home" class="mb-3"></MenuItem>
                     </Link>
-                    <MenuItem iconString="Notification" class="mb-3"></MenuItem>
+                    <div class="relative" @click="showNotification = true">
+                        <div
+                            v-if="unreadNotification"
+                            class="z-50 absolute top-3 left-[43px] rounded-full bg-red-600 w-3 h-3 aspect-square border border-red-600"
+                            :class="
+                                unreadNotification
+                                    ? 'animate-pulse transform-gpu'
+                                    : ''
+                            "
+                        ></div>
+                        <MenuItem
+                            iconString="Notification"
+                            class="mb-3"
+                        ></MenuItem>
+                    </div>
+
                     <MenuItem
                         iconString="Create"
                         class="mb-3"
@@ -147,5 +174,11 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         v-if="showSettingMenu"
         @closeSettingMenu="showSettingMenu = false"
     ></SettingMenuOverlay>
+    <NotificationOverlay
+        v-if="showNotification"
+        :notifications="notifications"
+        @closeNotification="showNotification = false"
+    >
+    </NotificationOverlay>
     <LoadingOverlay v-if="searchPostProgress"> </LoadingOverlay>
 </template>

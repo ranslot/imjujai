@@ -26,6 +26,6 @@ class FollowNotification
         $followUser =   User::where('id', $event->follow->user_id)->first();
         $notifyUser =   User::where('id', $event->follow->followed_user_id)->first();
 
-        Notification::send($notifyUser, new NewFollowerNotification($followUser));
+        Notification::send($notifyUser, new NewFollowerNotification($followUser, 'follow'));
     }
 }

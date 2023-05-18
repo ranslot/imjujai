@@ -19,8 +19,14 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                     height="38"
                     :alt="comment.user.name"
                 />
-                <p class="ml-4 font-extrabold sm:text-base text-sm">
-                    {{ comment.user.name }}
+                <p class="font-extrabold text-sm">
+                    <a
+                        :href="'/user/' + comment.user.id"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        class="hover:text-blue-500 hover:underline"
+                        >{{ comment.user.name }}
+                    </a>
                 </p>
             </div>
 
@@ -41,6 +47,8 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 </button>
             </div>
         </div>
-        <p class="sm:text-sm text-xs px-5">{{ comment.text }}</p>
+        <p class="sm:text-sm text-xs pr-5 pl-12 break-words">
+            {{ comment.text }}
+        </p>
     </div>
 </template>

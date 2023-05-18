@@ -14,9 +14,10 @@ class NewFollowerNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($user)
+    public function __construct(object $user, string $type)
     {
         $this->user = $user;
+        $this->type = $type;
     }
 
     /**
@@ -48,7 +49,10 @@ class NewFollowerNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'name' => $this->user->name
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+            'file' => $this->user->file,
+            'type' => $this->type
         ];
     }
 }

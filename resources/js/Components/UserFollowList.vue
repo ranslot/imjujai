@@ -40,7 +40,7 @@ import Close from "vue-material-design-icons/Close.vue";
                 <div class="w-[30px]"></div>
             </div>
             <div
-                class="text-center bg-white rounded-xl overflow-y-auto flex flex-col w-full"
+                class="text-center bg-white overflow-y-auto flex flex-col w-full"
             >
                 <div v-if="userList.length === 0" class="my-10 text-lg">
                     You have no follower or following
@@ -49,10 +49,11 @@ import Close from "vue-material-design-icons/Close.vue";
                     v-for="user in userList"
                     class="flex flex-col items-center"
                 >
-                    <Link
-                        :href="route('users.show', { id: user.id })"
-                        as="button"
-                        class="font-extrabold w-full p-3 text-red-700 text-lg cursor-pointer flex gap-3"
+                    <a
+                        :href="'/user/' + user.id"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        class="font-extrabold w-full p-3 text-lg cursor-pointer flex gap-3 text-black hover:bg-gray-200"
                         ><img
                             :src="user.file"
                             width="45"
@@ -66,7 +67,7 @@ import Close from "vue-material-design-icons/Close.vue";
                         >
                             {{ user.name }}
                         </h3>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </article>

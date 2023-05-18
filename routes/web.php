@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{id}', [FollowController::class, 'destroy'])->name('follow.destroy');
+
+    Route::post('/notification/{id}', [NotificationController::class, 'update'])->name('notification.update');
 
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
