@@ -1,8 +1,10 @@
 <script setup>
 import { ref, toRefs } from "vue";
 import { usePage, useForm, router } from "@inertiajs/vue3";
+
+import "@/style/animation.css";
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
-import "@/style/scaleIn.css";
 
 const props = defineProps({ post: Object });
 const { post } = toRefs(props);
@@ -49,14 +51,12 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
 </script>
 <template>
-    <section
-        class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
-    >
+    <FadedBackgroundLayout>
         <button
-            class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+            class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
         >
             <Close
-                :size="30"
+                :size="36"
                 fillColor="#000000"
                 @click="emit('closeEditPost')"
             ></Close>
@@ -181,6 +181,6 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                 </div>
             </div>
         </article>
-    </section>
+    </FadedBackgroundLayout>
     <LoadingOverlay v-if="editPostProgress"></LoadingOverlay>
 </template>

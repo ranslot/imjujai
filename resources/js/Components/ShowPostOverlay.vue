@@ -9,7 +9,8 @@ import {
 } from "vue";
 import { usePage, Link } from "@inertiajs/vue3";
 
-import "@/style/scaleIn.css";
+import "@/style/animation.css";
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
 
 import LikeSection from "@/Components/LikeSection.vue";
 import CommentsSection from "@/Components/CommentsSection.vue";
@@ -80,23 +81,19 @@ function gotoComment() {
 }
 
 //icon
-import Close from "vue-material-design-icons/Close.vue";
 import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
+import Close from "vue-material-design-icons/Close.vue";
 </script>
 
 <template>
-    <section
-        id="OverlaySection"
-        class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
-        @click="emit('closeOverlay')"
-    >
+    <FadedBackgroundLayout @click="emit('closeOverlay')">
         <button
-            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
         >
             <Close :size="36" fillColor="#000000"></Close>
         </button>
-
         <div
+            id="ShowPostOverlay"
             class="flex items-center justify-center flex-wrap z-40 transform-gpu transition scale-in"
             @click.stop
         >
@@ -270,7 +267,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 </div>
             </article>
         </div>
-    </section>
+    </FadedBackgroundLayout>
     <LoadingOverlay v-if="searchPost"></LoadingOverlay>
     <SettingPostOverlay
         v-if="deleteType"
