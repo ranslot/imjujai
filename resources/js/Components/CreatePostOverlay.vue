@@ -1,10 +1,13 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { router, usePage, useForm } from "@inertiajs/vue3";
+
+import "@/style/animation.css";
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
+import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 import "vue-advanced-cropper/dist/style.css";
 import { Cropper } from "vue-advanced-cropper";
-import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
 const user = usePage().props.auth.user;
 
@@ -131,17 +134,17 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
 </script>
 
 <template>
-    <section
-        id="OverlaySection"
-        class="fixed flex flex-col items-center md:justify-center top-0 flex-wrap bg-black bg-opacity-60 p-3 z-50 left-0 h-screen w-full overflow-auto"
-    >
+    <FadedBackgroundLayout>
         <button
-            class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+            class="fixed right-2 top-2 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
         >
-            <Close :size="30" fillColor="#000000" @click="closeOverlay"></Close>
+            <Close :size="36" fillColor="#000000" @click="closeOverlay"></Close>
         </button>
 
-        <article class="w-full max-w-6xl h-fit bg-white rounded-xl top-5 mt-5">
+        <article
+            id="OverlaySection"
+            class="w-full max-w-6xl h-fit bg-white rounded-xl top-5 mt-5 transform-gpu transition scale-in"
+        >
             <div
                 class="sticky flex items-center justify-between w-full p-1 border-b border-gray-300"
             >
@@ -351,7 +354,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                 </div>
             </div>
         </article>
-    </section>
+    </FadedBackgroundLayout>
     <LoadingOverlay v-if="createPostProgress"> </LoadingOverlay>
 </template>
 

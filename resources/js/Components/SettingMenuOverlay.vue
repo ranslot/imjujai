@@ -1,17 +1,25 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import "@/style/animation.css";
+
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
 
 const emit = defineEmits(["closeSettingMenu"]);
+
+//icon
+import Close from "vue-material-design-icons/Close.vue";
 </script>
 
 <template>
-    <section
-        id="SettingPostOverlay"
-        class="fixed flex z-50 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 items-center justify-center"
-        @click="emit('closeSettingMenu')"
-    >
+    <FadedBackgroundLayout @click="emit('closeSettingMenu')">
+        <button
+            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
+        >
+            <Close :size="36" fillColor="#000000"></Close>
+        </button>
         <div
-            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl"
+            id="SettingMenuOverlay"
+            class="text-center max-w-sm w-full h-fit mx-auto mt-10 bg-white rounded-xl transform-gpu transition scale-in"
             @click.stop
         >
             <Link
@@ -28,5 +36,5 @@ const emit = defineEmits(["closeSettingMenu"]);
                 Cancle
             </button>
         </div>
-    </section>
+    </FadedBackgroundLayout>
 </template>

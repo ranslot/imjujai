@@ -2,6 +2,9 @@
 import { Link } from "@inertiajs/vue3";
 import { toRefs } from "vue";
 
+import "@/style/animation.css";
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
+
 const props = defineProps({ userList: Object, ListType: String });
 const { userList, ListType } = toRefs(props);
 
@@ -9,16 +12,19 @@ const emit = defineEmits(["closeFollowList"]);
 
 //icon
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
+import Close from "vue-material-design-icons/Close.vue";
 </script>
 
 <template>
-    <section
-        id="SettingPostOverlay"
-        class="fixed flex z-50 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 items-center justify-center"
-        @click="emit('closeFollowList')"
-    >
+    <FadedBackgroundLayout @click="emit('closeFollowList')">
+        <button
+            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
+        >
+            <Close :size="36" fillColor="#000000"></Close>
+        </button>
         <article
-            class="bg-white rounded-xl top-5 mt-5 w-full max-w-[300px] h-full max-h-[400px]"
+            id="FollowListOverlay"
+            class="bg-white rounded-xl top-5 mt-5 w-full max-w-[300px] h-full max-h-[400px] transform-gpu transition scale-in"
             @click.stop
         >
             <div
@@ -27,7 +33,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                 <ArrowLeft
                     fillColor="#000000"
                     :size="30"
-                    @click="emit('closeEditPost')"
+                    @click="emit('closeFollowList')"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
                 <h2 class="text-lg font-extrabold">{{ ListType }} List</h2>
@@ -64,5 +70,5 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                 </div>
             </div>
         </article>
-    </section>
+    </FadedBackgroundLayout>
 </template>

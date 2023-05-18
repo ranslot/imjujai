@@ -13,6 +13,9 @@ const CreatePostOverlay = defineAsyncComponent(() =>
 const SettingMenuOverlay = defineAsyncComponent(() =>
     import("@/Components/SettingMenuOverlay.vue")
 );
+const NotificationOverlay = defineAsyncComponent(() =>
+    import("@/Components/NotificationOverlay.vue")
+);
 
 let showSideBar = ref(false);
 let showCreatePost = ref(false);

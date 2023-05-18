@@ -13,6 +13,7 @@ import Comment from "vue-material-design-icons/Comment.vue";
 
 <template>
     <article
+        id="UserPostContent"
         @mouseenter="isHover = true"
         @click="isHover = false"
         @mouseleave="isHover = false"

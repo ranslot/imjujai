@@ -352,7 +352,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
     <EditUserOverlay
         v-if="showEditUser"
         :user="user"
-        @closeEditPost="showEditUser = false"
+        @closeEditUser="showEditUser = false"
     ></EditUserOverlay>
     <UserFollowList
         v-if="showFollowList"
