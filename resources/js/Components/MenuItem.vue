@@ -1,5 +1,6 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
+
 const user = usePage().props.auth.user;
 
 import { toRefs } from "vue";

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Follow as EventsFollow;
+use App\Listeners\FollowNotification;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 
@@ -34,6 +36,8 @@ class FollowController extends Controller
         $follow->user_id = \auth()->user()->id;
         $follow->followed_user_id = $request->input('followed_user_id');
         $follow->save();
+
+        \event(new EventsFollow($follow));
     }
 
     /**

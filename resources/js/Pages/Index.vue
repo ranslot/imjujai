@@ -102,6 +102,7 @@ function postByFollowUsers() {
                 Following
             </h2>
         </div>
+
         <div v-if="allPost" v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay($event)"
@@ -128,6 +129,12 @@ function postByFollowUsers() {
             class="text-lg font-extrabold py-5 max-w-[570px] w-full"
         >
             Users you followed didn't have any photo 😭😭
+        </div>
+        <div
+            v-if="posts.data.length === 0"
+            class="text-lg font-extrabold py-5 max-w-[570px] w-full"
+        >
+            Search not found
         </div>
     </MainLayout>
     <Suspense v-if="openOverlay">
