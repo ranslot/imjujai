@@ -9,7 +9,7 @@ defineEmits(["deleteComment"]);
 import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
 </script>
 <template>
-    <div class="flex flex-col justify-between md:w-[300px] lg:w-full">
+    <div class="flex flex-col justify-between w-full">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <img
