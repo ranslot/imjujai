@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -36,7 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-    Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/user/{user}', [UserController::class, 'show'])->name('users.show');
     Route::post('/user/update/{id}', [UserController::class, 'update'])->name('users.update');
 
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -48,6 +50,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/likes', [LikeController::class, 'store'])->name('likes.store');
     Route::delete('/likes/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
+
+    Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
+    Route::delete('/follow/{id}', [FollowController::class, 'destroy'])->name('follow.destroy');
+
+    Route::post('/notification/{id}', [NotificationController::class, 'update'])->name('notification.update');
 
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

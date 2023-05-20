@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -38,6 +39,12 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'notifications' => function () use ($request) {
+                if (isset($request->user()->notifications)) {
+                    return $request->user()->notifications;
+                }
+                return null;
             },
         ]);
     }

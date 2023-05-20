@@ -22,7 +22,6 @@ const isLiked = computed(() => {
 import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
 import FoodApple from "vue-material-design-icons/FoodApple.vue";
 import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
-import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
 </script>
 
 <template>
@@ -32,6 +31,7 @@ import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
                 <FoodApple
                     v-if="isLiked"
                     class="pl-3 cursor-pointer"
+                    fillColor="#ff6961"
                     :size="30"
                 ></FoodApple>
                 <FoodAppleOutline
@@ -46,6 +46,10 @@ import BookmarkOutline from "vue-material-design-icons/BookmarkOutline.vue";
                 @click="$emit('clickComment')"
             ></CommentOutline>
         </div>
-        <BookmarkOutline class="pl-3 pt-[10px]" :size="30"></BookmarkOutline>
+        <p
+            class="flex items-center pl-2 text-gray-400 text-xs sm:text-sm pt-3 truncate"
+        >
+            Post on : {{ post.created_at }}
+        </p>
     </section>
 </template>

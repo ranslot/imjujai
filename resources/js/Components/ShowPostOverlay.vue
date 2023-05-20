@@ -1,6 +1,16 @@
 <script setup>
-import { ref, toRefs, onMounted, onUnmounted, defineAsyncComponent } from "vue";
+import {
+    ref,
+    toRefs,
+    onMounted,
+    onUnmounted,
+    defineAsyncComponent,
+    computed,
+} from "vue";
 import { usePage, Link } from "@inertiajs/vue3";
+
+import "@/style/animation.css";
+import FadedBackgroundLayout from "@/Layouts/FadedBackgroundLayout.vue";
 
 import LikeSection from "@/Components/LikeSection.vue";
 import CommentsSection from "@/Components/CommentsSection.vue";
@@ -31,6 +41,10 @@ const emit = defineEmits([
     "editSelected",
 ]);
 
+const postComments = computed(() => {
+    return [...post.value.comments].reverse();
+});
+
 const closeOnEscape = (e) => {
     if (e.key === "Escape") {
         emit("closeOverlay");
@@ -59,37 +73,42 @@ if (searchPost.value) {
     }, 5000);
 }
 
+function gotoComment() {
+    textarea.value.select();
+    document
+        .getElementById("addComment")
+        .scrollIntoView({ behavior: "smooth" });
+}
+
 //icon
-import Close from "vue-material-design-icons/Close.vue";
-import EmoticonHappyOutline from "vue-material-design-icons/EmoticonHappyOutline.vue";
 import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
+import Close from "vue-material-design-icons/Close.vue";
 </script>
 
 <template>
-    <section
-        id="OverlaySection"
-        class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 p-3 overflow-auto flex items-center justify-center flex-wrap"
+    <FadedBackgroundLayout
         @click="emit('closeOverlay')"
+        class="min-h-0 min-w-0"
     >
         <button
-            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl"
+            class="absolute right-3 top-3 z-50 basis-full bg-white bg-opacity-25 rounded-xl cursor-pointer"
         >
             <Close :size="36" fillColor="#000000"></Close>
         </button>
-
         <div
-            class="flex items-center justify-center flex-wrap z-40"
+            id="ShowPostOverlay"
+            class="flex items-center justify-center flex-wrap z-40 transform-gpu transition scale-in min-h-0 min-w-0"
             @click.stop
         >
             <article
-                class="lg:w-[1200px] max-w-[95%] md:max-h-[calc(100%-91px)] max-h-full rounded-xl m-auto"
+                class="md:max-w-7xl md:max-h-[calc(100%-100px)] md:aspect-auto aspect-[1/2] max-h-[720px] mx-auto rounded-xl"
             >
                 <div
-                    class="w-full h-full md:flex rounded-xl overflow-auto m-auto"
+                    class="md:flex rounded-xl overflow-auto relative min-h-0 min-w-0"
                 >
                     <!-- Image -->
                     <div
-                        class="flex items-center justify-center bg-gray-300 bg-opacity-40 aspect-square lg:w-[600px] lg:h-[600px] max-w-[600px] max-h-[600px]"
+                        class="flex items-center justify-center bg-gray-300 bg-opacity-40 aspect-square max-w-[600px] max-h-[600px]"
                     >
                         <img
                             :src="post.file"
@@ -97,49 +116,60 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             width="600"
                             height="600"
                             class="aspect-square"
+                            loading="lazy"
+                            draggable="false"
                         />
                     </div>
 
                     <!-- Description + Comments -->
                     <div
-                        class="relative lg:w-[600px] max-w-[600px] md:h-[600px] h-[300px] bg-white"
+                        class="md:max-w-[600px] max-w-[600px] aspect-square w-full relative bg-white flex flex-col justify-between min-h-0 min-w-0"
                     >
-                        <div
-                            class="flex items-center justify-between p-3 border-b"
-                        >
-                            <div class="flex items-center">
-                                <img
-                                    :src="post.user.file"
-                                    :alt="post.user.name"
-                                    width="38"
-                                    height="38"
-                                    class="rounded-full w-[38px] h-[38px]"
-                                    loading="lazy"
-                                />
-                                <h3
-                                    class="ml-4 font-extrabold sm:text-base text-sm"
-                                >
-                                    {{ post.user.name }}
-                                </h3>
+                        <div>
+                            <div
+                                class="flex items-center justify-between p-3 border-b"
+                            >
+                                <div class="flex items-center">
+                                    <img
+                                        :src="post.user.file"
+                                        :alt="post.user.name"
+                                        width="38"
+                                        height="38"
+                                        class="rounded-full w-[38px] h-[38px]"
+                                        loading="lazy"
+                                    />
+                                    <h3
+                                        class="ml-4 font-extrabold sm:text-base text-sm"
+                                    >
+                                        {{ post.user.name }}
+                                    </h3>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        v-if="user.id === post.user.id"
+                                        class="cursor-pointer"
+                                        @click.prevent="
+                                            deleteTargetHandle('Post', post.id)
+                                        "
+                                    >
+                                        <DotsHorizontal
+                                            :size="27"
+                                        ></DotsHorizontal>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <p
-                                    class="ml-2 flex items-center text-gray-400 sm:text-sm text-xs"
-                                >
-                                    {{ post.created_at }}
-                                </p>
-                                <button
-                                    v-if="user.id === post.user.id"
-                                    class="cursor-pointer"
-                                    @click.prevent="
-                                        deleteTargetHandle('Post', post.id)
-                                    "
-                                >
-                                    <DotsHorizontal :size="27"></DotsHorizontal>
-                                </button>
-                            </div>
+
+                            <LikeSection
+                                class="px-5 border-b pb-3 flex md:hidden"
+                                v-if="post"
+                                :post="post"
+                                :userLikes="userLikes"
+                                @clickComment="gotoComment"
+                                @like="emit('updateLike', $event)"
+                            ></LikeSection>
                         </div>
-                        <div class="overflow-y-auto h-[calc(100%-170px)]">
+
+                        <div class="overflow-y-auto flex-grow">
                             <div class="flex items-center justify-between p-3">
                                 <div
                                     class="flex items-center w-full relative flex-wrap"
@@ -167,7 +197,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                                         >
                                             Cooked
                                         </div>
-                                        <p>
+                                        <p class="truncate">
                                             {{ post.text }}
                                         </p>
                                     </div>
@@ -190,7 +220,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                             </div>
                             <div
                                 class="py-1 px-3"
-                                v-for="comment in post.comments"
+                                v-for="comment in postComments"
                                 :key="comment.id"
                             >
                                 <CommentsSection
@@ -202,7 +232,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                         </div>
 
                         <LikeSection
-                            class="px-5 border-t mb-[60px]"
+                            class="px-5 border-t pb-3 hidden md:flex"
                             v-if="post"
                             :post="post"
                             :userLikes="userLikes"
@@ -212,9 +242,10 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
 
                         <!-- Add Comment-->
                         <div
-                            class="absolute flex border-t bottom-0 w-full max-h-[230px] min-h-[36px] bg-white overflow-auto"
+                            class="sticky flex border-t bottom-0 w-full max-h-[230px] min-h-[57px] bg-white overflow-auto"
                         >
                             <textarea
+                                id="addComment"
                                 ref="textarea"
                                 :onInput="textareaInput"
                                 v-model="comment"
@@ -242,7 +273,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 </div>
             </article>
         </div>
-    </section>
+    </FadedBackgroundLayout>
     <LoadingOverlay v-if="searchPost"></LoadingOverlay>
     <SettingPostOverlay
         v-if="deleteType"
