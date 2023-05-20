@@ -106,7 +106,7 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                             />
                             <label
                                 for="ate"
-                                class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
+                                class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
                                 >I Ate</label
                             >
                         </li>
@@ -121,7 +121,7 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                             />
                             <label
                                 for="cooked"
-                                class="bg-gray-200 hover:bg-gray-300 font-extrabold border-2 border-gray-200 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
+                                class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
                                 >I Cooked</label
                             >
                         </li>

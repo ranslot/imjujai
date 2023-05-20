@@ -30,13 +30,14 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout class="bg-login">
         <Head title="Log in" />
 
         <img
             class="mx-auto py-5"
-            src="/files/logo/sunglasses.png"
-            width="180"
+            src="/files/logo/imjujai_logo.svg"
+            width="200"
+            height="200"
             alt=""
         />
 
@@ -92,7 +93,7 @@ const submit = () => {
                 Don't have an account?
                 <Link
                     :href="route('register')"
-                    class="pl-1 font-bold text-red-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="pl-1 font-bold text-red-400 rounded-md"
                 >
                     Sign up
                 </Link>
@@ -100,3 +101,10 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+.bg-login {
+    background-image: url("/files/food-g9a7ff623e_1920.jpg");
+    background-size: cover;
+}
+</style>

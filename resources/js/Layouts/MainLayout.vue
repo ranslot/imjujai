@@ -63,7 +63,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <header>
             <nav
                 id="TopNav"
-                class="fixed flex items-center justify-between w-full bg-white h-[61px] border-b border-t border-gray-400 z-20"
+                class="fixed flex items-center justify-between w-full bg-white h-[65px] border-b border-t border-orange-400 z-20"
             >
                 <div
                     class="flex flex-row items-center justify-between min-w-[120px]"
@@ -83,8 +83,21 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                             ></Menu>
                         </button>
                     </div>
-                    <Link href="/" class="z-20">
-                        <p class="">HOME</p>
+                    <Link href="/" class="z-20 p-3 ml-5">
+                        <img
+                            class="md:block hidden"
+                            src="/files/logo/imjujai_logo_long.svg"
+                            height="50"
+                            width="115"
+                            alt=""
+                        />
+                        <img
+                            class="md:hidden block"
+                            src="/files/logo/imjujai_logo.svg"
+                            height="50"
+                            width="50"
+                            alt=""
+                        />
                     </Link>
                 </div>
                 <div v-if="$slots.userName">
@@ -102,18 +115,18 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         id="Search"
                         v-model="form.search"
                         type="text"
-                        class="py-[3px] px-2 max-w-full rounded-3xl border-gray-400 hidden sm:block border focus:boder-1"
+                        class="py-[3px] px-2 sm:w-full w-[80px] rounded-3xl border-gray-400 border focus:boder-1"
                         placeholder="Search. . ."
                     />
                     <button type="submit">
-                        <Magnify fillColor="#808080" :size="30"></Magnify>
+                        <Magnify fillColor="#ffc87a" :size="30"></Magnify>
                     </button>
                 </form>
             </nav>
 
             <nav
                 id="SideBar"
-                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-400 z-10 transform-gpu transition-all"
+                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-orange-400 z-10 transform-gpu transition-all"
                 :class="showSideBar ? 'translate-x' : '-translate-x-full'"
             >
                 <div class="px-5 pt-[80px]">
@@ -158,7 +171,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
             </nav>
         </header>
         <main
-            class="flex lg:justify-between bg-gray-100 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
+            class="flex lg:justify-between bg-gray-200 h-full w-[100%-280px] lg:pl-[280px] overflow-auto pt-[61px]"
         >
             <div class="mx-auto">
                 <slot></slot>

@@ -21,13 +21,14 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout class="bg-register">
         <Head title="Register" />
 
         <img
             class="mx-auto py-5"
-            src="/files/logo/sunglasses.png"
-            width="180"
+            src="/files/logo/imjujai_logo.svg"
+            width="200"
+            height="200"
             alt=""
         />
 
@@ -115,7 +116,7 @@ const submit = () => {
                 Have an account?
                 <Link
                     :href="route('login')"
-                    class="pl-1 font-bold text-red-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="pl-1 font-bold text-red-400 rounded-md"
                 >
                     Log in
                 </Link>
@@ -123,3 +124,9 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
+<style scoped>
+.bg-register {
+    background-image: url("/files/mediterranean-cuisine-g7b1c8369a_1920.jpg");
+    background-size: cover;
+}
+</style>

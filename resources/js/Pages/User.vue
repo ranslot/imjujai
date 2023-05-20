@@ -112,7 +112,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         </p>
 
                         <button
-                            class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            class="md:flex items-center justify-between gap-3 hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
                             v-if="user.id === $page.props.auth.user.id"
                             @click="showEditUser = true"
                         >
@@ -121,7 +121,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         </button>
                         <button
                             v-else
-                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                            class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
                             @click="updateFollow(user.id, isFollowed)"
                         >
                             <div v-if="isFollowed">Unfollow</div>
@@ -129,7 +129,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         </button>
                     </div>
                     <button
-                        class="md:hidden flex items-center justify-between mr-6 p-1 max-w-[150px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-200 hover:bg-gray-300 text-gray-400"
+                        class="md:hidden flex items-center justify-between mr-6 p-1 max-w-[150px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
                         v-if="user.id === $page.props.auth.user.id"
                     >
                         Edit Profile
@@ -224,8 +224,8 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         class="flex justify-center w-1/2 p-3"
                         :class="
                             showPostByUser
-                                ? 'border-t border-gray-900'
-                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                                ? 'border-t border-orange-900'
+                                : ' hover:border-t hover:border-orange-400 hover:text-orange-500'
                         "
                         @click="showPostByUser = true"
                     >
@@ -239,8 +239,8 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         class="flex justify-center w-1/2 p-3"
                         :class="
                             !showPostByUser
-                                ? 'border-t border-gray-900'
-                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                                ? 'border-t border-orange-900'
+                                : ' hover:border-t hover:border-orange-400 hover:text-orange-500'
                         "
                         @click="showPostByUser = false"
                     >
@@ -270,27 +270,34 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                     class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-600"
                 >
                     <div
-                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800 cursor-pointer"
                         :class="
                             showPostByUser
-                                ? 'border-t border-gray-900'
-                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                                ? 'border-t border-orange-600 text-orange-500'
+                                : ' hover:border-t hover:border-orange-400 hover:text-orange-500 '
                         "
                         @click="showPostByUser = true"
                     >
                         <Grid
+                            v-if="showPostByUser"
+                            :size="20"
+                            fillColor="#ff6961"
+                            class="cursor-pointer"
+                        ></Grid>
+                        <Grid
+                            v-if="!showPostByUser"
                             :size="20"
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
-                        <p class="ml-2 -mb-[1px] text-gray-800">POSTS</p>
+                        <p class="ml-2 -mb-[1px]">POSTS</p>
                     </div>
                     <div
-                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800"
+                        class="flex items-center justify-center w-1/2 p-[17px] text-gray-800 cursor-pointer"
                         :class="
                             !showPostByUser
-                                ? 'border-t border-gray-900'
-                                : ' hover:border-t hover:border-gray-400 hover:text-gray-500'
+                                ? 'border-t border-orange-600 text-orange-500'
+                                : ' hover:border-t hover:border-orange-400 hover:text-orange-500 '
                         "
                         @click="showPostByUser = false"
                     >
@@ -303,7 +310,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         <FoodApple
                             v-if="!showPostByUser"
                             :size="20"
-                            fillColor="#000000"
+                            fillColor="#ff6961"
                             class="cursor-pointer"
                         ></FoodApple>
                         <p class="ml-2 -mb-[1px]">LIKES</p>
@@ -365,6 +372,6 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
 
 <style>
 body {
-    background-color: rgba(243, 244, 246, 1);
+    background-color: black;
 }
 </style>

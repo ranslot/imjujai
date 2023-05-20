@@ -21,7 +21,7 @@ if (searchPost.value) {
 <template>
     <section
         id="Posts"
-        class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl"
+        class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl shadow-lg shadow-orange-200"
     >
         <article class="flex items-center py-2 px-4">
             <div class="flex items-center w-full justify-between">

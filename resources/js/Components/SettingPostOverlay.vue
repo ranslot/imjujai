@@ -26,20 +26,20 @@ import Close from "vue-material-design-icons/Close.vue";
             @click.stop
         >
             <button
-                class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 cursor-pointer"
+                class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 hover:bg-red-300 cursor-pointer rounded-t-xl"
                 @click="emit('deleteSelected', { deleteType, id })"
             >
                 Delete {{ deleteType }}
             </button>
             <button
                 v-if="deleteType === 'Post'"
-                class="font-extrabold w-full p-3 text-lg border-b border-gray-300 cursor-pointer"
+                class="font-extrabold w-full p-3 text-lg border-b border-gray-300 hover:bg-gray-300 cursor-pointer"
                 @click="emit('editShow')"
             >
                 Edit Post
             </button>
             <button
-                class="p-3 text-lg cursor-pointer w-full"
+                class="p-3 text-lg cursor-pointer hover:bg-gray-300 w-full rounded-b-xl"
                 @click="emit('closeSettingPost')"
             >
                 Cancle

@@ -31,6 +31,7 @@ import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
                 <FoodApple
                     v-if="isLiked"
                     class="pl-3 cursor-pointer"
+                    fillColor="#ff6961"
                     :size="30"
                 ></FoodApple>
                 <FoodAppleOutline
