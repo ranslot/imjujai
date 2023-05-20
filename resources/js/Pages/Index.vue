@@ -161,6 +161,6 @@ function postByFollowUsers() {
 
 <style>
 body {
-    background-color: rgb(217, 217, 217);
+    background-color: black;
 }
 </style>

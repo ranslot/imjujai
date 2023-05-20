@@ -26,11 +26,11 @@ import Close from "vue-material-design-icons/Close.vue";
                 :href="route('logout')"
                 as="button"
                 method="post"
-                class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 cursor-pointer"
+                class="font-extrabold w-full p-3 text-red-700 text-lg border-b border-gray-300 hover:bg-red-300 cursor-pointer rounded-t-xl"
                 >Log out
             </Link>
             <button
-                class="p-3 text-lg cursor-pointer w-full"
+                class="p-3 text-lg cursor-pointer w-full hover:bg-gray-300 rounded-b-xl"
                 @click="emit('closeSettingMenu')"
             >
                 Cancle

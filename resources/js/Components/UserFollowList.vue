@@ -53,7 +53,7 @@ import Close from "vue-material-design-icons/Close.vue";
                         :href="'/user/' + user.id"
                         target="_blank"
                         rel="noreferrer noopener"
-                        class="font-extrabold w-full p-3 text-lg cursor-pointer flex gap-3 text-black hover:bg-gray-200"
+                        class="font-extrabold w-full p-3 text-lg cursor-pointer flex gap-3 text-black hover:bg-gray-300"
                         ><img
                             :src="user.file"
                             width="45"
