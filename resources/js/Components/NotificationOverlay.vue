@@ -42,7 +42,7 @@ import Close from "vue-material-design-icons/Close.vue";
                     @click="emit('closeNotification')"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
-                <h2 class="text-lg font-extrabold">Notifications</h2>
+                <h2 class="text-lg font-extrabold">แจ้งเตือน</h2>
                 <div class="w-[30px]"></div>
             </div>
 
@@ -72,12 +72,12 @@ import Close from "vue-material-design-icons/Close.vue";
                                 class="hover:text-blue-500 hover:underline"
                                 >{{ notification.data.name }}
                             </a>
-                            has follow you
+                            ได้ติดตามคุณ
                         </p>
                     </div>
                 </div>
                 <div v-else class="py-6 font-extrabold text-lg text-center">
-                    You don't have any notifications
+                    ไม่มีการแจ้งเตือน
                 </div>
             </div>
         </article>

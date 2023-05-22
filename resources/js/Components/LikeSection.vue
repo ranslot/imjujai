@@ -49,7 +49,7 @@ import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
         <p
             class="flex items-center pl-2 text-gray-400 text-xs sm:text-sm pt-3 truncate"
         >
-            Post on : {{ post.created_at }}
+            โพสต์เมื่อ : {{ post.created_at }}
         </p>
     </section>
 </template>

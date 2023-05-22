@@ -92,12 +92,12 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                     @click="emit('closeEditUser')"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
-                <h2 class="text-lg font-extrabold">Edit Profile</h2>
+                <h2 class="text-lg font-extrabold">แก้ไขผู้ใช้</h2>
                 <button
                     class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-2"
                     @click="EditUser"
                 >
-                    Edit
+                    แก้ไข
                 </button>
             </div>
             <div
@@ -109,7 +109,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                     v-if="!fileDisplay"
                 >
                     <h2 class="font-extrabold p-1 text-gray-400">
-                        Click image to change profile picture
+                        คลิกที่รูปเพื่อเปลี่ยนภาพผู้ใช้
                     </h2>
                     <label for="fileUser">
                         <img
@@ -132,7 +132,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                         v-if="!fileDisplay && isValidFile === false"
                         class="text-red-500 text-center p-2 font-extrabold text-lg"
                     >
-                        Upload failed
+                        ไฟล์ภาพไม่ถูกต้อง
                     </h3>
                 </div>
 
@@ -141,7 +141,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                     v-if="fileDisplay"
                 >
                     <h2 class="font-extrabold p-1 text-gray-400">
-                        Click image to change profile picture
+                        คลิกที่รูปเพื่อเปลี่ยนภาพผู้ใช้
                     </h2>
                     <label
                         for="fileUser"
@@ -181,7 +181,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                     </h3>
                     <div class="flex flex-col w-full max-h-[200px]">
                         <h3 class="font-extrabold p-1 text-gray-400 m-3">
-                            Edit description
+                            แก้ไขรายละเอียดผู้ใช้
                         </h3>
                         <textarea
                             v-model="userForm.description"

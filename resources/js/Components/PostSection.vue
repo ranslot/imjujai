@@ -73,13 +73,13 @@ if (searchPost.value) {
                     class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 0"
                 >
-                    Ate
+                    ได้กิน
                 </div>
                 <div
                     class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                     v-if="post.eat_or_cook === 1"
                 >
-                    Cooked
+                    ได้ปรุง
                 </div>
                 <p class="truncate">
                     {{ post.text }}
@@ -105,8 +105,8 @@ if (searchPost.value) {
                 class="text-gray-400 font-extrabold py-1.5"
                 @click="$emit('openPost', post)"
             >
-                <div v-if="post.comments.length == 0">Add new comment</div>
-                <div v-else>View all {{ post.comments.length }} comments</div>
+                <div v-if="post.comments.length == 0">เพิ่มคอมเมนต์</div>
+                <div v-else>ดู {{ post.comments.length }} คอมเมนต์</div>
             </button>
         </article>
     </section>

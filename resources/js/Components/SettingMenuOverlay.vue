@@ -33,7 +33,7 @@ import Close from "vue-material-design-icons/Close.vue";
                 class="p-3 text-lg cursor-pointer w-full hover:bg-gray-300 rounded-b-xl"
                 @click="emit('closeSettingMenu')"
             >
-                Cancle
+                ยกเลิก
             </button>
         </div>
     </FadedBackgroundLayout>

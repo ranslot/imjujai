@@ -89,14 +89,14 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                             src="/files/logo/imjujai_logo_long.svg"
                             height="50"
                             width="115"
-                            alt=""
+                            alt="Home"
                         />
                         <img
                             class="md:hidden block"
                             src="/files/logo/imjujai_logo.svg"
                             height="50"
                             width="50"
-                            alt=""
+                            alt="Home"
                         />
                     </Link>
                 </div>

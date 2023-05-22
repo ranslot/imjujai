@@ -39,7 +39,7 @@ import DotsHorizontal from "vue-material-design-icons/DotsHorizontal.vue";
                 <button
                     v-if="user.id === comment.user.id"
                     @click.prevent="
-                        $emit('deleteComment', 'Comment', comment.id)
+                        $emit('deleteComment', 'คอมเมนต์', comment.id)
                     "
                     class="cursor-pointer -top-7"
                 >

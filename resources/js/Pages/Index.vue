@@ -71,7 +71,7 @@ function postByFollowUsers() {
         <template #search>
             <div v-if="page.includes('search')">
                 <h1 class="font-extrabold text-lg">
-                    Search : {{ searchValue }}
+                    ค้นหา : {{ searchValue }}
                 </h1>
             </div>
         </template>
@@ -88,7 +88,7 @@ function postByFollowUsers() {
                 "
                 @click="allPost = true"
             >
-                All Photo
+                ภาพทั้งหมด
             </h2>
             <h2
                 class="px-10 py-3 text-lg text-center font-extrabold truncate rounded-r-lg"
@@ -99,7 +99,7 @@ function postByFollowUsers() {
                 "
                 @click="postByFollowUsers"
             >
-                Following
+                ติดตาม
             </h2>
         </div>
 
@@ -128,13 +128,13 @@ function postByFollowUsers() {
             v-else="postByFollows.length === 0"
             class="text-lg font-extrabold py-5 max-w-[570px] w-full"
         >
-            Users you followed didn't have any photo 😭😭
+            ผู้ใช้ที่คุณติดตามไม่มีภาพอาหารที่จะแชร์ 😭😭
         </div>
         <div
             v-if="posts.data.length === 0"
             class="text-lg font-extrabold py-5 max-w-[570px] w-full"
         >
-            Search not found
+            ค้นหาไม่เจอ
         </div>
     </MainLayout>
     <Suspense v-if="openOverlay">
