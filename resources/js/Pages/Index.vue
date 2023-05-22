@@ -145,7 +145,7 @@ function postByFollowUsers() {
                 @closeOverlay="openOverlay = false"
                 @deleteSelected="
                     deleteSelected($event, updatePost);
-                    if ($event.deleteType === 'Post') {
+                    if ($event.deleteType === 'โพสต์') {
                         openOverlay = false;
                         currentPost = null;
                     }

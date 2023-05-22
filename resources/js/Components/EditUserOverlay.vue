@@ -187,7 +187,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
                             v-model="userForm.description"
                             ref="textarea"
                             rows="10"
-                            placeholder="Add your Profile description..."
+                            placeholder="เพิ่มรายละเอียดผู้ใช้..."
                             class="placeholder-gray-400 w-full border-0 my-2 z-50 focus:ring-0 text-gray-600 text-[18px] max-h-full resize-none"
                         >
                             {{ user.description }} 

@@ -249,7 +249,7 @@ import Close from "vue-material-design-icons/Close.vue";
                                 ref="textarea"
                                 :onInput="textareaInput"
                                 v-model="comment"
-                                placeholder="Add new comment. . ."
+                                placeholder="เพิ่มคอมเมนต์. . ."
                                 rows="1"
                                 class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none mx-3"
                             ></textarea>
