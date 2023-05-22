@@ -11,9 +11,5 @@ export function updateFollow(userId, isFollowed) {
 }
 
 export function markReadNotification(notificationId) {
-    router.post(`/notification/${notificationId}`, {}, {
-        onSuccess: () => {
-            router.reload()
-        }
-    })
+    router.post(`/notification/${notificationId}`)
 }

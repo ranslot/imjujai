@@ -154,12 +154,12 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                     @click="closeOverlay"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
-                <h2 class="text-lg font-extrabold">Create new post</h2>
+                <h2 class="text-lg font-extrabold">สร้างโพสต์ใหม่</h2>
                 <button
                     class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-2"
                     @click="CreatePost"
                 >
-                    Post
+                    โพสต์
                 </button>
             </div>
             <div class="w-full flex flex-col md:flex-row h-fit">
@@ -194,7 +194,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             for="file"
                             class="bg-blue-400 hover:bg-blue-300 rounded-lg p-2.5 text-white font-extrabold"
                         >
-                            Upload Photo
+                            อัพโหลดรูปภาพ
                         </label>
                         <input
                             id="file"
@@ -213,7 +213,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             v-if="!fileDisplay && isValidFile === false"
                             class="text-red-500 text-center p-2 font-extrabold text-lg"
                         >
-                            Upload failed
+                            ไฟล์ไม่ถูกต้อง
                         </h3>
                     </div>
                     <div
@@ -222,7 +222,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                     >
                         <div class="flex flex-col items-center">
                             <h2 class="font-extrabold text-lg py-1">
-                                Crop Photo
+                                ครอบตัดภาพ
                             </h2>
                             <div class="h-[500px] w-full">
                                 <Cropper
@@ -251,7 +251,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             class="text-white p-2 my-2 font-extrabold text-lg rounded-xl bg-gray-400 hover:bg-gray-500 bottom-0 z-20"
                             @click="CancleImage"
                         >
-                            Change Photo
+                            เปลี่ยนภาพ
                         </button>
                     </div>
                 </div>
@@ -277,7 +277,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                         class="flex flex-row items-center gap-5 px-3 pt-4 border-t"
                     >
                         <li class="font-extrabold text-md text-gray-500">
-                            What did you do on this photo :
+                            รายละเอียดภาพ :
                         </li>
                         <li class="">
                             <input
@@ -291,7 +291,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             <label
                                 for="ate"
                                 class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I Ate</label
+                                >ได้กิน</label
                             >
                         </li>
                         <li class="">
@@ -305,7 +305,7 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                             <label
                                 for="cooked"
                                 class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I Cooked</label
+                                >ได้ปรุง</label
                             >
                         </li>
                     </ul>
@@ -333,10 +333,10 @@ import MagnifyMinusOutline from "vue-material-design-icons/MagnifyMinusOutline.v
                                 <h3
                                     class="text-lg font-extrabold text-gray-500"
                                 >
-                                    Add tags
+                                    เพิม่แท็ก
                                 </h3>
                                 <p class="text-gray-400 text-sm mt-[3px]">
-                                    Use "," to separate tags
+                                    ใช้ "," เพื่อแยกแท็ก
                                 </p>
                             </div>
 

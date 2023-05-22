@@ -73,12 +73,12 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                     @click="emit('closeEditPost')"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
-                <h2 class="text-lg font-extrabold">Edit post</h2>
+                <h2 class="text-lg font-extrabold">แก้ไขโพสต์</h2>
                 <button
                     class="text-lg text-white font-extrabold rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-2"
                     @click="EditPost"
                 >
-                    Edit
+                    แก้ไข
                 </button>
             </div>
             <div
@@ -93,7 +93,7 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                         class="flex flex-row items-center gap-5 px-3 pt-4 border-t"
                     >
                         <li class="font-extrabold text-md text-gray-700">
-                            Edit what did you do on this photo :
+                            แก้ไขรายละเอียดภาพ :
                         </li>
                         <li class="">
                             <input
@@ -107,7 +107,7 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                             <label
                                 for="ate"
                                 class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I Ate</label
+                                >ได้กิน</label
                             >
                         </li>
                         <li class="">
@@ -122,7 +122,7 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                             <label
                                 for="cooked"
                                 class="bg-gray-300 hover:bg-gray-300 font-extrabold border-2 border-gray-300 focus:ring-blue-500 p-2 rounded-2xl peer-checked:text-blue-500 peer-checked:border-blue-500 cursor-pointer"
-                                >I Cooked</label
+                                >ได้ทำ</label
                             >
                         </li>
                     </ul>
@@ -150,10 +150,10 @@ import TagMultiple from "vue-material-design-icons/TagMultiple.vue";
                                 <h3
                                     class="text-lg font-extrabold text-gray-700"
                                 >
-                                    Edit tags
+                                    แก้ไขแท็ก
                                 </h3>
                                 <p class="text-gray-400 text-sm mt-[3px]">
-                                    Use "," to separate tags
+                                    ใช้ "," เพื่อแยกแท็ก
                                 </p>
                             </div>
 

@@ -43,19 +43,15 @@ export function addComment(newComment, updatePost) {
 }
 
 export function deleteSelected(deleteTarget, updatePost) {
-    if (deleteTarget.deleteType === "Post") {
+    if (deleteTarget.deleteType === "โพสต์") {
         router.delete(`/posts/${deleteTarget.id}`, {
             onFinish: () => updatePost(deleteTarget),
         });
     }
 
-    if (deleteTarget.deleteType === "Comment") {
+    if (deleteTarget.deleteType === "คอมเมนต์") {
         router.delete(`/comments/${deleteTarget.id}`, {
             onFinish: () => updatePost(deleteTarget),
         });
     }
-}
-
-export function editPost(post, updatePost) {
-
 }

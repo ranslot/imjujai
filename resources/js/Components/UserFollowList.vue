@@ -36,14 +36,14 @@ import Close from "vue-material-design-icons/Close.vue";
                     @click="emit('closeFollowList')"
                     class="cursor-pointer px-2"
                 ></ArrowLeft>
-                <h2 class="text-lg font-extrabold">{{ ListType }} List</h2>
+                <h2 class="text-lg font-extrabold">{{ ListType }}</h2>
                 <div class="w-[30px]"></div>
             </div>
             <div
                 class="text-center bg-white overflow-y-auto flex flex-col w-full"
             >
                 <div v-if="userList.length === 0" class="my-10 text-lg">
-                    You have no follower or following
+                    คุณไม่ได้ติดตามผู้ใช้หรือไม่มีผู้ติดตาม
                 </div>
                 <div
                     v-for="user in userList"

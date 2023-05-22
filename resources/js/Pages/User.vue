@@ -71,11 +71,11 @@ let ListType = ref("");
 let userList = ref(null);
 
 function makeFollowList(type) {
-    if (type == "Following") {
-        ListType.value = "Following";
+    if (type == "กำลังติดตาม") {
+        ListType.value = "กำลังติดตาม";
         userList.value = userFollowList.value.userFollowingList;
     } else {
-        ListType.value = "Followers";
+        ListType.value = "ผู้ติดตาม";
         userList.value = userFollowList.value.userFollowersList;
     }
 }
@@ -116,7 +116,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             v-if="user.id === $page.props.auth.user.id"
                             @click="showEditUser = true"
                         >
-                            Edit Profile
+                            แก้ไขข้อมูลผู้ใช้
                             <Cog :size="28"></Cog>
                         </button>
                         <button
@@ -124,15 +124,15 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
                             @click="updateFollow(user.id, isFollowed)"
                         >
-                            <div v-if="isFollowed">Unfollow</div>
-                            <div v-else>Follow</div>
+                            <div v-if="isFollowed">ยกเลิกติดตาม</div>
+                            <div v-else>ติดตาม</div>
                         </button>
                     </div>
                     <button
                         class="md:hidden flex items-center justify-between mr-6 p-1 max-w-[150px] w-full px-4 rounded-lg text-[17px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
                         v-if="user.id === $page.props.auth.user.id"
                     >
-                        Edit Profile
+                        แก้ไขข้อมูลผู้ใช้
                         <Cog :size="28"></Cog>
                     </button>
                     <div>{{ user.description }}</div>
@@ -142,7 +142,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                                 <span class="font-extrabold">
                                     {{ postByUser.data.length }}
                                 </span>
-                                posts
+                                โพสต์
                             </p>
                             <p
                                 class="mr-6 hover:underline cursor-pointer"
@@ -154,7 +154,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                                 <span class="font-extrabold">
                                     {{ userFollow.userFollowing.length }}
                                 </span>
-                                following
+                                กำลังติดตาม
                             </p>
                             <p
                                 class="mr-6 hover:underline cursor-pointer"
@@ -166,7 +166,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                                 <span class="font-extrabold">
                                     {{ userFollow.userFollowers.length }}
                                 </span>
-                                followers
+                                ผู้ติดตาม
                             </p>
                         </div>
                     </div>
@@ -181,12 +181,12 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         <p class="font-extrabold">
                             {{ postByUser.data.length }}
                         </p>
-                        <p class="text-gray-400 font-semibold -mt-1.5">posts</p>
+                        <p class="text-gray-400 font-semibold -mt-1.5">โพสต์</p>
                     </div>
                     <div
                         class="text-center w-1/3 p-3 hover:text-black"
                         @click="
-                            makeFollowList('Following');
+                            makeFollowList('กำลังติดตาม');
                             showFollowList = true;
                         "
                     >
@@ -196,13 +196,13 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         <p
                             class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
                         >
-                            following
+                            กำลังติดตาม
                         </p>
                     </div>
                     <div
                         class="text-center w-1/3 p-3 hover:text-black"
                         @click="
-                            makeFollowList('Followers');
+                            makeFollowList('ผู้ติดตาม');
                             showFollowList = true;
                         "
                     >
@@ -212,7 +212,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         <p
                             class="text-gray-400 font-semibold -mt-1.5 hover:text-black"
                         >
-                            followers
+                            ผู้ติดตาม
                         </p>
                     </div>
                 </div>
@@ -290,7 +290,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             fillColor="#000000"
                             class="cursor-pointer"
                         ></Grid>
-                        <p class="ml-2 -mb-[1px]">POSTS</p>
+                        <p class="ml-2 -mb-[1px]">โพสต์</p>
                     </div>
                     <div
                         class="flex items-center justify-center w-1/2 p-[17px] text-gray-800 cursor-pointer"
@@ -313,7 +313,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             fillColor="#ff6961"
                             class="cursor-pointer"
                         ></FoodApple>
-                        <p class="ml-2 -mb-[1px]">LIKES</p>
+                        <p class="ml-2 -mb-[1px]">ถูกใจ</p>
                     </div>
                 </div>
             </article>
@@ -343,7 +343,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                 @closeOverlay="data.post = null"
                 @deleteSelected="
                     deleteSelected($event, updatePost);
-                    if ($event.deleteType === 'Post') {
+                    if ($event.deleteType === 'โพสต์') {
                         setTimeout(() => (data.post = null), 100);
                     }
                 "

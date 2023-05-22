@@ -101,7 +101,7 @@ import Close from "vue-material-design-icons/Close.vue";
             @click.stop
         >
             <article
-                class="md:max-w-7xl md:max-h-[calc(100%-100px)] md:aspect-auto aspect-[1/2] max-h-[720px] mx-auto rounded-xl"
+                class="md:w-[1200px] md:max-h-[calc(100%-100px)] md:aspect-auto aspect-[1/2] max-h-[700px] mx-auto rounded-xl"
             >
                 <div
                     class="md:flex rounded-xl overflow-auto relative min-h-0 min-w-0"
@@ -123,7 +123,7 @@ import Close from "vue-material-design-icons/Close.vue";
 
                     <!-- Description + Comments -->
                     <div
-                        class="md:max-w-[600px] max-w-[600px] aspect-square w-full relative bg-white flex flex-col justify-between min-h-0 min-w-0"
+                        class="max-w-[600px] aspect-square w-full relative bg-white flex flex-col justify-between min-h-0 min-w-0"
                     >
                         <div>
                             <div
@@ -149,7 +149,7 @@ import Close from "vue-material-design-icons/Close.vue";
                                         v-if="user.id === post.user.id"
                                         class="cursor-pointer"
                                         @click.prevent="
-                                            deleteTargetHandle('Post', post.id)
+                                            deleteTargetHandle('โพสต์', post.id)
                                         "
                                     >
                                         <DotsHorizontal
@@ -189,13 +189,13 @@ import Close from "vue-material-design-icons/Close.vue";
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 0"
                                         >
-                                            Ate
+                                            ได้กิน
                                         </div>
                                         <div
                                             class="bg-orange-200 border-red-300 font-extrabold border-2 py-1 px-2 -mt-[6px] rounded-xl"
                                             v-if="post.eat_or_cook === 1"
                                         >
-                                            Cooked
+                                            ได้ปรุง
                                         </div>
                                         <p class="truncate">
                                             {{ post.text }}
@@ -249,7 +249,7 @@ import Close from "vue-material-design-icons/Close.vue";
                                 ref="textarea"
                                 :onInput="textareaInput"
                                 v-model="comment"
-                                placeholder="Add new comment. . ."
+                                placeholder="เพิ่มคอมเมนต์. . ."
                                 rows="1"
                                 class="w-full z-50 text-xs sm:text-sm mt-2 mb-2 border-0 focus:ring-0 text-gray-600 resize-none mx-3"
                             ></textarea>
@@ -266,7 +266,7 @@ import Close from "vue-material-design-icons/Close.vue";
                                     comment = '';
                                 "
                             >
-                                Post
+                                โพสต์
                             </button>
                         </div>
                     </div>
