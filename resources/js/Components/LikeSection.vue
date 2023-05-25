@@ -1,6 +1,6 @@
 <script setup>
-import { computed, toRefs } from "vue";
-import { usePage } from "@inertiajs/vue3";
+import { computed, toRefs, watch, reactive } from "vue";
+import { usePage, router } from "@inertiajs/vue3";
 
 const user = usePage().props.auth.user;
 
@@ -18,6 +18,29 @@ const isLiked = computed(() => {
     return false;
 });
 
+const state = reactive({
+    likeStatus: isLiked.value,
+});
+
+watch(
+    () => state.likeStatus,
+    (likeStatus) => {
+        if (likeStatus) {
+            router.post(
+                "/likes",
+                {
+                    post_id: post.value.id,
+                },
+                { preserveState: true }
+            );
+        } else {
+            router.delete(`/likes/${user.id}/${post.value.id}`, {
+                preserveState: true,
+            });
+        }
+    }
+);
+
 //icon
 import FoodAppleOutline from "vue-material-design-icons/FoodAppleOutline.vue";
 import FoodApple from "vue-material-design-icons/FoodApple.vue";
@@ -27,9 +50,12 @@ import CommentOutline from "vue-material-design-icons/CommentOutline.vue";
 <template>
     <section class="flex z-20 items-center justify-between">
         <div class="flex first-line:items-center">
-            <button class="-mt-[20px]" @click="$emit('like', { post, user })">
+            <button
+                class="-mt-[20px]"
+                @click="state.likeStatus = !state.likeStatus"
+            >
                 <FoodApple
-                    v-if="isLiked"
+                    v-if="state.likeStatus"
                     class="pl-3 cursor-pointer"
                     fillColor="#ff6961"
                     :size="30"

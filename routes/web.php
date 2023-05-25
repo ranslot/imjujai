@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     Route::post('/likes', [LikeController::class, 'store'])->name('likes.store');
-    Route::delete('/likes/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
+    Route::delete('/likes/{user_id}/{post_id}', [LikeController::class, 'destroy'])->name('likes.destroy');
 
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{id}', [FollowController::class, 'destroy'])->name('follow.destroy');

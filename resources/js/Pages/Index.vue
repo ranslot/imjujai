@@ -2,7 +2,7 @@
 import { Head, usePage } from "@inertiajs/vue3";
 import { ref, toRefs, defineAsyncComponent, Suspense, computed } from "vue";
 
-import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
+import { addComment, deleteSelected } from "@/Helper/PostHelper.js";
 
 import MainLayout from "@/Layouts/MainLayout.vue";
 import PostSection from "@/Components/PostSection.vue";
@@ -106,7 +106,6 @@ function postByFollowUsers() {
         <div v-if="allPost" v-for="post in posts.data" :key="post.id">
             <PostSection
                 @openPost="togglePostOverlay($event)"
-                @updateLike="updateLike($event, userLikes, updatePost)"
                 :userLikes="userLikes"
                 :post="post"
             ></PostSection>
@@ -119,7 +118,6 @@ function postByFollowUsers() {
         >
             <PostSection
                 @openPost="togglePostOverlay($event)"
-                @updateLike="updateLike($event, userLikes, updatePost)"
                 :userLikes="userLikes"
                 :post="postByFollow"
             ></PostSection>
@@ -151,7 +149,6 @@ function postByFollowUsers() {
                     }
                 "
                 @addComment="addComment($event, updatePost)"
-                @updateLike="updateLike($event, userLikes, updatePost)"
                 @editSelected="updatePost($event)"
             ></ShowPostOverlay>
         </template>

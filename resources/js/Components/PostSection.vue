@@ -4,7 +4,7 @@ import { ref, toRefs } from "vue";
 import LikeSection from "@/Components/LikeSection.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
-defineEmits(["openPost", "updateLike"]);
+defineEmits(["openPost"]);
 
 const props = defineProps({ post: Object, userLikes: Object });
 const { post, userLikes } = toRefs(props);
@@ -21,7 +21,7 @@ if (searchPost.value) {
 <template>
     <section
         id="Posts"
-        class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl shadow-lg shadow-orange-200"
+        class="max-w-[570px] mx-auto pb-3 mb-5 bg-white rounded-xl shadow-lg"
     >
         <article class="flex items-center py-2 px-4">
             <div class="flex items-center w-full justify-between">
@@ -59,7 +59,6 @@ if (searchPost.value) {
             <LikeSection
                 :post="post"
                 :userLikes="userLikes"
-                @like="$emit('updateLike', $event)"
                 @clickComment="$emit('openPost', post)"
             ></LikeSection>
             <h4 class="text-black font-extrabold text-sm py-1.5">

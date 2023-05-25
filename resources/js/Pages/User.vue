@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import {
     reactive,
     ref,
@@ -7,13 +7,13 @@ import {
     defineAsyncComponent,
     Suspense,
     computed,
+    watch,
 } from "vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import ContentOverlay from "@/Components/ContentOverlay.vue";
 import LoadingOverlay from "@/Components/LoadingOverlay.vue";
 
-import { updateLike, addComment, deleteSelected } from "@/Helper/PostHelper.js";
-import { updateFollow } from "@/Helper/UserHelper.js";
+import { addComment, deleteSelected } from "@/Helper/PostHelper.js";
 
 const ShowPostOverlay = defineAsyncComponent(() =>
     import("@/Components/ShowPostOverlay.vue")
@@ -80,6 +80,21 @@ function makeFollowList(type) {
     }
 }
 
+const state = reactive({
+    followStatus: isFollowed.value,
+});
+
+watch(
+    () => state.followStatus,
+    (followStatus) => {
+        if (followStatus) {
+            router.post("/follow", { followed_user_id: user.value.id });
+        } else {
+            router.delete(`/follow/${user.value.id}`);
+        }
+    }
+);
+
 //icon
 import Grid from "vue-material-design-icons/Grid.vue";
 import Cog from "vue-material-design-icons/Cog.vue";
@@ -122,9 +137,9 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                         <button
                             v-else
                             class="p-1 px-2 rounded-md text-[16px] font-extrabold bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-400"
-                            @click="updateFollow(user.id, isFollowed)"
+                            @click="state.followStatus = !state.followStatus"
                         >
-                            <div v-if="isFollowed">ยกเลิกติดตาม</div>
+                            <div v-if="state.followStatus">ยกเลิกติดตาม</div>
                             <div v-else>ติดตาม</div>
                         </button>
                     </div>
@@ -348,7 +363,6 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                     }
                 "
                 @addComment="addComment($event, updatePost)"
-                @updateLike="updateLike($event, userLikes, updatePost)"
                 @editSelected="updatePost($event)"
             ></ShowPostOverlay>
         </template>

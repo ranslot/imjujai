@@ -36,7 +36,6 @@ const { post, userLikes } = toRefs(props);
 const emit = defineEmits([
     "closeOverlay",
     "addComment",
-    "updateLike",
     "deleteSelected",
     "editSelected",
 ]);
@@ -165,7 +164,6 @@ import Close from "vue-material-design-icons/Close.vue";
                                 :post="post"
                                 :userLikes="userLikes"
                                 @clickComment="gotoComment"
-                                @like="emit('updateLike', $event)"
                             ></LikeSection>
                         </div>
 
@@ -237,7 +235,6 @@ import Close from "vue-material-design-icons/Close.vue";
                             :post="post"
                             :userLikes="userLikes"
                             @clickComment="textarea.select()"
-                            @like="emit('updateLike', $event)"
                         ></LikeSection>
 
                         <!-- Add Comment-->

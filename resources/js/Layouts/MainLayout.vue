@@ -63,11 +63,9 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
         <header>
             <nav
                 id="TopNav"
-                class="fixed flex items-center justify-between w-full bg-white h-[65px] border-b border-t border-orange-400 z-20"
+                class="fixed flex items-center justify-between w-full bg-white h-[65px] border-b border-t border-gray-200 z-20"
             >
-                <div
-                    class="flex flex-row items-center justify-between min-w-[120px]"
-                >
+                <div class="flex flex-row items-center min-w-[120px]">
                     <div
                         class="lg:hidden flex items-center justify-between w-[30px] sm:w-[100px] py-auto"
                     >
@@ -115,7 +113,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
                         id="Search"
                         v-model="form.search"
                         type="text"
-                        class="py-[3px] px-2 sm:w-full w-[80px] rounded-3xl border-gray-400 border focus:boder-1"
+                        class="py-[3px] px-2 sm:w-full max-w-[110px] rounded-3xl border-gray-400 border focus:boder-1"
                         placeholder="Search. . ."
                     />
                     <button type="submit">
@@ -126,7 +124,7 @@ import Magnify from "vue-material-design-icons/Magnify.vue";
 
             <nav
                 id="SideBar"
-                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-orange-400 z-10 transform-gpu transition-all"
+                class="fixed h-full bg-white w-[280px] lg:transform-none border-r border-r-gray-200 z-10 transform-gpu transition-all"
                 :class="showSideBar ? 'translate-x' : '-translate-x-full'"
             >
                 <div class="px-5 pt-[80px]">

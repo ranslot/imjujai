@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/vue3";
 
-export function updateLike(like, userLikes, updatePost) {
+export function updateLike(like, userLikes) {
     let deleteLike = false;
     let id = null;
 
@@ -12,18 +12,13 @@ export function updateLike(like, userLikes, updatePost) {
     }
 
     if (deleteLike) {
-        router.delete(`/likes/${id}`, {
-            onFinish: () => updatePost(like),
-        });
+        router.delete(`/likes/${id}`);
     } else {
         router.post(
             "/likes",
             {
                 post_id: like.post.id,
             },
-            {
-                onFinish: () => updatePost(like),
-            }
         );
     }
 }
