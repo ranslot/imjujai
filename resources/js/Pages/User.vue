@@ -147,7 +147,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             <p
                                 class="mr-6 hover:underline cursor-pointer"
                                 @click="
-                                    makeFollowList('Following');
+                                    makeFollowList('กำลังติดตาม');
                                     showFollowList = true;
                                 "
                             >
@@ -159,7 +159,7 @@ import FoodApple from "vue-material-design-icons/FoodApple.vue";
                             <p
                                 class="mr-6 hover:underline cursor-pointer"
                                 @click="
-                                    makeFollowList('Followers');
+                                    makeFollowList('ผู้ติดตาม');
                                     showFollowList = true;
                                 "
                             >
