@@ -2,6 +2,8 @@
 
 Imjujai is a social media website where people can share their food photos.
 
+Website : [imjujai.online](https://imjujai.online/)
+
 ## Features
 
 - Share your food photos with others
@@ -11,6 +13,9 @@ Imjujai is a social media website where people can share their food photos.
 ## Getting Started
 
 To get started with Imjujai, simply create an account and start sharing your food photos!
+
+Guest user email : Guest1@Guest.com
+Guest user password : Guest_01
 
 ## Technology Stack
 
