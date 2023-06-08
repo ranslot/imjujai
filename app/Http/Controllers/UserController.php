@@ -84,18 +84,25 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg',
+        if(!is_string($request->input('file'))){
+            $request->validate([
+            'file' => 'mimes:png,jpg,jpeg',
             'description'
-        ]);
+            ]);
+        }
+        
         $user = User::find($id);
-
+        
         if ($user === null || $id !== (string)\auth()->user()->id) {
             return \redirect(\route('home.index'));
         }
-
-        $user->file = (new FileServices)->updateFile(\auth()->user(), $request, 'user');
-        $user->description = $request->input('description');
+        if(!is_string($request->input('file'))){
+            $user->file = (new FileServices)->updateFile(\auth()->user(), $request, 'user');
+        }else{
+            $user->file = $request->input('file');
+        }
+        
+        $user->description = $request->input('description'); 
         $user->update();
     }
 
