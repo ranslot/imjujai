@@ -12,9 +12,9 @@ Website : [imjujai.online](https://imjujai.online/)
 
 ## Getting Started
 
-To get started with Imjujai, simply create an account and start sharing your food photos!
+To get started with Imjujai, simply create an account and start sharing your food photos! Or use our Guest account to share photos without the need to create new account!
 
-Guest user email : Guest1@Guest.com
+Guest user email : Guest1@Guest.com <br />
 Guest user password : Guest_01
 
 ## Technology Stack
